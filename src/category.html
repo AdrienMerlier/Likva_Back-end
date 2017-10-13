@@ -3,7 +3,8 @@
 <head>
   <title>Category page</title>
   <meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">  
+	<meta name="viewport" content="width=device-width, initial-scale=1">  
+	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -11,8 +12,11 @@
 <body>
 
 <body>
-
-	<img src="img/environment.jpg" class="img-responsive" alt="It's a refreshing picture." height="10%">
+ 
+	<div class="header">
+		<img class="image_header" src="img/environment.jpg" alt="It's a refreshing picture.">
+	</div>
+	
 
 	<nav class="navbar navbar-inverse">
   		<div class="container-fluid">
@@ -24,6 +28,7 @@
 	      		</button>
 	      		<a class="navbar-brand" href="#">Likva</a>
 	    	</div>
+	    	<!-- Menu -->
 	    	<div class="collapse navbar-collapse" id="myNavbar">
 	      		<ul class="nav navbar-nav">
 		        	<li class="active"><a href="#">Home</a></li>
@@ -31,8 +36,10 @@
 		        	<li><a href="#">Results</a></li> 
 		        	<li><a href="#">Admin</a></li>
 		        </ul>
+
+		        <!-- Tried to make it a dropdown, but something's off -->
     			<ul class="nav navbar-nav navbar-right">
-    				<li><a href="#">Team</a></li> 
+    				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Team</a></li> 
     			</ul>
     		</div>
   		</div>
