@@ -1,12 +1,46 @@
 * {
     box-sizing: border-box;
 }
+
+html{
+	font-family: monospace;
+}
+
 .header {
 	height: 200px;
 	padding: 0;
 	overflow: hidden;
 }
 
+.header_proposition {
+	text-align: center;
+	vertical-align: middle;
+	line-height: 200px;
+	font-size: 80px;
+}
+
+
 .image_header{
 	background-size: 100% auto;
+}
+
+.proposition_summary{
+	padding: 0px;
+	width: 20%;
+	display: block;
+	text-align: center;
+	float: left;
+	background-color:  #d1e0e0;
+}
+
+.proposition{
+	width: 80%;
+	display: block;
+	float: left;
+	text-align: center;
+}
+
+.list_centered{
+	text-align: center;
+	list-style-position: inside;
 }
