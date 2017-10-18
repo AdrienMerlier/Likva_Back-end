@@ -4,6 +4,11 @@
 
 html{
 	font-family: monospace;
+	height: 100%
+}
+
+.body{
+	height: 100%;
 }
 
 .header {
@@ -25,16 +30,28 @@ html{
 }
 
 .proposition_summary{
-	padding: 0px;
 	width: 20%;
-	display: block;
-	text-align: center;
+	height: 100%;
+	display: table;
 	float: left;
 	background-color:  #d1e0e0;
 }
 
+.proposition_summary_content{
+	display: table-row;
+	text-align: center;
+	vertical-align: center;
+	width: 100%
+	height: 100%;
+}
+
+.proposition_summary a{
+	white-space: nowrap;
+	clear: left;
+}
+
 .proposition{
-	width: 80%;
+	width: 70%;
 	display: block;
 	float: left;
 	text-align: center;
@@ -45,6 +62,15 @@ html{
 	list-style-position: inside;
 }
 
+.vote {
+	position: relative;
+  	right: 0;
+  	bottom: 0;
+  	left: 0;
+  	padding: 1rem;
+	align-content: center;
+}
+
 .buttons button{
 	margin-right: 40px;
 }
@@ -52,3 +78,4 @@ html{
 .vote_button{
 	background-color: #000000;
 }
+

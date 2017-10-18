@@ -34,7 +34,7 @@
 	    	<!-- Menu -->
 	    	<div class="collapse navbar-collapse" id="myNavbar">
 	      		<ul class="nav navbar-nav">
-		        	<li class="active"><a href="#">Home</a></li>
+		        	<li class="active"><a href="category.html">Home</a></li>
 		        	<li><a href="#">Profile</a></li>
 		        	<li><a href="#">Results</a></li> 
 		        	<li><a href="#">Admin</a></li>
@@ -51,25 +51,33 @@
 	<!-- Description of the vote -->
 
 	<div class="proposition_summary">
-		<p>Some text incoming here</p>
+		<div class="proposition_summary_content">
+			<a href="#Summary">Summary</a><br>
+			<a href="#Description">Description of the problem</a><br>
+			<a href="#Change">Proposed change</a><br>
+			<a href="#Documentation">Related documents</a><br>
+			<a href="Conditions">Conditions of the vote</a><br>
+			<a href="#Consequences">Consequences</a><br>
+			<a href="#Vote">Vote options</a>
+		</div>
 	</div>
 
 	<!-- Proposition to be voted upon -->
 
 	<div class="proposition">
 		<!-- Summary of the proposition -->
-		<h1> Summary</h1>
+		<h1 id="Summary"> Summary</h1>
 		<p> This proposition aims to schedule more time for IAR projects to better fulfill the learning objectives.</p>
 
 		<!-- Description of the problem tackled -->
-		<h2> Description of the problem</h2>
+		<h2 id="Description"> Description of the problem</h2>
 		<p>Daar dekt are dag zout tin kwam werd dal. Ad wolken succes worden om zooals mijnen tonnen. En eerste om ringen ze zeggen streek sakais na. Francs andere er streng ze dertig. Op kintyas inhouds of deficit nu te voordat vroeger blijven. Voorloopig bijzonders aanleiding de na op traliewerk ingewanden ze sagopalmen. Schepping of regentijd te af arabieren. <br>
 		<br>
 		Welk lage open bouw op pomp en ging te. Naar bij goa koel gas drie. Ontginnen uit snelleren gif arabieren goa leeningen denkbeeld bezwarend.
 		</p>
 
 		<!-- Precise change -->
-		<h2>Proposed change</h2>
+		<h2 id="Change">Proposed change</h2>
 		<p>
 		From: <br>
 		-<i>BLA BLA BLA BLA BLA.</i><br>
@@ -78,7 +86,7 @@
 		</p>
 		
 		<!-- Documentation -->
-		<h2>Related document</h2>
+		<h2 id="Documentation">Related documents</h2>
 		<ul class="list_centered">
 			<li>Bevorderen caoutchouc karrijders</li>
 			<li>Dik streng rijken steden</li>
@@ -86,26 +94,45 @@
 		</ul>
 
 		<!-- Conditions we want for the vote -->
-		<h2>Conditions of the vote</h2>
+		<h2 id="Conditions">Conditions of the vote</h2>
 		<p>The quorum is ⅔. Approval rate is simple majority (50% + 1 vote).</p>
 
 		<!-- Consequences of the vote -->
-		<h2> Consequences</h2>
+		<h2 id="Consequences"> Consequences</h2>
 		<p>Sinds zijde in jacht ze staan al is kwala. Dragen gebrek ten mee schuld werken denken. Wij chineesch oogenblik krachtige nam behandeld. Te in ze zelfs op groei enkel. Boringen gebouwen dat dus britsche voorraad bepaalde. Nu duizend percent pagoden eronder in al. Geld voet zij deze zou kern hand niet. Zoo baksteen aandacht district stroomen ook kolonien. <br>
 		<br>
 		Rook ad kost ziet te. Vernieuwd er in vertoonen maleische. Kreeg om wilde al kinta massa geldt. Parijs echter hoogen are breede wij aan het. Werkwijzen tinprijzen uiteenvalt regelmatig beschaving geruineerd op er nu. Welk zeer oven af meer te arme bate of. 
 		</p>
 
 		<!-- Vote buttons -->
-		<div class="buttons">
+		<!--<div id="Vote" class="buttons">
 			<button type="button" class="btn btn-primary btn-lg vote_button"> Vote </button>
 			<button type="button" class="btn btn-primary btn-lg"> Delegate </button>
 			<button type="button" class="bnt btn-secondary btn-lg"> Abstain </button>
+		</div>-->
+
+		<div id="Vote" class="dropup vote_section">
+			<button class="btn btn-primary btn-lg dropdown-toggle vote_button" type="button" id="dropdownMenuVote" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	    	 Vote
+	   		 <span class="caret"></span>
+	  		</button>
+		  		<ul class="dropdown-menu" aria-labelledby="dropdownMenuVote">
+				    <li><a href="#">In favor</a></li>
+					<li><a href="#">Against</a></li>
+					<li><a href="#">Blank</a></li>
+		  		</ul>
+			<button type="button" class="btn btn-primary btn-lg dropdown-toggle" id="dropdownMenuDelegate" data-toggle="dropdown" aria-hashpopup="true" aria-expanded="false"> 
+			Delegate 
+			<span class="caret"></span>
+			</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenuDelegate">
+					<li><input type="text" class="form-control" placeholder="Search a delegate"></li>
+				</ul>
+				<button type="button" class="bnt btn-secondary btn-lg"> Abstain </button>
 		</div>
 
 
 	</div>
-
 
 
 </body>
