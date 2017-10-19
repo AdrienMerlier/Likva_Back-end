@@ -99,12 +99,22 @@ new Vue({
         resultVoteCls: function (result) {
             var positiveOption = ["pour", "oui"];
             var negativeOption = ["contre", "non"];
-            var nonVotingOption = ["blank", "abstention", "anonyme"];
+            var neutralOption = ["blank", "abstention", "anonyme"];
+            var ret = "basic-result";
             positiveOption.forEach(function (option) {
                 if (option === result.toLowerCase())
-                    console.log(option === result.toLowerCase());
-                    return "positive-result"
-            })
+                    ret = "positive-result";
+            });
+            negativeOption.forEach(function (option) {
+                if (option === result.toLowerCase())
+                    ret = "negative-result";
+            });
+            neutralOption.forEach(function (option) {
+                if (option === result.toLowerCase())
+                    ret = "neutral-result";
+            });
+            console.log(ret);
+            return ret;
         }
     }
 })
