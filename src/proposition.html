@@ -21,7 +21,7 @@
 	
 	<!-- Menu of the app -->
 
-	<nav class="navbar navbar-inverse">
+	<nav class="navbar navbar-inverse navbar-stuck">
   		<div class="container-fluid">
 	    	<div class="navbar-header">
 	      		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -103,34 +103,33 @@
 		<br>
 		Rook ad kost ziet te. Vernieuwd er in vertoonen maleische. Kreeg om wilde al kinta massa geldt. Parijs echter hoogen are breede wij aan het. Werkwijzen tinprijzen uiteenvalt regelmatig beschaving geruineerd op er nu. Welk zeer oven af meer te arme bate of. 
 		</p>
+	</div>
 
-		<!-- Vote buttons -->
-		<!--<div id="Vote" class="buttons">
-			<button type="button" class="btn btn-primary btn-lg vote_button"> Vote </button>
-			<button type="button" class="btn btn-primary btn-lg"> Delegate </button>
-			<button type="button" class="bnt btn-secondary btn-lg"> Abstain </button>
-		</div>-->
-
-		<div id="Vote" class="dropup vote_section">
+<!-- Vote buttons -->
+	<div id="VoteButtons" class="vote">
+		<div id="VoteButton " class="dropup vote_div">
 			<button class="btn btn-primary btn-lg dropdown-toggle vote_button" type="button" id="dropdownMenuVote" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	    	 Vote
-	   		 <span class="caret"></span>
-	  		</button>
-		  		<ul class="dropdown-menu" aria-labelledby="dropdownMenuVote">
-				    <li><a href="#">In favor</a></li>
-					<li><a href="#">Against</a></li>
-					<li><a href="#">Blank</a></li>
-		  		</ul>
-			<button type="button" class="btn btn-primary btn-lg dropdown-toggle" id="dropdownMenuDelegate" data-toggle="dropdown" aria-hashpopup="true" aria-expanded="false"> 
+    		 Vote
+   		 	<span class="caret"></span>
+  			</button>
+	  		<ul class="dropdown-menu" aria-labelledby="dropdownMenuVote">
+			    <li><a href="#">In favor</a></li>
+				<li><a href="#">Against</a></li>
+				<li><a href="#">Blank</a></li>
+	  		</ul>
+	  	</div>
+	  	<div id="DelegateButton" class="dropup vote_div">
+	  		<button type="button" class="btn btn-primary btn-lg dropdown-toggle" id="dropdownMenuDelegate" data-toggle="dropdown" aria-hashpopup="true" aria-expanded="false"> 
 			Delegate 
 			<span class="caret"></span>
 			</button>
-				<ul class="dropdown-menu" aria-labelledby="dropdownMenuDelegate">
-					<li><input type="text" class="form-control" placeholder="Search a delegate"></li>
-				</ul>
-				<button type="button" class="bnt btn-secondary btn-lg"> Abstain </button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenuDelegate">
+				<li><input type="text" class="form-control" placeholder="Search a delegate"></li>
+			</ul>
 		</div>
-
+		<div id="AbstainButton" class="vote_div">
+			<button type="button" class="bnt btn-secondary btn-lg"> Abstain </button>
+		</div>
 
 	</div>
 
