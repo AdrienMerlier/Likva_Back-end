@@ -1,0 +1,54 @@
+.proposition_summary{
+    position: fixed;
+    margin-top: 18%;
+    width: 20%;
+    height: 60%;
+    display: table;
+    float: left;
+    background-color:  #d1e0e0;
+}
+
+.proposition_summary_content{
+    display: table-row;
+    text-align: center;
+    vertical-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+.proposition_summary a{
+    white-space: nowrap;
+    clear: left;
+}
+
+.proposition{
+    margin-top: 18%;
+    margin-left: 20%;
+    width: 80%;
+    height: 60%;
+    display: block;
+    float: left;
+    text-align: center;
+}
+
+.list_centered{
+    text-align: center;
+    list-style-position: inside;
+}
+
+.vote {
+    position: fixed;
+    margin-bottom: 10%;
+    width: 100%;
+    height: 20%;
+    align-content: center;
+}
+
+.vote_div{
+    align-content: center;
+    float: left;
+}
+
+.vote_button{
+    background-color: #000000;
+}

@@ -27,8 +27,8 @@
                 <p class="card-text text-justify">{{vote.description | truncate(200)}}</p>
                 <p class="info-right info-bottom text-muted "><small>Last update {{vote.update_time}} min</small></p>
             </div>
-            <div class="card-footer" :class="resultVoteCls(vote.result)">
-                <p>Votre vote: <strong>{{vote.result}}</strong></p>
+            <div class="card-footer" >
+                <p>Votre vote: <strong :class="resultVoteCls(vote.result)">{{vote.result}}</strong></p>
             </div>
         </div>
     </div>
