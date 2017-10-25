@@ -18,3 +18,18 @@
     position: fixed;
     left: 92%;
 }
+
+#top-page{
+    z-index: 100;
+}
+
+#image-cover{
+    background-color: #ffab6a;
+}
+
+.main-container {
+    margin-top: 358px;
+    width: 100%;
+    padding: 0;
+    max-width: 100%;
+}
