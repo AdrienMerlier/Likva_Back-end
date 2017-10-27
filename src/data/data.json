@@ -24,28 +24,30 @@
             "emargement":[
                 {"nameUser":"aNAME"},
                 {"nameUser":"aNAME1"},
+                {"nameUser":"aNAME1"}
             ],
             "votes":[
-                {"anonymous":"BOOL", "idUSER":"CanBeBlank", "result":"YESorNOorETC", "delegatedTo":"CanBeBlank"}
-                {"anonymous":"BOOL", "idUSER":"CanBeBlank", "result":"YESorNOorETC", "delegatedTo":"CanBeBlank"}
+                {"anonymous":"BOOL", "idUSER":"CanBeBlank", "result":"YESorNOorETC", "delegatedTo":"CanBeBlank"},
+                {"anonymous":"BOOL", "idUSER":"CanBeBlank", "result":"YESorNOorETC", "delegatedTo":"CanBeBlank"},
                 {"anonymous":"BOOL", "idUSER":"CanBeBlank", "result":"YESorNOorETC", "delegatedTo":"CanBeBlank"}
             ],
             "comments":[
+                {"author":"aNAME", "content":"aCONTENT", "tags":["tag1", "tag2", "tag3"], "score":"aNUMBER", "date":"aDATE"},
                 {"author":"aNAME", "content":"aCONTENT", "tags":["tag1", "tag2", "tag3"], "score":"aNUMBER", "date":"aDATE"}
             ]            
             }
         ]
         }
     ]
-    "users"[{
+    "users":[{
         "pseudo":"aPSEUDO",
         "birthdate":"aBIRTHDATE",
         "password":"HASH",
         "email":"anEMAIL",
         "role":"anROLE",
         "delegations":[
-            {"category":"aCATEGORY", "delegate":"CanBeBlank"}
-            {"category":"aCATEGORY1", "delegate":"CanBeBlank"}
+            {"category":"aCATEGORY1", "delegate":"CanBeBlank"},
+            {"category":"aCATEGORY2", "delegate":"CanBeBlank"}
     ]
     }
     ]
