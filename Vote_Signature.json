@@ -1,0 +1,13 @@
+{
+  "_id": <ObjectID>,
+  "emargement":[
+    {"nameUser":"aNAME", "proposition_id": <ObjectID>},
+    {"nameUser":"aNAME", "proposition_id": <ObjectID>},
+    {"nameUser":"aNAME", "proposition_id": <ObjectID>}
+  ],
+  "votes":[
+    {"anonymous":"BOOL", "user_id":"<ObjectID>CanBeBlank", "result":"YESorNOorETC", "delegatedTo_id":"<ObjectID>CanBeBlank"},
+    {"anonymous":"BOOL", "user_id":"<ObjectID>CanBeBlank", "result":"YESorNOorETC", "delegatedTo_id":"<ObjectID>CanBeBlank"},
+    {"anonymous":"BOOL", "user_id":"<ObjectID>CanBeBlank", "result":"YESorNOorETC", "delegatedTo_id":"<ObjectID>CanBeBlank"}
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "_id":<ObjectID>,
+  "pseudo":"aPSEUDO",
+  "birthdate":"aBIRTHDATE",
+  "password":"HASH",
+  "email":"anEMAIL avec regex",
+  "role":"aROLE",
+  "teams":[
+    {"team": "teamName"},
+    {"team": "teamName"}
+  ],
+  "delegations":[
+    {"category":"aCATEGORY1", "delegate_id":"<ObjectID>CanBeBlank", "team":"teamName"},
+    {"category":"aCATEGORY2", "delegate":"<ObjectID>CanBeBlank", "team":"teamName"}
+}

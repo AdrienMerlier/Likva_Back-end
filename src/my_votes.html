@@ -43,6 +43,7 @@
             </div>
             <div class="card-footer" :class="resultVoteCls(vote.result)">
                 <p>Votre vote: <strong>{{vote.result}}</strong></p>
+                <p v-if="!current">Résultat de la proposition: <strong>{{vote.result}}</strong></p>
             </div>
         </div>
     </div>
