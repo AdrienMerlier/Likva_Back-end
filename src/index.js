@@ -8,6 +8,6 @@ app.get('/', function (req, res) {
 })
 
 //Launch listening server on port 3000
-app.listen(3000, function () {
-  console.log('app listening on port 3000!')
+app.listen(7777, function () {
+  console.log('app listening on port 7777!')
 })

@@ -1,17 +1,19 @@
-db:
-  image: mongo
-  ports:
-    - "27001:27001"
-  command : "--smallfiles --logpath=/dev/null"
+version: '2'
 
-web:
-  build: .
-  command: node app.js
-  volumes:
-    - .:/app
-  ports:
-    - "3000:3000"
-  links:
-    - db
-  environment:
-    PORT: 3000 #Optional, but it was in the tuto, so I keep it :p (allows express to use process.env.PORT instead of a raw 3000)
+services:
+  web:
+    build: .
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - '7777:7777'
+    links:
+      - mongo
+
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - /data/db
