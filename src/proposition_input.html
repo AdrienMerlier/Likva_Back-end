@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Create your proposition</title>
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://use.fontawesome.com/927ffc24ee.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+		  integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="css/base.css">
+	<link rel="stylesheet" type="text/css" href="css/proposition_input.css">
+</head>
+<body>
+
+<body>
+
+	<header class="fixed-top" id="top-page">
+
+		<!-- Picture for header -->
+		<div class="text-center logo" id="image-cover">
+			<a href="#"><img src="img/likvaLogo.png" /></a>
+		</div>
+
+
+		<!-- Application menu -->
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#"><img src="img/anonymousProfile.png"/> Nadine Moriarti</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div id="navbarNavDropdown" class="navbar-collapse collapse">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Results</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Profile</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Admin</a>
+					</li>
+				</ul>
+				<ul class="navbar-nav">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Teams
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" href="#">TC Student</a>
+							<a class="dropdown-item" href="#">Astus board</a>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Logout</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+	<main class="container main-container inputForm" role="main">
+		<form>
+
+			<h3>Main informations</h3>
+
+			<!--Title-->
+			<div class="form-group">
+    			<label for="inputTitle">Title</label>
+    			<input type="text" class="form-control form-control-lg" id="inputTitle" aria-describedby="titleHelp" placeholder="Enter the title of your proposition" maxlength="100" required="true">
+  			</div>
+
+  			<!--Summary-->
+  			<div class="form-group">
+    			<label for="inputSummary">Summary</label>
+    			<input type="text" class="form-control" id="inputSummary" aria-describedby="summaryHelp" placeholder="Describe your proposition in a sentence." maxlength="200">
+  			</div>
+
+  			<!--Description of the problem-->
+  			<div class="form-group">
+    			<label for="inputDescription"> Description of the situation </label>
+    			<textarea class="form-control" id="inputDescription" rows="8" maxlength="5000" required="true"></textarea>
+    			<small>Up to 5000 characters</small>
+  			</div>
+
+  			<!--Proposition of the chagnge-->
+  			<div class="form-group">
+    			<label for="inputChange"> Proposition of the change </label>
+    			<textarea class="form-control" id="inputChange" rows="5" maxlength="3000" required="true"></textarea>
+    			<small>Up to 3000 characters</small>
+  			</div>
+
+  			<!--Consequences-->
+  			<div class="form-group">
+    			<label for="inputConsequences"> Consequences of the vote </label>
+    			<textarea class="form-control" id="inputConsequences" rows="6" maxlength="3000" required="true"></textarea>
+    			<small>Up to 3000 characters</small>
+  			</div>
+
+  			<!--Related documents-->
+
+  			<h3>Related documents</h3>
+
+  			<p>Up to 5 webpages you want to refer to, as well as up to 3 stand alone files.</p>
+
+  			<div class="form-group row">
+    			<input class="form-control form-control-sm documentInput" type="url" placeholder="Copy paste the URL here" id="inputURL1">
+    			<input class="form-control form-control-sm documentInput" type="url" placeholder="Copy paste the URL here" id="inputURL2">
+    			<input class="form-control form-control-sm documentInput" type="url" placeholder="Copy paste the URL here" id="inputURL3">
+    			<input class="form-control form-control-sm documentInput" type="url" placeholder="Copy paste the URL here" id="inputURL4">
+    			<input class="form-control form-control-sm documentInput" type="url" placeholder="Copy paste the URL here" id="inputURL5">
+  			</div>
+
+
+  			<div class="form-group">
+    			<input type="file" class="form-control-file documentInput" id="inputFile1">
+    			<input type="file" class="form-control-file documentInput" id="inputFile2">
+    			<input type="file" class="form-control-file documentInput" id="inputFile3">
+  			</div>
+
+  			<!--Conditions-->
+
+  			<h3>Conditions of the vote</h3>
+
+  			<div class="form-group">
+    			<label for="inputConditions">Informations</label>
+    			<input type="text" class="form-control" id="inputConditions" aria-describedby="conditionsHelp" placeholder="What are the conditions of the vote?">
+  			</div>
+  			<div class="form-group">
+  				<label for="inputQuorum">Quorum (in %):</label>
+    			<input class="form-control" type="number" id="inputQuorum" required="true">
+  			</div>
+  			<div class="form-group">
+  				<label for="typeOfVote">Type of vote:</label>
+  				<select class="form-control" id="typeOfVote" required="true">
+				    <option>Absolute majority</option>
+				    <option>Most votes</option>
+				    <option>2 most votes qualify</option>
+  				</select>
+			</div>
+			<div class="form-group">
+    			<label for="inputEndDate">Ending date:</label>
+    			<input type="datetime-local" class="form-control" id="inputEndDate" aria-describedby="conditionsHelp" required="true">
+  			</div>
+
+  			 <button type="submit" class="btn btn-primary submitButton">Submit</button>
+
+		</form>
+
+	</main>
