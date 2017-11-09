@@ -123,7 +123,7 @@
 	</main>
 
 	<div class="container" id="extra-elements">
-		<button class="btn btn-success btn-circle fixed-bottom fixed-right" onclick="createProposition()">
+		<button class="btn btn-success btn-circle fixed-bottom fixed-right" v-on:click="goTo('https://youtube.com')">
 			<i class="fa fa-plus"></i>
 		</button>
 
@@ -158,8 +158,9 @@
 
 
 	<!-- Bootstrap javascript -->
-	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.4/vue.js"></script>
-	<script src="js/vote.js"></script> -->
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.4/vue.js"></script>
+	<script src="js/base.js"></script>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 			integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
