@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Create your proposition</title>
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://use.fontawesome.com/927ffc24ee.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+		  integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="css/base.css">
+	<link rel="stylesheet" type="text/css" href="css/proposition_input.css">
+</head>
+<body>
+
+<body>
+
+	<header class="fixed-top" id="top-page">
+
+		<!-- Picture for header -->
+		<div class="text-center logo" id="image-cover">
+			<a href="#"><img src="img/likvaLogo.png" /></a>
+		</div>
+
+
+		<!-- Application menu -->
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#"><img src="img/anonymousProfile.png"/> Nadine Moriarti</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div id="navbarNavDropdown" class="navbar-collapse collapse">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Results</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Profile</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Admin</a>
+					</li>
+				</ul>
+				<ul class="navbar-nav">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Teams
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" href="#">TC Student</a>
+							<a class="dropdown-item" href="#">Astus board</a>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Logout</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+	<main class="container main-container inputForm" role="main">
+		<form>
+
+			<h3>User information</h3>
+
+
+  			<!--Name-->
+  			<div class="form-group">
+    			<input type="text" class="form-control" id="inputName" aria-describedby="nameHelp" placeholder="Name" maxlength="50">
+  			</div>
+
+  			<!--Surname-->
+  			<div class="form-group">
+    			<input type="text" class="form-control" id="inputSurname" aria-describedby="nameHelp" placeholder="Surname" maxlength="50">
+  			</div>
+
+  			<!--Email-->
+  			<div class="form-group">
+    			<input type="email" class="form-control" id="inputEmail" aria-describedby="nameHelp" placeholder="Email" maxlength="100">
+  			</div>
+
+  			<!--Can the user create proposition?-->
+   			<div class="form-group">
+  				<label for="admin">Is an admin:</label>
+  				<select class="form-control" id="admin" required="true">
+				    <option>No</option>
+				    <option>Yes</option>
+  				</select>
+			</div>
+
+  			<!--Can the user create proposition?-->
+   			<div class="form-group">
+  				<label for="proposer">Can propose:</label>
+  				<select class="form-control" id="proposer" required="true">
+				    <option>No</option>
+				    <option>Yes</option>
+  				</select>
+			</div>
+
+			<!--Status of the user?-->
+   			<div class="form-group">
+  				<label for="proposer">Status:</label>
+  				<select class="form-control" id="proposer" required="true">
+				    <option>Voter</option>
+				    <option>Commentator</option>
+				    <option>Observer</option>
+  				</select>
+			</div>
+
+  			 <button type="submit" class="btn btn-primary submitButton">Submit</button>
+
+		</form>
+
+	</main>
