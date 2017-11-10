@@ -62,30 +62,33 @@
 	</header>
 
 	<main class="container main-container inputForm" role="main">
-		<form>
+		<form id="userForm" action="http:/127.0.0.1:3000/newUser" method="post" role="form">
 
 			<h3>User information</h3>
 
 
   			<!--Name-->
   			<div class="form-group">
-    			<input type="text" class="form-control" id="inputName" aria-describedby="nameHelp" placeholder="Name" maxlength="50">
+  				<label for="name">Name:</label>
+    			<input name="name" type="text" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Name" maxlength="50">
   			</div>
 
   			<!--Surname-->
   			<div class="form-group">
-    			<input type="text" class="form-control" id="inputSurname" aria-describedby="nameHelp" placeholder="Surname" maxlength="50">
+  				<label for="surname">Surname:</label>
+    			<input name="surname" type="text" class="form-control" id="surname" aria-describedby="nameHelp" placeholder="Surname" maxlength="50">
   			</div>
 
   			<!--Email-->
   			<div class="form-group">
-    			<input type="email" class="form-control" id="inputEmail" aria-describedby="nameHelp" placeholder="Email" maxlength="100">
+  				<label for="email">Email:</label>
+    			<input name"email" type="email" class="form-control" id="email" aria-describedby="nameHelp" placeholder="Email" maxlength="100">
   			</div>
 
   			<!--Can the user create proposition?-->
    			<div class="form-group">
   				<label for="admin">Is an admin:</label>
-  				<select class="form-control" id="admin" required="true">
+  				<select name="admin" class="form-control" id="admin" required="true">
 				    <option>No</option>
 				    <option>Yes</option>
   				</select>
@@ -94,7 +97,7 @@
   			<!--Can the user create proposition?-->
    			<div class="form-group">
   				<label for="proposer">Can propose:</label>
-  				<select class="form-control" id="proposer" required="true">
+  				<select name="proposer" class="form-control" id="proposer" required="true">
 				    <option>No</option>
 				    <option>Yes</option>
   				</select>
@@ -102,8 +105,8 @@
 
 			<!--Status of the user?-->
    			<div class="form-group">
-  				<label for="proposer">Status:</label>
-  				<select class="form-control" id="proposer" required="true">
+  				<label for="status">Status:</label>
+  				<select name="status" class="form-control" id="status" required="true">
 				    <option>Voter</option>
 				    <option>Commentator</option>
 				    <option>Observer</option>
