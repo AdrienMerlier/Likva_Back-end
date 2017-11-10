@@ -1,11 +1,14 @@
-var MONGO_DB;
-var DOCKER_DB = process.env.DB_PORT;
-if ( DOCKER_DB ) {
-  MONGO_DB = DOCKER_DB.replace( 'tcp', 'mongodb' ) + '/app';
-} else {
-  MONGO_DB = process.env.MONGODB;
-}
-var retry = 0;
-mongoose.connect(MONGO_DB);
+var express = require('express');
+var app = express();
+var MongoClient = require('mongoose');
 
-app.listen(process.env.PORT || 3000);
+//Database launched
+MongoClient.connect("mongodb://mongo:27017");
+
+app.get('/', function(req, res){
+  res.send("Hello World");
+});
+
+app.listen(3000, function(){
+  console.log('Likva is listening to you on port 3000!');
+});
