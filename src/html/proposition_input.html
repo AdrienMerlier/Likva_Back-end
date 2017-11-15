@@ -61,40 +61,40 @@
 	</header>
 
 	<main class="container main-container inputForm" role="main">
-		<form>
+		<form id="propositionForm" action="http:/127.0.0.1:3000/newProposition" method="post" role="form">
 
 			<h3>Main information</h3>
 
 			<!--Title-->
 			<div class="form-group">
     			<label for="inputTitle">Title</label>
-    			<input type="text" class="form-control form-control-lg" id="inputTitle" aria-describedby="titleHelp" placeholder="Enter the title of your proposition" maxlength="100" required="true">
+    			<input name="title" type="text" class="form-control form-control-lg" id="inputTitle" aria-describedby="titleHelp" placeholder="Enter the title of your proposition" maxlength="100" required="true">
   			</div>
 
   			<!--Summary-->
   			<div class="form-group">
     			<label for="inputSummary">Summary</label>
-    			<input type="text" class="form-control" id="inputSummary" aria-describedby="summaryHelp" placeholder="Describe your proposition in a sentence." maxlength="200">
+    			<input name="summary" type="text" class="form-control" id="inputSummary" aria-describedby="summaryHelp" placeholder="Describe your proposition in a sentence." maxlength="200">
   			</div>
 
   			<!--Description of the problem-->
   			<div class="form-group">
     			<label for="inputDescription"> Description of the situation </label>
-    			<textarea class="form-control" id="inputDescription" rows="8" maxlength="5000" required="true"></textarea>
+    			<textarea name="description" class="form-control" id="inputDescription" rows="8" maxlength="5000" required="true"></textarea>
     			<small>Up to 5000 characters</small>
   			</div>
 
   			<!--Proposition of the chagnge-->
   			<div class="form-group">
     			<label for="inputChange"> Proposition of the change </label>
-    			<textarea class="form-control" id="inputChange" rows="5" maxlength="3000" required="true"></textarea>
+    			<textarea name="change" class="form-control" id="inputChange" rows="5" maxlength="3000" required="true"></textarea>
     			<small>Up to 3000 characters</small>
   			</div>
 
   			<!--Consequences-->
   			<div class="form-group">
     			<label for="inputConsequences"> Consequences of the vote </label>
-    			<textarea class="form-control" id="inputConsequences" rows="6" maxlength="3000" required="true"></textarea>
+    			<textarea name="consequences" class="form-control" id="inputConsequences" rows="6" maxlength="3000" required="true"></textarea>
     			<small>Up to 3000 characters</small>
   			</div>
 
@@ -105,18 +105,18 @@
   			<p>Up to 5 webpages you want to refer to, as well as up to 3 stand alone files.</p>
 
   			<div class="form-group row">
-    			<input class="form-control form-control-sm documentInput" type="url" placeholder="Copy paste the URL here" id="inputURL1">
-    			<input class="form-control form-control-sm documentInput" type="url" placeholder="Copy paste the URL here" id="inputURL2">
-    			<input class="form-control form-control-sm documentInput" type="url" placeholder="Copy paste the URL here" id="inputURL3">
-    			<input class="form-control form-control-sm documentInput" type="url" placeholder="Copy paste the URL here" id="inputURL4">
-    			<input class="form-control form-control-sm documentInput" type="url" placeholder="Copy paste the URL here" id="inputURL5">
+    			<input name="url1" class="form-control form-control-sm documentInput" type="url" placeholder="Copy paste the URL here" id="inputURL1">
+    			<input name="url2" class="form-control form-control-sm documentInput" type="url" placeholder="Copy paste the URL here" id="inputURL2">
+    			<input name="url3" class="form-control form-control-sm documentInput" type="url" placeholder="Copy paste the URL here" id="inputURL3">
+    			<input name="url4" class="form-control form-control-sm documentInput" type="url" placeholder="Copy paste the URL here" id="inputURL4">
+    			<input name="url5" class="form-control form-control-sm documentInput" type="url" placeholder="Copy paste the URL here" id="inputURL5">
   			</div>
 
 
   			<div class="form-group">
-    			<input type="file" class="form-control-file documentInput" id="inputFile1">
-    			<input type="file" class="form-control-file documentInput" id="inputFile2">
-    			<input type="file" class="form-control-file documentInput" id="inputFile3">
+    			<input name="file1" type="file" class="form-control-file documentInput" id="inputFile1">
+    			<input name="file2" type="file" class="form-control-file documentInput" id="inputFile2">
+    			<input name="file3" type="file" class="form-control-file documentInput" id="inputFile3">
   			</div>
 
   			<!--Conditions-->
@@ -125,15 +125,15 @@
 
   			<div class="form-group">
     			<label for="inputConditions">Informations</label>
-    			<input type="text" class="form-control" id="inputConditions" aria-describedby="conditionsHelp" placeholder="What are the conditions of the vote?">
+    			<input name="conditions" type="text" class="form-control" id="inputConditions" aria-describedby="conditionsHelp" placeholder="What are the conditions of the vote?">
   			</div>
   			<div class="form-group">
   				<label for="inputQuorum">Quorum (in %):</label>
-    			<input class="form-control" type="number" id="inputQuorum" required="true">
+    			<input name="quorum" class="form-control" type="number" id="inputQuorum" required="true">
   			</div>
   			<div class="form-group">
   				<label for="typeOfVote">Type of vote:</label>
-  				<select class="form-control" id="typeOfVote" required="true">
+  				<select name="typeOfVote" class="form-control" id="typeOfVote" required="true">
 				    <option>Absolute majority</option>
 				    <option>Most votes</option>
 				    <option>2 most votes qualify</option>
@@ -141,7 +141,7 @@
 			</div>
 			<div class="form-group">
     			<label for="inputEndDate">Ending date:</label>
-    			<input type="datetime-local" class="form-control" id="inputEndDate" aria-describedby="conditionsHelp" required="true">
+    			<input name="endDate" type="datetime-local" class="form-control" id="inputEndDate" aria-describedby="conditionsHelp" required="true">
   			</div>
 
   			 <button type="submit" class="btn btn-primary submitButton">Submit</button>

@@ -16,7 +16,6 @@ app.get('/', function(req, res){
 
 app.post('/newUser', function(req, res, db) {
 	
-	res.send('You sent me a new user to add ' + req.body.name + " " + req.body.surname +'.');
 	MongoClient.connect(url, function(err, db){
 		db.collection('users').save(req.body, (err, result) => {
 			if (err) return console.log(err);
@@ -24,7 +23,34 @@ app.post('/newUser', function(req, res, db) {
 		});
 		
 	})
+	//TO ADD: returning on adding user page
 });
+
+app.post('/newProposition', function(req, res, db) {
+	
+	MongoClient.connect(url, function(err, db){
+		db.collection('votesandpropositions').save(req.body, (err, result) => {
+			if (err) return console.log(err);
+			console.log('saved to database');
+		});
+		
+	})
+	//TO ADD: returning on adding user page
+});
+
+app.post('/deleteUser', function(req, res, db) {
+	
+	res.send('You asked me to remove a user(' + req.body.name + " " + req.body.surname +').');
+	MongoClient.connect(url, function(err, db){
+		db.collection('users').delete(req.body, (err, result) => {
+			if (err) return console.log(err);
+			console.log('saved to database');
+		});
+		
+	})
+	//TO ADD: returning on adding user page
+});
+
 
 app.listen(3000, function(){
   console.log('Likva is listening to you on port 3000!');
