@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
 		  integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="../css/base.css">
-	<link rel="stylesheet" type="text/css" href="../css/new_user.css">
+	<link rel="stylesheet" type="text/css" href="../css/new_user_added.css">
 </head>
 <body>
 
@@ -61,62 +61,13 @@
 	    </nav>
 	</header>
 
-	<main class="container main-container inputForm" role="main">
-		<form id="userForm" action="http:/127.0.0.1:3000/newUser" method="post" role="form">
-
-			<h3>User information</h3>
-
-
-  			<!--Name-->
-  			<div class="form-group">
-  				<label for="name">Name:</label>
-    			<input name="name" type="text" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Name" maxlength="50">
-  			</div>
-
-  			<!--Surname-->
-  			<div class="form-group">
-  				<label for="surname">Surname:</label>
-    			<input name="surname" type="text" class="form-control" id="surname" aria-describedby="nameHelp" placeholder="Surname" maxlength="50">
-  			</div>
-
-  			<!--Email-->
-  			<div class="form-group">
-  				<label for="email">Email:</label>
-    			<input name="email" type="email" class="form-control" id="email" aria-describedby="nameHelp" placeholder="Email" maxlength="100">
-  			</div>
-
-  			<!--Can the user create proposition?-->
-   			<div class="form-group">
-  				<label for="admin">Is an admin:</label>
-  				<select name="admin" class="form-control" id="admin" required="true">
-				    <option>No</option>
-				    <option>Yes</option>
-  				</select>
-			</div>
-
-  			<!--Can the user create proposition?-->
-   			<div class="form-group">
-  				<label for="proposer">Can propose:</label>
-  				<select name="proposer" class="form-control" id="proposer" required="true">
-				    <option>No</option>
-				    <option>Yes</option>
-  				</select>
-			</div>
-
-			<!--Status of the user?-->
-   			<div class="form-group">
-  				<label for="status">Status:</label>
-  				<select name="status" class="form-control" id="status" required="true">
-				    <option>Voter</option>
-				    <option>Commentator</option>
-				    <option>Observer</option>
-  				</select>
-			</div>
-
-  			 <button type="submit" class="btn btn-primary submitButton">Submit</button>
-
-		</form>
-
+	<main class="container main-container" role="main">
+		<p align="center"> The user was added on the database!</p>
+		<div class="text-center">
+			<button type="button" class="btn bt-primary btn-lg center"> See all users </button>
+			<a type="button" href="new_user.html" class="btn btn-success btn-lg center" role="button"> Add a new user </a>
+		</div>
+		
 	</main>
 
 <div class="container" id="extra-elements">

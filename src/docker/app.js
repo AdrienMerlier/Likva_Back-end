@@ -8,23 +8,30 @@ app.use(bodyParser.json());
 var MongoClient = require('mongodb').MongoClient;
 var url = 'mongodb://mongo:27017/likva';
 
-//Database launched 
+var dbvotes = "votesandpropositions";
+var dbusers = "users";
 
-app.get('/', function(req, res){
-  res.send("Hello World");
-});
+//Database launched 
 
 app.post('/newUser', function(req, res, db) {
 	
 	MongoClient.connect(url, function(err, db){
-		db.collection('users').save(req.body, (err, result) => {
-			if (err) return console.log(err);
-			console.log('saved to database');
-		});
-		
-	})
-	//TO ADD: returning on adding user page
+
+		//Ecriture
+		db.collection(dbusers).insertOne( {
+		    	"name" : req.body.name,
+		    	"surname" : req.body.surname,
+		    	"email" : req.body.email,
+		    	"admin" : req.body.admin,
+		    	"proposer" : req.body.proposer,
+		    	"status" : req.body.status,
+		 	});
+		db.close();
+   		});
+   	console.log("Inserted a new user in the database.");
+   	window.location.href = "new_user_added.html";
 });
+
 
 app.post('/newProposition', function(req, res, db) {
 	
