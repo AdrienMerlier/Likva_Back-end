@@ -43,6 +43,7 @@ app.post('/newProposition', function(req, res, db) {
 		
 	})
 	//TO ADD: returning on adding user page
+    res.redirect('/newUser');
 });
 
 app.post('/deleteUser', function(req, res, db) {

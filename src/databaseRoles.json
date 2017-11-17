@@ -1,0 +1,51 @@
+// Roles set
+{
+  role: "teamAdmin",
+  privileges: [
+    { ressource: {db: "likva", collection: "users"}, actions: ["find", "insert", "remove", "update"]},
+    { ressource: {db: "likva", collection: "votes&signatures"}, actions: ["find"]},
+    { ressource: {db: "likva", collection: "group&categories&propositions&comments"}, actions: ["find", "insert",
+      "remove", "update"]}
+  ]
+},
+
+{
+  role: "proposer",
+  privileges: [
+    { ressource: {db: "likva", collection: "users"}, actions:["find", "update"]},
+    { ressource: {db: "likva", collection: "votes&signatures"}, actions:["find"]},
+    { ressource: {db: "likva", collection: "group&categories&propositions&comments"}, actions: ["find", "insert",
+      "remove", "update"]}
+  ]
+},
+
+{
+  role: "voter",
+  privieges: [
+    { ressource: {db: "likva", collection: "users"}, actions:["find", "update"]},
+    { ressource: {db: "likva", collection: "votes&signatures"}, actions:["find", "insert"]},
+    { ressource: {db: "likva", collection: "group&categories&propositions&comments"}, actions: ["find", "insert"]}
+  ]
+},
+
+{
+  role: "member",
+  privieges: [
+    { ressource: {db: "likva", collection: "users"}, actions:["find", "update"]},
+    { ressource: {db: "likva", collection: "votes&signatures"}, actions:["find"]},
+    { ressource: {db: "likva", collection: "group&categories&propositions&comments"}, actions: ["find", "insert"]}
+  ]
+},
+
+{
+  role: "observator",
+  privieges: [
+    { ressource: {db: "likva", collection: "users"}, actions:["find", "update"]},
+    { ressource: {db: "likva", collection: "votes&signatures"}, actions:["find"]},
+    { ressource: {db: "likva", collection: "group&categories&propositions&comments"}, actions: ["find"]}
+  ]
+}
+
+// When a new user has been created
+
+db.grantRolesToUser( "<username>", [ <roles> ],)
