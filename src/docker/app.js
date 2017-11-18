@@ -13,23 +13,60 @@ var dbusers = "users";
 
 //Database launched 
 
+
+//Functions for users
 app.post('/newUser', function(req, res, db) {
 	
 	MongoClient.connect(url, function(err, db){
 
-		//Ecriture
+		var binAdmin, binProposer;
+		var username = req.body.name + "." + req.body.surname;
+
+		//Dealing with the binary variables
+		if (req.body.admin == "Yes") {
+			binAdmin = true;
+		} else binAdmin = false;
+		if (req.body.proposer == "Yes") {
+			binProposer = true;
+		} else binProposer = false;
+
+
+		//Ecriture dans la base user
 		db.collection(dbusers).insertOne( {
 		    	"name" : req.body.name,
 		    	"surname" : req.body.surname,
+		    	"username" : username,
+		    	"password" : "pasadmin",
 		    	"email" : req.body.email,
-		    	"admin" : req.body.admin,
-		    	"proposer" : req.body.proposer,
+		    	"admin" : binAdmin,
+		    	"proposer" : binProposer,
 		    	"status" : req.body.status,
 		 	});
+
+		//Creation of the user in the DB
+		db.createUser( { user: username,
+						 pwd: "pasadmin",
+
+		})
+
+
 		db.close();
    		});
    	console.log("Inserted a new user in the database.");
-   	window.location.href = "new_user_added.html";
+   	res.send("User added. Click precedent to add a new user.");
+});
+
+app.post('/deleteUser', function(req, res, db) {
+	
+	res.send('You asked me to remove a user(' + req.body.name + " " + req.body.surname +').');
+	MongoClient.connect(url, function(err, db){
+		db.collection('users').delete(req.body, (err, result) => {
+			if (err) return console.log(err);
+			console.log('saved to database');
+		});
+		
+	})
+	//TO ADD: returning on adding user page
 });
 
 
@@ -46,18 +83,7 @@ app.post('/newProposition', function(req, res, db) {
     res.redirect('/newUser');
 });
 
-app.post('/deleteUser', function(req, res, db) {
-	
-	res.send('You asked me to remove a user(' + req.body.name + " " + req.body.surname +').');
-	MongoClient.connect(url, function(err, db){
-		db.collection('users').delete(req.body, (err, result) => {
-			if (err) return console.log(err);
-			console.log('saved to database');
-		});
-		
-	})
-	//TO ADD: returning on adding user page
-});
+
 
 
 app.listen(3000, function(){
