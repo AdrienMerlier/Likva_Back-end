@@ -33,21 +33,77 @@ app.post('/newUser', function(req, res, db) {
 
 		//Ecriture dans la base user
 		db.collection(dbusers).insertOne( {
-		    	"name" : req.body.name,
-		    	"surname" : req.body.surname,
-		    	"username" : username,
-		    	"password" : "pasadmin",
-		    	"email" : req.body.email,
-		    	"admin" : binAdmin,
-		    	"proposer" : binProposer,
-		    	"status" : req.body.status,
-		 	});
+		   	"name" : req.body.name,
+		   	"surname" : req.body.surname,
+		   	"username" : username,
+		   	"password" : "pasadmin",
+		   	"email" : req.body.email,
+		   	"admin" : binAdmin,
+		   	"proposer" : binProposer,
+		   	"status" : req.body.status,
+		 });
 
 		//Creation of the user in the DB
-		db.createUser( { user: username,
-						 pwd: "pasadmin",
+		db.createUser( { 'user': username,
+						 'pwd': "pasadmin",
+						 roles: []
 
-		})
+		});
+
+		//Granting roles according to the status
+		if (req.body.status == "voter") {
+			if (binProposer) {
+				if (binProposer) {
+					db.grantsRolesToUser(username, ['teamAdmin', 'proposer', 'voter']);
+				}
+				else{
+					db.grantsRolesToUser(username, ['teamAdmin', 'voter']);
+				}
+			}
+			else{
+				if (binProposer) {
+					db.grantsRolesToUser(username, ['proposer', 'voter']);
+				}
+				else{
+					db.grantsRolesToUser(username, ['voter']);
+				}
+			}
+		} else if (req.body.status == "commentor") {
+			if (binProposer) {
+				if (binProposer) {
+					db.grantsRolesToUser(username, ['teamAdmin', 'proposer', 'commentor']);
+				}
+				else{
+					db.grantsRolesToUser(username, ['teamAdmin', 'commentor']);
+				}
+			}
+			else{
+				if (binProposer) {
+					db.grantsRolesToUser(username, ['proposer', 'commentor']);
+				}
+				else{
+					db.grantsRolesToUser(username, ['commentor']);
+				}
+			}
+		} else if (req.body.status == "observator") {
+			if (binProposer) {
+				if (binProposer) {
+					db.grantsRolesToUser(username, ['teamAdmin', 'proposer', 'observator']);
+				}
+				else{
+					db.grantsRolesToUser(username, ['teamAdmin', 'observator']);
+				}
+			}
+			else{
+				if (binProposer) {
+					db.grantsRolesToUser(username, ['proposer', 'observator']);
+				}
+				else{
+					db.grantsRolesToUser(username, ['observator']);
+				}
+			}
+		}
+
 
 
 		db.close();
