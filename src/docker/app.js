@@ -42,69 +42,81 @@ app.post('/newUser', function(req, res, db) {
 		   	"proposer" : binProposer,
 		   	"status" : req.body.status,
 		 });
-
-		//Creation of the user in the DB
-		db.createUser( { 'user': username,
-						 'pwd': "pasadmin",
-						 roles: []
-
-		});
+		//db.addUser(username, "pasadmin", { roles: [ ] });
 
 		//Granting roles according to the status
-		if (req.body.status == "voter") {
-			if (binProposer) {
+		console.log("Gonna create some user");
+		if (req.body.status == "Voter") {
+			console.log("I'm talking voter");
+			if (binAdmin) {
+				console.log("I'm talking admin");
 				if (binProposer) {
-					db.grantsRolesToUser(username, ['teamAdmin', 'proposer', 'voter']);
+					console.log("I'm talking proposer");
+					db.addUser(username, "pasadmin", { roles: [ 'teamAdmin', 'proposer', 'voter' ] });
+					console.log("APV");
 				}
 				else{
-					db.grantsRolesToUser(username, ['teamAdmin', 'voter']);
+					console.log("Ntt a proposer.");
+					db.addUser(username, "pasadmin", { roles: [ 'teamAdmin', 'voter' ] });
+					console.log("AP");
+				}
+			}
+			else{
+				console.log("Not an admin");
+				if (binProposer) {
+					console.log("I'm talking proposer");
+					db.addUser(username, "pasadmin", { roles: [ 'proposer', 'voter' ] });
+					console.log("PV");
+				}
+				else{
+					console.log("Not a proposer");
+					db.addUser(username, "pasadmin", { roles: [ 'voter' ] });
+					console.log("V");
+				}
+			}
+		} else if (req.body.status == "Commentator") {
+			if (binAdmin) {
+				if (binProposer) {
+					db.addUser(username, "pasadmin", { roles: [ 'teamAdmin', 'proposer', 'commenattor' ] });
+					console.log("APC");
+				}
+				else{
+					db.addUser(username, "pasadmin", { roles: [ 'teamAdmin', 'commentator' ] });
+					console.log("AC");
 				}
 			}
 			else{
 				if (binProposer) {
-					db.grantsRolesToUser(username, ['proposer', 'voter']);
+					db.addUser(username, "pasadmin", { roles: [ 'proposer', 'commentator' ] });
+					console.log("PC");
 				}
 				else{
-					db.grantsRolesToUser(username, ['voter']);
+					db.addUser(username, "pasadmin", { roles: [ 'commentator' ] });
+					console.log("C");
 				}
 			}
-		} else if (req.body.status == "commentor") {
-			if (binProposer) {
+		} else if (req.body.status == "Observer") {
+			if (binAdmin) {
 				if (binProposer) {
-					db.grantsRolesToUser(username, ['teamAdmin', 'proposer', 'commentor']);
+					db.addUser(username, "pasadmin", { roles: ['teamAdmin', 'proposer', 'observator'] });
+					console.log("APO");
 				}
 				else{
-					db.grantsRolesToUser(username, ['teamAdmin', 'commentor']);
-				}
-			}
-			else{
-				if (binProposer) {
-					db.grantsRolesToUser(username, ['proposer', 'commentor']);
-				}
-				else{
-					db.grantsRolesToUser(username, ['commentor']);
-				}
-			}
-		} else if (req.body.status == "observator") {
-			if (binProposer) {
-				if (binProposer) {
-					db.grantsRolesToUser(username, ['teamAdmin', 'proposer', 'observator']);
-				}
-				else{
-					db.grantsRolesToUser(username, ['teamAdmin', 'observator']);
+					db.addUser(username, "pasadmin", { roles: ['teamAdmin', 'observator'] });
+					console.log("AO");
 				}
 			}
 			else{
 				if (binProposer) {
-					db.grantsRolesToUser(username, ['proposer', 'observator']);
+					db.addUser(username, "pasadmin", { roles: ['proposer', 'observator'] });
+					console.log("PO");
 				}
 				else{
-					db.grantsRolesToUser(username, ['observator']);
+					db.addUser(username, "pasadmin", { roles: ['observator'] });
+					console.log("O");
 				}
 			}
 		}
-
-
 
 		db.close();
    		});
