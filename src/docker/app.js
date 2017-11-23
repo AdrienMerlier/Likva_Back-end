@@ -11,6 +11,11 @@ var url = 'mongodb://mongo:27017/likva';
 var dbvotes = "votesandpropositions";
 var dbusers = "users";
 
+//Hashing parameters
+var bcrypt = require('bcrypt-nodejs');
+const saltRounds = 12;
+
+
 //Database launched 
 
 
@@ -20,7 +25,11 @@ app.post('/newUser', function(req, res, db) {
 	MongoClient.connect(url, function(err, db){
 
 		var binAdmin, binProposer;
-		var username = req.body.name + "." + req.body.surname;
+		var username = req.body.name.toLowerCase() + "." + req.body.surname.toLowerCase();
+
+		//Hash password
+
+
 
 		//Dealing with the binary variables
 		if (req.body.admin == "Yes") {
@@ -30,19 +39,19 @@ app.post('/newUser', function(req, res, db) {
 			binProposer = true;
 		} else binProposer = false;
 
+		var hash = bcrypt.hashSync("bacon");
 
 		//Ecriture dans la base user
 		db.collection(dbusers).insertOne( {
-		   	"name" : req.body.name,
-		   	"surname" : req.body.surname,
-		   	"username" : username,
-		   	"password" : "pasadmin",
-		   	"email" : req.body.email,
-		   	"admin" : binAdmin,
-		   	"proposer" : binProposer,
-		   	"status" : req.body.status,
-		 });
-		//db.addUser(username, "pasadmin", { roles: [ ] });
+				   	"name" : req.body.name,
+				   	"surname" : req.body.surname,
+				   	"username" : username,
+				   	"password" : hash,
+				   	"email" : req.body.email,
+				   	"admin" : binAdmin,
+				   	"proposer" : binProposer,
+				   	"status" : req.body.status,
+		});
 
 		//Granting roles according to the status
 		console.log("Gonna create some user");

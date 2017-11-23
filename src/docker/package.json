@@ -10,10 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "mongod": "^2.0.0",
     "mongoose": "^4.13.1",
+    "node-gyp": "^3.6.2",
     "nodemon": "^1.12.1"
   }
 }
