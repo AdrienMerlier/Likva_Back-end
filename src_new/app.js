@@ -24,22 +24,9 @@ app.post('/newUser', function(req, res, db) {
 	
 	MongoClient.connect(url, function(err, db){
 
-		var binAdmin, binProposer;
 		var username = req.body.name.toLowerCase() + "." + req.body.surname.toLowerCase();
 
-		//Hash password
-
-
-
-		//Dealing with the binary variables
-		if (req.body.admin == "Yes") {
-			binAdmin = true;
-		} else binAdmin = false;
-		if (req.body.proposer == "Yes") {
-			binProposer = true;
-		} else binProposer = false;
-
-		var hash = bcrypt.hashSync("bacon");
+		var hash = bcrypt.hashSync(req.body.pwd);
 
 		//Ecriture dans la base user
 		db.collection(dbusers).insertOne( {
@@ -48,84 +35,10 @@ app.post('/newUser', function(req, res, db) {
 				   	"username" : username,
 				   	"password" : hash,
 				   	"email" : req.body.email,
-				   	"admin" : binAdmin,
-				   	"proposer" : binProposer,
-				   	"status" : req.body.status,
+				   	"admin" : false,
+				   	"proposer" : false,
+				   	"status" : "observator",
 		});
-
-		//Granting roles according to the status
-		console.log("Gonna create some user");
-		if (req.body.status == "Voter") {
-			console.log("I'm talking voter");
-			if (binAdmin) {
-				console.log("I'm talking admin");
-				if (binProposer) {
-					console.log("I'm talking proposer");
-					db.addUser(username, "pasadmin", { roles: [ 'teamAdmin', 'proposer', 'voter' ] });
-					console.log("APV");
-				}
-				else{
-					console.log("Ntt a proposer.");
-					db.addUser(username, "pasadmin", { roles: [ 'teamAdmin', 'voter' ] });
-					console.log("AP");
-				}
-			}
-			else{
-				console.log("Not an admin");
-				if (binProposer) {
-					console.log("I'm talking proposer");
-					db.addUser(username, "pasadmin", { roles: [ 'proposer', 'voter' ] });
-					console.log("PV");
-				}
-				else{
-					console.log("Not a proposer");
-					db.addUser(username, "pasadmin", { roles: [ 'voter' ] });
-					console.log("V");
-				}
-			}
-		} else if (req.body.status == "Commentator") {
-			if (binAdmin) {
-				if (binProposer) {
-					db.addUser(username, "pasadmin", { roles: [ 'teamAdmin', 'proposer', 'commenattor' ] });
-					console.log("APC");
-				}
-				else{
-					db.addUser(username, "pasadmin", { roles: [ 'teamAdmin', 'commentator' ] });
-					console.log("AC");
-				}
-			}
-			else{
-				if (binProposer) {
-					db.addUser(username, "pasadmin", { roles: [ 'proposer', 'commentator' ] });
-					console.log("PC");
-				}
-				else{
-					db.addUser(username, "pasadmin", { roles: [ 'commentator' ] });
-					console.log("C");
-				}
-			}
-		} else if (req.body.status == "Observer") {
-			if (binAdmin) {
-				if (binProposer) {
-					db.addUser(username, "pasadmin", { roles: ['teamAdmin', 'proposer', 'observator'] });
-					console.log("APO");
-				}
-				else{
-					db.addUser(username, "pasadmin", { roles: ['teamAdmin', 'observator'] });
-					console.log("AO");
-				}
-			}
-			else{
-				if (binProposer) {
-					db.addUser(username, "pasadmin", { roles: ['proposer', 'observator'] });
-					console.log("PO");
-				}
-				else{
-					db.addUser(username, "pasadmin", { roles: ['observator'] });
-					console.log("O");
-				}
-			}
-		}
 
 		db.close();
    		});
