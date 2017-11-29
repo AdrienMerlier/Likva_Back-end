@@ -5,11 +5,22 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var MongoClient = require('mongodb').MongoClient;
+var mongoose = require('mongoose');
+var ObjectID = require('mongodb').ObjectID;
+
+//Database setup
 var url = 'mongodb://mongo:27017/likva';
+mongoose.connect(url, {
+  useMongoClient: true
+});
+mongoose.Promise = global.Promise;
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
 
 var dbvotes = "votesandpropositions";
-var dbusers = "users";
+var dbusers = db.collection('users');
 
 //Hashing parameters
 var bcrypt = require('bcrypt-nodejs');
@@ -19,17 +30,48 @@ const saltRounds = 12;
 //Database launched 
 
 
+var Schema = mongoose.Schema;
+
+var userModelSchema = new Schema({
+	name : String,
+	surname : String,
+	username : String,
+	password : String,
+	email : String,
+	admin : Boolean,
+	proposer : Boolean,
+	status : String,
+	_id: String
+});
+
+var User = mongoose.model('User', userModelSchema)
+
 //Functions for users
 app.post('/newUser', function(req, res, db) {
+
+	var username = req.body.name.toLowerCase() + "." + req.body.surname.toLowerCase();
+	var hash = bcrypt.hashSync(req.body.pwd);
 	
-	MongoClient.connect(url, function(err, db){
 
-		var username = req.body.name.toLowerCase() + "." + req.body.surname.toLowerCase();
+	var new_user = {
+				   	name : req.body.name,
+				   	surname : req.body.surname,
+				   	username : username,
+				   	password : hash,
+				   	email : req.body.email,
+				   	admin : false,
+				   	proposer : false,
+				   	status : "observator",
+				   	_id: new ObjectID()
+		};
 
-		var hash = bcrypt.hashSync(req.body.pwd);
+	dbusers.insert(new_user);
+
+
+	//MongoClient.connect(url, function(err, db){
 
 		//Ecriture dans la base user
-		db.collection(dbusers).insertOne( {
+		/*db.collection(dbusers).insertOne( {
 				   	"name" : req.body.name,
 				   	"surname" : req.body.surname,
 				   	"username" : username,
@@ -42,6 +84,7 @@ app.post('/newUser', function(req, res, db) {
 
 		db.close();
    		});
+   		*/
    	console.log("Inserted a new user in the database.");
    	res.send("User added. Click precedent to add a new user.");
 });
