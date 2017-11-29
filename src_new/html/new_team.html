@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Manage your users</title>
+  <title>Create your team in Likva!</title>
   <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://use.fontawesome.com/927ffc24ee.js"></script>
@@ -61,8 +61,56 @@
 	    </nav>
 	</header>
 
-	<main class="container main-container" role="main">
-		<p>Add the list of users here.</p>
+	<main class="container main-container inputForm" role="main">
+		<form id="userForm" action="http:/127.0.0.1:3000/newTeam" method="post" role="form">
+
+			<h3>User information</h3>
+
+  			<!--Team-->
+  			<div class="form-group">
+  				<label for="team">Team ID:</label>
+    			<input name="team" type="text" class="form-control" id="team" aria-describedby="teamHelp" placeholder="Your Team ID" maxlength="50">
+  			</div>
+
+  			<!--Team-->
+  			<div class="form-group">
+			    <label for="teamType">What description best fit your organisation?</label>
+			    <select class="form-control" id="teamType">
+			      <option>Small NGO (under 100 members)</option>
+			      <option>Small NGO (above 100 members)</option>
+			      <option>Syndicate</option>
+			      <option>Political party / movement</option>
+			      <option>Local admnistration</option>
+			    </select>
+  			</div>
+
+  			<!--Name-->
+  			<div class="form-group">
+  				<label for="name">Name:</label>
+    			<input name="name" type="text" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Name" maxlength="50">
+  			</div>
+
+  			<!--Surname-->
+  			<div class="form-group">
+  				<label for="surname">Surname:</label>
+    			<input name="surname" type="text" class="form-control" id="surname" aria-describedby="nameHelp" placeholder="Surname" maxlength="50">
+  			</div>
+
+  			<!--Email-->
+  			<div class="form-group">
+  				<label for="email">Email:</label>
+    			<input name="email" type="email" class="form-control" id="email" aria-describedby="nameHelp" placeholder="Email" maxlength="100">
+  			</div>
+
+  			<!--Email-->
+  			<div class="form-group">
+  				<label for="pwd">Password:</label>
+    			<input name="pwd" type="password" class="form-control" id="pwd" aria-describedby="nameHelp" placeholder="Password" maxlength="100">
+  			</div>
+
+  			 <button type="submit" class="btn btn-primary submitButton">Submit</button>
+
+		</form>
 
 	</main>
 

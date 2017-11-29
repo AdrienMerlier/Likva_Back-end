@@ -32,7 +32,15 @@ const saltRounds = 12;
 
 var Schema = mongoose.Schema;
 
+var teamUserModelSchema = new Schema({
+	_id: String,
+	name : String,
+	category: String,
+	users : [[]]
+});
+
 var userModelSchema = new Schema({
+	_id: String,
 	name : String,
 	surname : String,
 	username : String,
@@ -40,57 +48,127 @@ var userModelSchema = new Schema({
 	email : String,
 	admin : Boolean,
 	proposer : Boolean,
-	status : String,
-	_id: String
+	status : String
 });
 
-var User = mongoose.model('User', userModelSchema)
+var propositionModelSchema = new Schema({
+	_id: String,
+	title : String,
+	summary : String,
+	description : String,
+	proposition : String,
+	consequences : String,
+	document1 : String,
+	document2 : String,
+	document3 : String,
+	document4 : String,
+	document5 : String,
+	proposer : Boolean,
+	information: String,
+	quorum : [Number],
+	type: String,
+	date : Date
+});
 
-//Functions for users
-app.post('/newUser', function(req, res, db) {
+var TeamUser = mongoose.model('TeamUser', teamUserModelSchema);
+var User = mongoose.model('User', userModelSchema);
+var Proposition = mongoose.model('Proposition', propositionModelSchema);
 
-	var username = req.body.name.toLowerCase() + "." + req.body.surname.toLowerCase();
-	var hash = bcrypt.hashSync(req.body.pwd);
-	
+//Creating a team
+app.post('/newTeam', function(req, res, db) {
 
-	var new_user = {
+	dbusers.count({name: req.body.team}, function (err, count) {
+		if(count>0){
+			console.log(count);
+			res.send("Sorry, this team name already exists.");
+		} else {
+
+			var username = req.body.name.toLowerCase() + "." + req.body.surname.toLowerCase();
+			var hash = bcrypt.hashSync(req.body.pwd);
+
+			var new_team = {
+				_id: new ObjectID(),
+				name : req.body.team,
+				category : req.body.category,
+				users : {
+				   	_id: new ObjectID(),
 				   	name : req.body.name,
 				   	surname : req.body.surname,
 				   	username : username,
 				   	password : hash,
 				   	email : req.body.email,
-				   	admin : false,
-				   	proposer : false,
-				   	status : "observator",
-				   	_id: new ObjectID()
-		};
+				   	admin : true,
+				   	proposer : true,
+				   	status : "voter"
+				}
+			};
 
-	dbusers.insert(new_user);
+		dbusers.insert(new_team);
 
+   		console.log("The team was created!");
+   		res.send("Your team is created! Let's explore Likva now.");
 
-	//MongoClient.connect(url, function(err, db){
+		}
+	});
+});
 
-		//Ecriture dans la base user
-		/*db.collection(dbusers).insertOne( {
-				   	"name" : req.body.name,
-				   	"surname" : req.body.surname,
-				   	"username" : username,
-				   	"password" : hash,
-				   	"email" : req.body.email,
-				   	"admin" : false,
-				   	"proposer" : false,
-				   	"status" : "observator",
-		});
+//Functions for users
+app.post('/newUser', function(req, res, db) {
 
-		db.close();
-   		});
-   		*/
-   	console.log("Inserted a new user in the database.");
-   	res.send("User added. Click precedent to add a new user.");
+	dbusers.count({name: req.body.team}, function (err, count) {
+
+		console.log(count);
+
+		//If the team doesn't exist
+		if (count != 1) {
+			console.log("The team doesn't exist");
+			res.send("Sorry, this team doesn't exist.");
+		} else {
+
+			console.log("The team exist!");
+			dbusers.find({name: req.body.team}).count({"users.email": req.body.email}, function (err, count2) {
+
+				console.log(count2);
+
+				if (count2 > 0) {
+					console.log("Sorry, the user already exists");
+					res.send("Sorry, this user already exist.");
+				}
+
+				else{
+					console.log("The user doesn't exist, let's create it!");
+					var username = req.body.name.toLowerCase() + "." + req.body.surname.toLowerCase();
+					var hash = bcrypt.hashSync(req.body.pwd);
+					
+
+					var new_user = {
+								   	_id: new ObjectID(),
+								   	name : req.body.name,
+								   	surname : req.body.surname,
+								   	username : username,
+								   	password : hash,
+								   	email : req.body.email,
+								   	admin : false,
+								   	proposer : false,
+								   	status : "observator"
+						};
+
+					TeamUser.update(
+						{name: req.body.team},
+						{$push: {users: new_user}}
+					);
+
+				   	console.log("Inserted a new user in the database.");
+				   	res.send("User added. Click precedent to add a new user.");
+				}
+			});
+			
+		}
+	});
 });
 
 app.post('/deleteUser', function(req, res, db) {
-	
+	//TO REDO
 	res.send('You asked me to remove a user(' + req.body.name + " " + req.body.surname +').');
 	MongoClient.connect(url, function(err, db){
 		db.collection('users').delete(req.body, (err, result) => {
@@ -99,21 +177,27 @@ app.post('/deleteUser', function(req, res, db) {
 		});
 		
 	})
-	//TO ADD: returning on adding user page
 });
 
 
 app.post('/newProposition', function(req, res, db) {
-	
-	MongoClient.connect(url, function(err, db){
-		db.collection('votesandpropositions').save(req.body, (err, result) => {
-			if (err) return console.log(err);
-			console.log('saved to database');
-		});
-		
-	})
-	//TO ADD: returning on adding user page
-    res.redirect('/newUser');
+
+	var new_propositions = {
+				   	_id: new ObjectID(),
+				   	name : req.body.name,
+				   	surname : req.body.surname,
+				   	username : username,
+				   	password : hash,
+				   	email : req.body.email,
+				   	admin : false,
+				   	proposer : false,
+				   	status : "observator"
+		};
+
+	dbusers.insert(new_user);
+
+   	console.log("Inserted a new user in the database.");
+   	res.send("User added. Click precedent to add a new user.");
 });
 
 
