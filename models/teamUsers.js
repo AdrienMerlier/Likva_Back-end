@@ -3,10 +3,11 @@ Schema = mongoose.Schema;
 
 var teamUserModelSchema = new Schema({
 	_id: String,
-	name : String,
-	password: String,
-	teamType: String,
-	users : [[]]
+	username : String,
+	admin : Boolean,
+	proposer : Boolean,
+	status : String,
+	delegation : [[]],
 });
 
-var TeamUser = mongoose.model('TeamUser', teamUserModelSchema);
+mongoose.model('TeamUser', teamUserModelSchema);
