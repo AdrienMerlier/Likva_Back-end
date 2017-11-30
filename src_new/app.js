@@ -39,6 +39,19 @@ var teamUserModelSchema = new Schema({
 	users : [[]]
 });
 
+var teamPropositionsModelSchema = new Schema({
+	_id: String,
+	name: String,
+	categories: [[]]
+});
+
+var teamVotesModelSchema = new Schema ({
+	_id: String,
+	name: String,
+	emargement: [[]],
+	votes: [[]]
+});
+
 var userModelSchema = new Schema({
 	_id: String,
 	name : String,
@@ -48,8 +61,11 @@ var userModelSchema = new Schema({
 	email : String,
 	admin : Boolean,
 	proposer : Boolean,
-	status : String
+	status : String,
+	delegations: [[]]
 });
+
+
 
 var propositionModelSchema = new Schema({
 	_id: String,
@@ -71,6 +87,8 @@ var propositionModelSchema = new Schema({
 });
 
 var TeamUser = mongoose.model('TeamUser', teamUserModelSchema);
+var TeamPropositions = mongoose.model('TeamPropositions', teamPropositionsModelSchema)
+var TeamVotes = mongoose.model('TeamVotes', teamVotesModelSchema);
 var User = mongoose.model('User', userModelSchema);
 var Proposition = mongoose.model('Proposition', propositionModelSchema);
 
@@ -85,9 +103,10 @@ app.post('/newTeam', function(req, res, db) {
 
 			var username = req.body.name.toLowerCase() + "." + req.body.surname.toLowerCase();
 			var hash = bcrypt.hashSync(req.body.pwd);
+			var teamID = new ObjectID();
 
-			var new_team = {
-				_id: new ObjectID(),
+			var new_teamUsers = {
+				_id: teamID,
 				name : req.body.team,
 				category : req.body.category,
 				users : {
@@ -99,11 +118,23 @@ app.post('/newTeam', function(req, res, db) {
 				   	email : req.body.email,
 				   	admin : true,
 				   	proposer : true,
-				   	status : "voter"
+				   	status : "voter",
+				   	delegations: [[]]
 				}
 			};
+			/*
+			var new_teamPropositions = {
+				_id: teamID,
+				name: req.body.team,
+				categories: [[]]
+			};
 
-		dbusers.insert(new_team);
+			var new_teamVotes = {
+
+			}
+	*/
+
+		dbusers.insert(new_teamUsers);
 
    		console.log("The team was created!");
    		res.send("Your team is created! Let's explore Likva now.");
@@ -150,7 +181,8 @@ app.post('/newUser', function(req, res, db) {
 								   	email : req.body.email,
 								   	admin : false,
 								   	proposer : false,
-								   	status : "observator"
+								   	status : "observator",
+								   	delegations: [[]]
 						};
 
 					TeamUser.update(
@@ -165,6 +197,7 @@ app.post('/newUser', function(req, res, db) {
 			
 		}
 	});
+
 });
 
 app.post('/deleteUser', function(req, res, db) {
