@@ -8,9 +8,6 @@ var userModelSchema = new Schema({
 	username : String,
 	password : String,
 	email : String,
-	admin : Boolean,
-	proposer : Boolean,
-	status : String,
 	delegations: [[]]
 });
 

@@ -26,7 +26,6 @@ var dbusers = db.collection('users');
 
 //Hashing parameters
 var bcrypt = require('bcrypt-nodejs');
-const saltRounds = 12;
 
 require('./models/user.js');
 require('./models/proposition.js');
