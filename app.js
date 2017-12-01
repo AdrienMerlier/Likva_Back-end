@@ -1,4 +1,5 @@
-var express = require('express');
+var express = require('express'); 
+
 
 //Setting parser for requests
 var bodyParser = require('body-parser');
@@ -7,7 +8,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var morgan = require('morgan');
-var jwt    = require('jsonwebtoken');
 
 //Database setup
 require('./config/db');
@@ -22,3 +22,4 @@ app.listen(3000, function(){
 });
 
 
+ 
