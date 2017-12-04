@@ -14,13 +14,17 @@ exports.findAll = function(req, res) {
     	res.json(users);
   	});
 };
-exports.findById = function() {};
+exports.findById = function() {
+	User.find({email: req.body.email}, function(err, user) {
+    	res.json(user);
+  	});
+};
 exports.add = function(req, res) {
 
 	User.count({email: req.body.email}, function (err, count) {
 
 		if (count != 0) {
-					res.send("Sorry, this user already exist.");
+					res.send("Sorry, this user already exists.");
 		}
 
 		else{
@@ -46,5 +50,34 @@ exports.add = function(req, res) {
 	});
 	
 };
-exports.update = function() {};
+
+exports.updatePassword = function(req, res) {
+
+	User.findOne({ email: req.body.logemail}, function(err, user) {
+
+        if (err) throw err;
+
+        if (!user) {
+         	res.json({ success: false, message: 'Change of password failed. User not found.' });
+        } else if (user) {
+
+              // check if old password matches 
+        	if (!bcrypt.compareSync(req.body.oldPassword, user.password)) {
+                res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+            } else {
+
+            	user.password = req.body.newPassword;
+
+            	user.save(function (err){
+            		if (err) {
+            			res.json({ success: false, message: 'Error while saving the change.' });
+            		}
+            	});            
+                
+            }   
+
+        }
+
+    });
+};
 exports.delete = function() {};
