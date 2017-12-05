@@ -14,7 +14,7 @@ module.exports = function(app){
     app.get('/', function(req, res) {
     	res.send('Hello! The API is at http://localhost:3000/');
 	});
-
+    /*
 
     //Maybe to move to routes.js in ..
     //Login route
@@ -88,8 +88,9 @@ module.exports = function(app){
 
         }
     });
-
+    */
 	require('./routes/user')(app);
+    require('./routes/team')(app);
 
 
 }
