@@ -88,6 +88,7 @@ module.exports = function(app){
     */
 	require('./routes/user')(app);
     require('./routes/team')(app);
+    require('./routes/proposition')(app);
 
 
 }
