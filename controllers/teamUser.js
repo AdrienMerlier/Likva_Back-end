@@ -16,30 +16,35 @@ exports.findById = function() {
 };
 
 exports.addFirstUser = function(req, res) {
-	TeamUser.count({email: req.body.email}, function (err, count) {
 
-		if (count != 0) {
-					res.send("Sorry, this team user already exists.");
-		}
+	console.log("I'm in the function");
 
-		else{
+	User.findOne({ email: req.body.email}, function(err, user) {
 
-			var userInDB = User.findOne({ email: req.body.email});
+            if (err) throw err;
 
-			var new_teamUser = {
-						   	_id: userInDB.email,
-							admin : true,
-							proposer : true,
-							status : "Voter",
-							description: null,
-							delegation : [[]],
+            if (!user) {
+              res.json({ success: false, message: 'User not found.' });
+            } else if (user) {
+
+				console.log("The user is:" + user);
+
+				var new_teamUser = {
+				   	_id: user._id,
+				   	team: req.body.teamName,
+					admin : true,
+					proposer : true,
+					status : "Voter",
+					description: null,
+					delegation : [[]],
 				};
 
-			TeamUser.create(new_teamUser);
+				TeamUser.create(new_teamUser);
 
-			return new_teamUser;
-		}
-	});
+				return 0;
+            }   
+
+    });
 };
 
 exports.add = function(req, res) {

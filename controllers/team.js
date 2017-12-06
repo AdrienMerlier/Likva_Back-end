@@ -4,7 +4,6 @@ var ObjectID = require('mongodb').ObjectID;
 
 Team = mongoose.model('Team');
 User = mongoose.model('User');
-TeamUser = mongoose.model('TeamUser');
 
 var teamusers = require('./teamUser')
 
@@ -38,17 +37,24 @@ exports.add = function(req, res) {
 			var hash = bcrypt.hashSync(req.body.pwd);
 
 			var new_team = {
-						   	_id: new ObjectID(),
-						   	teamName : req.body.teamName,
-							displayName: req.body.teamName,
-							type: req.body.type,
-							password : hash,
-							users: teamusers.addFirstUser(req)
-				};
+				_id: new ObjectID(),
+			   	teamName : req.body.teamName,
+				displayName: req.body.teamName,
+				type: req.body.type,
+				password : hash,
+				categories: null,
+			};
 
-			Team.create(new_team);
-
-			res.send(202);
+			Team.create(new_team, function (err) {
+				if (err) {
+                    return res.json({ success: false, message: 'Sorry, couldnt create the team.' });    
+                } else {
+                	var firstUser = teamusers.addFirstUser(req, function (err) {
+                		if (err) throw err;
+                	});
+                	res.send(202);
+                }
+			});
 		}
 	});
 	
