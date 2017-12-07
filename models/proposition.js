@@ -20,7 +20,9 @@ var propositionModelSchema = new Schema({
 	information: String,
 	quorum : [Number],
 	type: String,
-	date : Date
+	date : Date,
+	results: [[]],
+	verdict: String
 });
 
 var Proposition = mongoose.model('Proposition', propositionModelSchema);

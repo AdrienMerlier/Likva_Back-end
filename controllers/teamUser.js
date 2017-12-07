@@ -36,6 +36,7 @@ exports.addFirstUser = function(req, res) {
 					admin : true,
 					proposer : true,
 					status : "Voter",
+					delegable: true,
 					description: null,
 					delegation : [[]],
 				};

@@ -8,6 +8,7 @@ var teamUserModelSchema = new Schema({
 	admin : Boolean,
 	proposer : Boolean,
 	status : String,
+	delegable: Boolean,
 	description: String,
 	delegation : [[]],
 });

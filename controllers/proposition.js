@@ -59,7 +59,8 @@ exports.add = function(req, res) {
 				information: req.body.information,
 				quorum : req.body.quorum,
 				type: req.body.typeOfVote,
-				date : req.body.endDate
+				date : req.body.endDate,
+				verdict : "onGoing"
 			};
 
 			console.log(new_proposition);
