@@ -11,7 +11,7 @@ Avant de tester nos routes, il faudra vous identifier auprès de l'application. 
 ### Routes "Users"
 
 | Méthode   | Routes           | Résultats             |
-| --------- |:----------------:| ---------------------:|
+| --------- |:----------------:| ---------------------|
 | GET       | /api/users       | Renvoie l'ensemble des utilisateurs, mais ne sera surement pas utilisé. |
 | GET       | /api/users/:id     |   Renvoie les données d'un utilisateur particulier |
 | POST  | /api/users      | Crée un utilisateur. |
@@ -22,7 +22,7 @@ Avant de tester nos routes, il faudra vous identifier auprès de l'application. 
 ### Routes "Teams"
 
 | Méthode   | Routes           | Résultats             |
-| --------- |:----------------:| ---------------------:|
+| --------- |:----------------:| ---------------------|
 | GET       | /api/users       | Renvoie l'ensemble des teams, mais ne sera surement pas utilisé. |
 | GET       | /api/teams/:teamId     |   Renvoie les données d'une team particuliere |
 | POST  | /api/teams      | Crée une team. |
@@ -33,7 +33,7 @@ Avant de tester nos routes, il faudra vous identifier auprès de l'application. 
 ### Routes "Propositions"
 
 | Méthode   | Routes           | Résultats             |
-| --------- |:----------------:| ---------------------:|
+| --------- |:----------------:| ---------------------|
 | GET       | /api/teams/:teamId/proposition       | Renvoie l'ensemble des propositions d'une team donnée. |
 | GET       | /api/teams/:teamId/proposition/:category     |   Renvoie les Renvoie l'ensemble des propositions d'une team donnée, pour une catégorie donnée |
 | GET       | /api/teams/:teamId/proposition/:id     |   Renvoie une proposition donnée |

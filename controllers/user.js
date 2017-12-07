@@ -40,11 +40,12 @@ exports.add = function(req, res) {
 						   	username : username,
 						   	password : hash,
 						   	email : req.body.email,
+						   	teams: {}
 				};
 
 			User.create(new_user);
 
-			req.session.userId = user._id;
+			//req.session.userId = user._id;
 			res.send(202);
 		}
 	});

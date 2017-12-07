@@ -32,6 +32,7 @@ exports.addFirstUser = function(req, res) {
 				var new_teamUser = {
 				   	_id: user._id,
 				   	team: req.body.teamName,
+				   	email: req.body.email,
 					admin : true,
 					proposer : true,
 					status : "Voter",

@@ -42,16 +42,32 @@ exports.add = function(req, res) {
 				displayName: req.body.teamName,
 				type: req.body.type,
 				password : hash,
-				categories: null,
+				categories: {}
 			};
 
 			Team.create(new_team, function (err) {
 				if (err) {
                     return res.json({ success: false, message: 'Sorry, couldnt create the team.' });    
                 } else {
-                	var firstUser = teamusers.addFirstUser(req, function (err) {
+
+                	//Add user in teamUsers collection
+                	teamusers.addFirstUser(req, function (err) {
                 		if (err) throw err;
                 	});
+
+                	//Update the user with the information about his account;
+
+                	var permission = {
+                		teamName: req.body.teamName,
+                		admin: true,
+                		proposer: true,
+                		role: "Voter"
+                	}
+
+                	User.findOneAndUpdate({email: req.body.email}, {$push: {teams: permission}}, function (err) {
+                		if (err) throw err;
+                	});
+
                 	res.send(202);
                 }
 			});
