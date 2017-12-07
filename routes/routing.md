@@ -37,7 +37,14 @@ Avant de tester nos routes, il faudra vous identifier auprès de l'application. 
 | --------- |:----------------:| ---------------------|
 | GET       | /api/teams/:teamId/proposition       | Renvoie l'ensemble des propositions d'une team donnée. |
 | GET       | /api/teams/:teamId/proposition/:category     |   Renvoie les Renvoie l'ensemble des propositions d'une team donnée, pour une catégorie donnée |
-| GET       | /api/teams/:teamId/proposition/:id     |   Renvoie une proposition donnée |
+| GET       | /api/teams/:teamId/proposition/:propId     |   Renvoie une proposition donnée |
 | POST  | /api/teams/:teamId/proposition      | Crée une proposition. |
-| PUT  | /api/teams/:teamId/proposition/:id    | Update une proposition. |
-| DELETE  | /api/teams/:teamId/proposition/:id      | Efface une proposition. 
+| PUT  | /api/teams/:teamId/proposition/:propId    | Update une proposition. |
+| DELETE  | /api/teams/:teamId/proposition/:propId      | Efface une proposition. 
+
+### Routes "Votes"
+
+| Méthode   | Routes           | Résultats             |
+| --------- |:----------------:| ---------------------|
+| GET       | //api/teams/:teamId/proposition/:propId/votes       | Renvoie l'ensemble des votes pour une proposition donnée. Si la deadline n'est pas passé, renvoie une erreur.|
+| POST       | /api/teams/:teamId/proposition/:propId/votes     |   Vérifie que l'utilisateur a le droit de voter, et inscrit son vote et l'émarge. |

@@ -26,7 +26,7 @@ exports.findByCategory = function(req, res) {
 
 exports.add = function(req, res) {
 
-	Team.count({teamName: req.body.teamName}, function (err, count) {
+	Team.count({teamName: req.params.teamId}, function (err, count) {
 
 		if (count != 1) {
 					res.send("Sorry, this team doesn't exist.");
@@ -42,7 +42,7 @@ exports.add = function(req, res) {
 
 			var new_proposition = {
 				_id: new ObjectID(),
-				team: req.body.team,
+				team: req.params.teamId,
 				category: req.body.team,
 				title : req.body.title,
 				author: req.body.author,
@@ -62,9 +62,6 @@ exports.add = function(req, res) {
 				date : req.body.endDate,
 				verdict : "onGoing"
 			};
-
-			console.log(new_proposition);
-
 
 			Proposition.create(new_proposition, function (err) {
 				if (err) {

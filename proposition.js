@@ -3,6 +3,8 @@ Schema = mongoose.Schema;
 
 var propositionModelSchema = new Schema({
 	_id: String,
+	team: String,
+	category: String,
 	title : String,
 	summary : String,
 	description : String,
@@ -15,9 +17,11 @@ var propositionModelSchema = new Schema({
 	document5 : String,
 	proposer : Boolean,
 	information: String,
-	quorum : [Number],
+	quorum : Number,
 	type: String,
-	date : Date
+	date : Date,
+	results: [],
+	verdict: String
 });
 
 var Proposition = mongoose.model('Proposition', propositionModelSchema);
