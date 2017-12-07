@@ -10,7 +10,7 @@ var userModelSchema = new Schema({
 	username : String,
 	password : String,
 	email : String,
-  teams: [[]]
+  teams: []
 });
 
 //authenticate input against database

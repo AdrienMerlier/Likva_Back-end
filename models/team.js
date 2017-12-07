@@ -7,7 +7,7 @@ var teamModelSchema = new Schema({
 	displayName: String,
 	type: String,
 	password : String,
-	categories: [[]]
+	categories: [{categoryName: String, img: String}]
 });
 
 mongoose.model('Team', teamModelSchema);

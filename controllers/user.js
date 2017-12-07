@@ -15,7 +15,7 @@ exports.findAll = function(req, res) {
   	});
 };
 exports.findById = function() {
-	User.find({email: req.body.email}, function(err, user) {
+	User.find({email: req.params._id}, function(err, user) {
     	res.json(user);
   	});
 };
@@ -69,7 +69,8 @@ exports.updatePassword = function(req, res) {
                 res.json({ success: false, message: 'Authentication failed. Wrong password.' });
             } else {
 
-            	user.password = req.body.newPassword;
+            	var hash = bcrypt.hashSync(req.body.newPassword);
+            	user.password = hash;
 
             	user.save(function (err){
             		if (err) {
@@ -83,4 +84,9 @@ exports.updatePassword = function(req, res) {
 
     });
 };
-exports.delete = function() {};
+exports.delete = function() {
+	var id = req.params.id;
+  	User.remove({'_id':id},function(result) {
+    	return res.send(result);
+  });
+};

@@ -10,7 +10,7 @@ var teamUserModelSchema = new Schema({
 	status : String,
 	delegable: Boolean,
 	description: String,
-	delegation : [[]],
+	delegation : []
 });
 
 mongoose.model('TeamUser', teamUserModelSchema);

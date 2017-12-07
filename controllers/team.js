@@ -17,11 +17,19 @@ exports.findAll = function(req, res) {
     	res.json(teams);
   	});
 };
-exports.findById = function() {
-	Team.find({teamName: req.body.teamName}, function(err, team) {
+exports.findById = function(req, res) {
+	Team.find({teamName: req.params.teamId}, function(err, team) {
     	res.json(team);
   	});
 };
+
+exports.findCategories = function(req, res) {
+	console.log("On cherche des categories là!");
+	Team.findOne({teamName: req.params.teamId}, function(err, team) {
+    	res.json(team.categories);
+  	});
+};
+
 exports.add = function(req, res) {
 
 	Team.count({teamName: req.body.teamName}, function (err, count) {
@@ -42,7 +50,6 @@ exports.add = function(req, res) {
 				displayName: req.body.teamName,
 				type: req.body.type,
 				password : hash,
-				categories: {}
 			};
 
 			Team.create(new_team, function (err) {
@@ -71,6 +78,30 @@ exports.add = function(req, res) {
                 	res.send(202);
                 }
 			});
+		}
+	});
+	
+};
+
+exports.addCategory = function(req, res) {
+
+	console.log(req.params.teamId);
+
+	Team.count({teamName: req.params.teamId}, function (err, count) {
+
+		//To review after token management
+
+		if (count != 1) {
+					res.send("Sorry, this team doesn't exist.");
+		}
+
+		else{
+
+			Team.findOneAndUpdate({teamName: req.params.teamId}, {$push: {categories: {categoryName: req.body.categoryName, img : ""}}}, function (err) {
+            	if (err) throw err;
+            });
+
+            res.send(202);
 		}
 	});
 	
