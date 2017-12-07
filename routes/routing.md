@@ -23,7 +23,7 @@ Avant de tester nos routes, il faudra vous identifier auprès de l'application. 
 
 | Méthode   | Routes           | Résultats             |
 | --------- |:----------------:| ---------------------|
-| GET       | /api/users       | Renvoie l'ensemble des teams, mais ne sera surement pas utilisé. |
+| GET       | /api/teams       | Renvoie l'ensemble des teams, mais ne sera surement pas utilisé. |
 | GET       | /api/teams/:teamId     |   Renvoie les données d'une team particuliere |
 | POST  | /api/teams      | Crée une team. |
 | POST  | /api/teams/:teamId/categories      | Crée une catégorie dans une team donnée. |
