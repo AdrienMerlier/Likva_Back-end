@@ -61,4 +61,5 @@ exports.add = function(req, res) {
 };
 
 exports.updateTeam = function() {};
+exports.updateTeamPassword = function() {};
 exports.delete = function() {};

@@ -77,5 +77,5 @@ exports.add = function(req, res) {
 	
 };
 
-exports.updateTeam = function() {};
+exports.update = function() {};
 exports.delete = function() {};

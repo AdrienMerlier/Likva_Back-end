@@ -51,6 +51,8 @@ exports.add = function(req, res) {
 	
 };
 
+exports.update = function(req, res) {};
+
 exports.updatePassword = function(req, res) {
 
 	User.findOne({ email: req.body.logemail}, function(err, user) {

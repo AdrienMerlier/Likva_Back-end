@@ -6,7 +6,8 @@ module.exports = function(app){
     app.get('/api/users', users.findAll);
     app.get('/api/users/:id', users.findById);
     app.post('/api/users/', users.add);
-    app.put('/api/users/:id', users.updatePassword);
+    app.put('/api/users/:id/', users.update);
+    app.put('/api/users/:id/password', users.updatePassword);
     app.delete('/api/users/:id', users.delete);
 
 }
