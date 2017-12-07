@@ -1,4 +1,4 @@
-# Project Title
+# Likva
 
 Ce projet constitue le back-end de notre plateforme de démocratie liquide, Likva.
 
