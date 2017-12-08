@@ -14,9 +14,8 @@ module.exports = function(app){
     app.get('/', function(req, res) {
     	res.send('Hello! The API is at http://localhost:3000/');
 	});
-    /*
+    
 
-    //Maybe to move to routes.js in ..
     //Login route
     app.post('/login', function(req, res) {
         User.findOne({ email: req.body.logemail}, function(err, user) {
@@ -37,18 +36,28 @@ module.exports = function(app){
                 // if user is found and password is right
                 // create a token with only our given payload
                 // we don't want to pass in the entire user since that has the password
+               
+                
                 const payload = {
                   admin: false //To adapt
                 };
                 var token = jwt.sign(payload, 'LikvaLikva', app.get('neverendingLikva'), {
                   expiresInMinutes: 1440 // expires in 24 hours
                 });
+                
 
                 // return the information including token as JSON
                 res.json({
                   success: true,
-                  message: 'Enjoy your token!',
-                  token: token
+                  message: 'Enjoy your login!',
+                  token: token,
+                  user:{
+                    name: user.name,
+                    surname: user.surname,
+                    username: user.username,
+                    email: user.email,
+                    teams: user.teams,
+                  }
                 });
               }   
 
@@ -85,7 +94,7 @@ module.exports = function(app){
 
         }
     });
-    */
+    
 	require('./routes/user')(app);
     require('./routes/team')(app);
     require('./routes/proposition')(app);

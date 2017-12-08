@@ -84,3 +84,29 @@ var propositionModelSchema = new Schema({
 	verdict: String //Le résultat final du vote, marqué "ongoing" tant qu'on ne demande pas les résultats
 });
 ```
+
+## Vote
+
+```
+var voteModelSchema = new Schema({
+	_id: String, //Un ID unique pour la proposition
+	team : String, //Le nom de l'équipe de la proposition
+	propId : String, //L'ID de la proposition votée
+	voter: String, //Le nom du votant, "" si user.delegable=false
+	delegation : Boolean, //Est ce que le vote est une délégation ou non
+	content: String, //Le contenu du vote "Yes"/"No"/Nom du délégué
+	weight: Number //Poids du vote, 1 par défaut, augmente de 1 par vote délégué
+});
+```
+
+## Emargement
+
+```
+var emargementModelSchema = new Schema({
+	_id: String, //Un ID unique pour l'émargement
+	team : String, //Le nom de l'équipe de la proposition
+	propId : String, //L'ID de la proposition votée
+	username: String, //Le nom du votant
+});
+```
+
