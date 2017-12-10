@@ -4,20 +4,42 @@ module.exports = function(app){
 	var mongoose = require('mongoose');
 
 	require('./models/user');
-    var users = require('./controllers/user');
-    User = mongoose.model('User');
+  var users = require('./controllers/user');
+  User = mongoose.model('User');
 
 
-    var bcrypt = require('bcrypt-nodejs');
-    var jwt = require('jsonwebtoken'); 
+  var bcrypt = require('bcrypt-nodejs');
+  var jwt = require('jsonwebtoken'); 
+
+  var cors = require('cors');
+
+  var allowedOrigins = ['http://localhost:8080'];
+  app.use(cors({
+    origin: function(origin, callback){
+    // allow requests with no origin 
+    // (like mobile apps or curl requests)
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){
+      var msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+    }
+  }));
 
     app.get('/', function(req, res) {
     	res.send('Hello! The API is at http://localhost:3000/');
 	});
+
+  require('./routes/user')(app);
+
     
 
     //Login route
     app.post('/login', function(req, res) {
+
+
+
         User.findOne({ email: req.body.logemail}, function(err, user) {
 
             if (err) throw err;
@@ -45,6 +67,18 @@ module.exports = function(app){
                   expiresInMinutes: 1440 // expires in 24 hours
                 });
                 
+                console.log({
+                  success: true,
+                  message: 'Enjoy your login!',
+                  token: token,
+                  user:{
+                    name: user.name,
+                    surname: user.surname,
+                    username: user.username,
+                    email: user.email,
+                    teams: user.teams,
+                  }
+                });
 
                 // return the information including token as JSON
                 res.json({
@@ -95,7 +129,7 @@ module.exports = function(app){
         }
     });
     
-	require('./routes/user')(app);
+    require('./routes/user')(app);
     require('./routes/team')(app);
     require('./routes/proposition')(app);
     require('./routes/vote')(app);
