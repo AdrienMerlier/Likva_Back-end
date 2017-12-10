@@ -3,7 +3,7 @@ Schema = mongoose.Schema;
 
 var emargementModelSchema = new Schema({
 	_id: String,
-	team : String,
+	slug : String,
 	propId : String,
 	username: String,
 });

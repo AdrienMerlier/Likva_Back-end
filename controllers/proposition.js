@@ -42,7 +42,7 @@ exports.add = function(req, res) {
 
 			var new_proposition = {
 				_id: new ObjectID(),
-				team: req.params.teamId,
+				slug: req.params.teamId,
 				category: req.body.team,
 				title : req.body.title,
 				author: req.body.author,

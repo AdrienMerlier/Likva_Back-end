@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var ObjectID = require('mongodb').ObjectID;
+var slug = require('slug')
 
 
 Team = mongoose.model('Team');
@@ -31,6 +32,7 @@ exports.findCategories = function(req, res) {
 };
 
 exports.add = function(req, res) {
+	console.log("Here is the first request:" + req.body);
 
 	Team.count({teamName: req.body.teamName}, function (err, count) {
 
@@ -46,7 +48,7 @@ exports.add = function(req, res) {
 
 			var new_team = {
 				_id: new ObjectID(),
-			   	teamName : req.body.teamName,
+			   	slug : slug(req.body.teamName),
 				displayName: req.body.teamName,
 				type: req.body.type,
 				password : hash,
@@ -65,7 +67,8 @@ exports.add = function(req, res) {
                 	//Update the user with the information about his account;
 
                 	var permission = {
-                		teamName: req.body.teamName,
+                		slug: slug(req.body.teamName),
+                		displayName: req.body.displayName,
                 		admin: true,
                 		proposer: true,
                 		role: "Voter"

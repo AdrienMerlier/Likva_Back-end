@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var ObjectID = require('mongodb').ObjectID;
+var slug = require('slug')
 
 
 TeamUser = mongoose.model('TeamUser');
@@ -17,21 +18,22 @@ exports.findById = function() {
 
 exports.addFirstUser = function(req, res) {
 
-	console.log("I'm in the function");
+	console.log("I'm in the function. Request is: " +req.body);
 
 	User.findOne({ email: req.body.email}, function(err, user) {
 
             if (err) throw err;
 
             if (!user) {
-              res.json({ success: false, message: 'User not found.' });
+            	console.log('User not found');
+              //res.send({ success: false, message: 'User not found.' });
             } else if (user) {
 
 				console.log("The user is:" + user);
 
 				var new_teamUser = {
 				   	_id: user._id,
-				   	team: req.body.teamName,
+				   	slug: slug(req.body.teamName),
 				   	email: req.body.email,
 					admin : true,
 					proposer : true,

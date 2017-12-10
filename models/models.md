@@ -14,7 +14,7 @@ var userModelSchema = new Schema({
 	email : String, //L'email, critère identifiant
   	teams: { //Va permettre de passer au token les informations nécessaires pour connaitre les droits utilisateurs sur ses équipes
   		{
-  			teamName: req.body.teamName, //Nom de l'équipe en question
+  			slug: req.body.teamName, //Nom de l'équipe en question
             admin: true, //Admin on non dans cette équipe
             proposer: true, //Peut proposer ou non
             role: "Voter" //Rôle de l'utilisateur dans l'équipe ("Voter"/"Commentor"/"Observer")
@@ -28,7 +28,7 @@ var userModelSchema = new Schema({
 ```
 var teamModelSchema = new Schema({
 	_id: String, //ID unique pour l'équipe
-	teamName : String, //Nom de l'équipe, identifiant
+	slug : String, //Nom de l'équipe, identifiant
 	displayName: String, //Nom public de l'équipe, qui peut être customiser par un admin
 	type: String, //Le type d'équipe (Syndicat, ONG, parti politique, ...)
 	password : String, //Password hashé
@@ -41,7 +41,7 @@ var teamModelSchema = new Schema({
 ```
 var teamUserModelSchema = new Schema({
 	_id: String, //ID unique pour l'utilisateur
-	team: String, //Nom de l'équipe en question
+	slug: String, //Nom de l'équipe en question
 	email : String, //Email, identifiant
 	admin : Boolean, //Est admin ou non
 	proposer : Boolean, //Peut proposer ou non
@@ -62,7 +62,7 @@ Ce modèle sera celui que la base interrogera pour vérifier que l'utilisateur a
 ```
 var propositionModelSchema = new Schema({
 	_id: String, //Un ID unique pour la proposition
-	team: String, //Le nom de l'équipe en question
+	slug: String, //Le nom de l'équipe en question
 	category: String, //Le nom de la catégorie en question, si nécessaire
 	title : String, //Le titre de la proposition
 	author: String, //L'auteur de la proposition
@@ -90,7 +90,7 @@ var propositionModelSchema = new Schema({
 ```
 var voteModelSchema = new Schema({
 	_id: String, //Un ID unique pour la proposition
-	team : String, //Le nom de l'équipe de la proposition
+	slug : String, //Le nom de l'équipe de la proposition
 	propId : String, //L'ID de la proposition votée
 	voter: String, //Le nom du votant, "" si user.delegable=false
 	delegation : Boolean, //Est ce que le vote est une délégation ou non
@@ -104,7 +104,7 @@ var voteModelSchema = new Schema({
 ```
 var emargementModelSchema = new Schema({
 	_id: String, //Un ID unique pour l'émargement
-	team : String, //Le nom de l'équipe de la proposition
+	slug : String, //Le nom de l'équipe de la proposition
 	propId : String, //L'ID de la proposition votée
 	username: String, //Le nom du votant
 });

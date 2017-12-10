@@ -3,7 +3,7 @@ Schema = mongoose.Schema;
 
 var teamModelSchema = new Schema({
 	_id: String,
-	teamName : String,
+	slug : String,
 	displayName: String,
 	type: String,
 	password : String,

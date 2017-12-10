@@ -33,7 +33,7 @@ module.exports = function(app){
 
   require('./routes/user')(app);
 
-    
+  /*
 
     //Login route
     app.post('/login', function(req, res) {
@@ -128,6 +128,8 @@ module.exports = function(app){
 
         }
     });
+    */
+    
     
     require('./routes/user')(app);
     require('./routes/team')(app);

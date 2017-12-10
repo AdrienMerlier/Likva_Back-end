@@ -31,7 +31,7 @@ exports.add = function(req, res) {
 
 			Vote.create({
 				_id: new ObjectID(),
-				team : req.params.teamId,
+				slug : req.params.teamId,
 				propId : req.params.propId,
 				delegation : req.body.delegation,
 				content: req.body.content,
