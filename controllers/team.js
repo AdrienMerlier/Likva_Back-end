@@ -34,7 +34,7 @@ exports.findCategories = function(req, res) {
 exports.add = function(req, res) {
 	console.log("Here is the first request:" + req.body);
 
-	Team.count({teamName: req.body.teamName}, function (err, count) {
+	Team.count({teamName: slug(req.body.teamName)}, function (err, count) {
 
 		if (count != 0) {
 					res.send("Sorry, this team name is already taken.");
