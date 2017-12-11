@@ -4,9 +4,11 @@ module.exports = function(app){
 	require('../models/teamUser');
 	require('../models/team');
     var teams = require('../controllers/team');
+    var teamUsers = require('../controllers/teamUser');
 
     app.get('/api/teams', teams.findAll);
     app.get('/api/teams/:teamId', teams.findById);
+    app.get('/api/teams/:teamId/delegates', teamUsers.findDelegates);
     app.get('/api/teams/:teamId/categories/', teams.findCategories);
     app.post('/api/teams/', teams.add);
     app.post('/api/teams/:teamId/join', teams.addSimpleUser);
