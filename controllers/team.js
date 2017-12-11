@@ -26,7 +26,7 @@ exports.findById = function(req, res) {
 
 exports.findCategories = function(req, res) {
 	console.log("On cherche des categories là!");
-	Team.findOne({teamName: req.params.teamId}, function(err, team) {
+	Team.findOne({skug: req.params.teamId}, function(err, team) {
     	res.json(team.categories);
   	});
 };
@@ -34,14 +34,18 @@ exports.findCategories = function(req, res) {
 exports.add = function(req, res) {
 	console.log("Here is the first request:" + req.body);
 
-	Team.count({teamName: slug(req.body.teamName)}, function (err, count) {
+	Team.count({slug: slug(req.body.teamName)}, function (err, count) {
 
 		if (count != 0) {
-					res.send("Sorry, this team name is already taken.");
+					res.send({
+						success: false,
+						message: "Sorry, this team name is already taken."
+					});
 		}
 
 		else{
 
+			 console.log("Le nombre d'équipe avec ce nom est: " + count);
 			//Review how to insert the first user once token management is done by front
 					
 			var hash = bcrypt.hashSync(req.body.pwd);
@@ -78,7 +82,11 @@ exports.add = function(req, res) {
                 		if (err) throw err;
                 	});
 
-                	res.send(202);
+                	res.send(
+                		{
+                			success: true,
+                			team: new_team
+                		});
                 }
 			});
 		}

@@ -2,7 +2,6 @@ var mongoose = require('mongoose'),
 Schema = mongoose.Schema;
 
 var teamUserModelSchema = new Schema({
-	_id: String,
 	slug: String,
 	email : String,
 	admin : Boolean,

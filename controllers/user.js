@@ -45,7 +45,10 @@ exports.add = function(req, res) {
 			User.create(new_user);
 
 			//req.session.userId = user._id;
-			res.send(202);
+			res.send({
+				success: true,
+				user: new_user
+			});
 		}
 	});
 	

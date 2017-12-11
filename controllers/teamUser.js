@@ -3,7 +3,7 @@ var ObjectID = require('mongodb').ObjectID;
 var slug = require('slugify')
 
 
-TeamUser = mongoose.model('TeamUser');
+Teamuser = mongoose.model('TeamUser');
 User = mongoose.model('User');
 
 
@@ -32,20 +32,29 @@ exports.addFirstUser = function(req, res) {
 				console.log("The user is:" + user);
 
 				var new_teamUser = {
-				   	_id: user._id,
 				   	slug: slug(req.body.teamName),
-				   	email: req.body.email,
+				   	email: user.email,
 					admin : true,
 					proposer : true,
 					status : "Voter",
 					delegable: true,
-					delegation : [[]],
+					delegation : [],
 				};
 
+				console.log(new_teamUser);
+
 				//A revoir
-				TeamUser.create(new_teamUser, function (err) {
+				Teamuser.create({
+				   	slug: slug(req.body.teamName),
+				   	email: user.email,
+					admin : true,
+					proposer : true,
+					status : "Voter",
+					delegable: true,
+					delegation : [],
+				}, function (err, teamUser) {
 					if (err) {
-		                    console.log("Error while adding TeamUser");    
+		                    console.log("Error while adding TeamUser: " + teamUser);    
 	                } else {
 						console.log("TeamUser should have been created");
 					}

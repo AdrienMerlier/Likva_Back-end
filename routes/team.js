@@ -1,7 +1,7 @@
 module.exports = function(app){
 
 	require('../models/user');
-	require('../models/teamUsers');
+	require('../models/teamUser');
 	require('../models/team');
     var teams = require('../controllers/team');
 
