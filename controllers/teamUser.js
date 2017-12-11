@@ -13,6 +13,13 @@ exports.findAll = function(req, res) {
   	});
 
 };
+
+exports.findDelegates = function(req, res) {
+	TeamUser.find({slug: req.params.teamId, delegable: true}, function(err, delegates) {
+    	res.json(delegates);
+  	});
+};
+
 exports.findById = function() {
 };
 
@@ -73,7 +80,10 @@ exports.addSimpleUser = function(req, res) {
             if (err) throw err;
 
             if (!user) {
-            	console.log('User not found');
+            	res.send({
+					success: false,
+					message: "The user doesn't exist."
+				}); 
 
             } else if (user) {
 
@@ -94,13 +104,20 @@ exports.addSimpleUser = function(req, res) {
 				//A revoir
 				Teamuser.create(new_teamUser, function (err, teamUser) {
 					if (err) {
-		                    console.log("Error while adding simple TeamUser: " + teamUser);    
+						res.send({
+								success: false,
+								message: "Error while adding the teamUser."
+							});   
 	                } else {
-						console.log("TeamUser should have been created");
+						User.findOne({ email: req.body.email}, function(err, userToReturn) {
+							console.log(userToReturn);
+							res.send({
+								success: true,
+								user: userToReturn
+							});
+						});
 					}
 				});
-
-				return 0;
             	
         	}   
     });

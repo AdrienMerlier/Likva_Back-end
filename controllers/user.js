@@ -19,6 +19,7 @@ exports.findById = function() {
     	res.json(user);
   	});
 };
+
 exports.add = function(req, res) {
 
 	User.count({email: req.body.email}, function (err, count) {
