@@ -72,7 +72,7 @@ exports.add = function(req, res) {
 
                 	var permission = {
                 		slug: slug(req.body.teamName),
-                		displayName: req.body.displayName,
+                		displayName: req.body.teamName,
                 		admin: true,
                 		proposer: true,
                 		role: "Voter"
@@ -141,6 +141,53 @@ exports.addSimpleUser = function(req, res) {
 
             }
         }
+    });		
+	
+};
+
+exports.addUserViaAdmin = function(req, res) {
+
+	Team.find({slug: req.params.teamId}, function (err, team) {
+
+		if (err) throw err;
+
+            if (!team) {
+            	res.send({
+						success: false,
+						message: "Sorry, this team doesn'exist."
+					});
+            }
+
+            else if (team) {
+
+              	//Add a new TeamUser
+              	teamusers.addUserViaAdmin(req, function (err) {
+                		if (err) throw err;
+                	});
+
+              		adminReq = (req.body.admin =="Oui");
+              		proposerReq = (req.body.proposer =="Oui");
+
+                	//Update the user with the information about his account;
+
+                	var permission = {
+                		slug: req.params.teamId,
+                		displayName: team.displayName,
+                		admin: adminReq,
+                		proposer: proposerReq,
+                		role: req.body.type
+                	}
+
+                	User.findOneAndUpdate({email: req.body.email}, {$push: {teams: permission}}, function (err) {
+                		if (err) throw err;
+                	});
+
+                	res.send(
+                		{
+                			success: true,
+                		});
+
+            }
     });		
 	
 };

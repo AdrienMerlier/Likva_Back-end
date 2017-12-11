@@ -27,7 +27,7 @@ exports.add = function(req, res) {
 			console.log('Notre premier vote va avoir lieu!');
 			//A revoir une fois qu'on sait gérér le token, vérifier que l'utilisateur est présent dans Teamusers, et peut voter
 
-
+			Teamuser
 
 			Vote.create({
 				_id: new ObjectID(),

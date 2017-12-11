@@ -106,6 +106,46 @@ exports.addSimpleUser = function(req, res) {
     });
 };
 
+exports.addSimpleUser = function(req, res) {
+
+	User.findOne({ email: req.body.email}, function(err, user) {
+
+            if (err) throw err;
+
+            if (!user) {
+            	console.log('User not found');
+
+            } else if (user) {
+
+				console.log("The user is:" + user);
+
+				var new_teamUser = {
+				   	slug: req.params.teamId,
+				   	email: user.email,
+					admin : (req.body.admin =="Oui"),
+					proposer : (req.body.proposer =="Oui"),
+					status : req.body.type,
+					delegable: (req.body.delegable =="Oui"),
+					delegation : [],
+				};
+
+				console.log(new_teamUser);
+
+				//A revoir
+				Teamuser.create(new_teamUser, function (err, teamUser) {
+					if (err) {
+		                    console.log("Error while adding simple TeamUser: " + teamUser);    
+	                } else {
+						console.log("TeamUser should have been created");
+					}
+				});
+
+				return 0;
+            	
+        	}   
+    });
+};
+
 exports.add = function(req, res) {
 
 };
