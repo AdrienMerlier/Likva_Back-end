@@ -59,6 +59,7 @@ exports.add = function(req, res) {
 				information: req.body.information,
 				quorum : req.body.quorum,
 				type: req.body.typeOfVote,
+				votePossibilities: req.body.possibilities,
 				date : req.body.endDate,
 				verdict : "onGoing"
 			};

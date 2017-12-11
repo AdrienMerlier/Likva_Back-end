@@ -42,9 +42,15 @@ Avant de tester nos routes, il faudra vous identifier auprès de l'application. 
 | PUT  | /api/teams/:teamId/proposition/:propId    | Update une proposition. |
 | DELETE  | /api/teams/:teamId/proposition/:propId      | Efface une proposition. 
 
+### Routes "Emargements"
+| Méthode   | Routes           | Résultats             |
+| --------- |:----------------:| ---------------------|
+| GET       | /api/teams/:teamId/proposition/:propId/votes       | Renvoie l'ensemble des votes pour une proposition donnée. Si la deadline n'est pas passé, renvoie une erreur.|
+| POST       | /api/teams/:teamId/proposition/:propId/votes     |   Vérifie que l'utilisateur a le droit de voter, l'émarge et inscrit son vote via le controleur Vote. |
+
+
 ### Routes "Votes"
 
 | Méthode   | Routes           | Résultats             |
 | --------- |:----------------:| ---------------------|
-| GET       | /api/teams/:teamId/proposition/:propId/votes       | Renvoie l'ensemble des votes pour une proposition donnée. Si la deadline n'est pas passé, renvoie une erreur.|
-| POST       | /api/teams/:teamId/proposition/:propId/votes     |   Vérifie que l'utilisateur a le droit de voter, et inscrit son vote et l'émarge. |
+| GET       | /api/teams/:teamId/proposition/:propId/votes       | Renvoie la liste des gens qui ont emargé pour une proposition donnée.|

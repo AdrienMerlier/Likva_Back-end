@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var ObjectID = require('mongodb').ObjectID;
-var slug = require('slug')
+var slug = require('slugify')
 
 
 Team = mongoose.model('Team');

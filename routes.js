@@ -33,8 +33,8 @@ module.exports = function(app){
 
   require('./routes/user')(app);
 
-  /*
-
+  
+  
     //Login route
     app.post('/login', function(req, res) {
 
@@ -100,6 +100,8 @@ module.exports = function(app){
          });
     });
 
+    /*
+
     //Middleware protection for the api
     app.use(function(req, res, next) {
 
@@ -128,12 +130,15 @@ module.exports = function(app){
 
         }
     });
+
     */
+    
     
     
     require('./routes/user')(app);
     require('./routes/team')(app);
     require('./routes/proposition')(app);
+    require('./routes/emargement')(app);
     require('./routes/vote')(app);
 
 }

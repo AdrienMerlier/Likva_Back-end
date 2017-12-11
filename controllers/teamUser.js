@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var ObjectID = require('mongodb').ObjectID;
-var slug = require('slug')
+var slug = require('slugify')
 
 
 TeamUser = mongoose.model('TeamUser');
@@ -42,11 +42,18 @@ exports.addFirstUser = function(req, res) {
 					delegation : [[]],
 				};
 
-				TeamUser.create(new_teamUser);
+				//A revoir
+				TeamUser.create(new_teamUser, function (err) {
+					if (err) {
+		                    console.log("Error while adding TeamUser");    
+	                } else {
+						console.log("TeamUser should have been created");
+					}
+				});
 
 				return 0;
-            }   
-
+            	
+        	}   
     });
 };
 

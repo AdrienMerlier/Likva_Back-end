@@ -21,7 +21,8 @@ var propositionModelSchema = new Schema({
 	quorum : [Number],
 	type: String,
 	date : Date,
-	results: [[]],
+	votePossibilities: [String],
+	results: [],
 	verdict: String
 });
 

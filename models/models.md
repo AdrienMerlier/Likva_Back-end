@@ -106,7 +106,7 @@ var emargementModelSchema = new Schema({
 	_id: String, //Un ID unique pour l'émargement
 	slug : String, //Le nom de l'équipe de la proposition
 	propId : String, //L'ID de la proposition votée
-	username: String, //Le nom du votant
+	email: String, //Le id du votant
 });
 ```
 
