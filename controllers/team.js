@@ -94,6 +94,57 @@ exports.add = function(req, res) {
 	
 };
 
+exports.addSimpleUser = function(req, res) {
+
+	Team.find({slug: req.params.teamId}, function (err, team) {
+
+		if (err) throw err;
+
+            if (!team) {
+            	res.send({
+						success: false,
+						message: "Sorry, this team doesn'exist."
+					});
+            }
+
+            else if (team) {
+
+            	if (!bcrypt.compareSync(req.body.teamPassword, team.password)) {
+                	res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+              } else {
+
+
+              	//Add a new TeamUser
+              	teamusers.addSimpleUser(req, function (err) {
+                		if (err) throw err;
+                	});
+
+
+                	//Update the user with the information about his account;
+
+                	var permission = {
+                		slug: req.params.teamId,
+                		displayName: team.displayName,
+                		admin: false,
+                		proposer: false,
+                		role: "Observer"
+                	}
+
+                	User.findOneAndUpdate({email: req.body.email}, {$push: {teams: permission}}, function (err) {
+                		if (err) throw err;
+                	});
+
+                	res.send(
+                		{
+                			success: true,
+                		});
+
+            }
+        }
+    });		
+	
+};
+
 exports.addCategory = function(req, res) {
 
 	console.log(req.params.teamId);

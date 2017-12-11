@@ -40,7 +40,6 @@ var teamModelSchema = new Schema({
 
 ```
 var teamUserModelSchema = new Schema({
-	_id: String, //ID unique pour l'utilisateur
 	slug: String, //Nom de l'équipe en question
 	email : String, //Email, identifiant
 	admin : Boolean, //Est admin ou non
