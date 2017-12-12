@@ -38,12 +38,12 @@ Avant de tester nos routes, il faudra vous identifier auprès de l'application. 
 
 | Méthode   | Routes           | Résultats             |
 | --------- |:----------------:| ---------------------|
-| GET       | /api/teams/:teamId/proposition       | Renvoie l'ensemble des propositions d'une team donnée. |
-| GET       | /api/teams/:teamId/proposition/:category     |   Renvoie les Renvoie l'ensemble des propositions d'une team donnée, pour une catégorie donnée |
-| GET       | /api/teams/:teamId/proposition/:propId     |   Renvoie une proposition donnée |
-| POST  | /api/teams/:teamId/proposition      | Crée une proposition. |
-| PUT  | /api/teams/:teamId/proposition/:propId    | Update une proposition. |
-| DELETE  | /api/teams/:teamId/proposition/:propId      | Efface une proposition. 
+| GET       | /api/teams/:teamId/propositions       | Renvoie l'ensemble des propositions d'une team donnée. |
+| GET       | /api/teams/:teamId/propositions/:category     |   Renvoie les Renvoie l'ensemble des propositions d'une team donnée, pour une catégorie donnée |
+| GET       | /api/teams/:teamId/propositions/:propId     |   Renvoie une proposition donnée |
+| POST  | /api/teams/:teamId/propositions      | Crée une proposition. |
+| PUT  | /api/teams/:teamId/propositions/:propId    | Update une proposition. |
+| DELETE  | /api/teams/:teamId/propositions/:propId      | Efface une proposition. 
 
 ### Routes "Emargements"
 | Méthode   | Routes           | Résultats             |

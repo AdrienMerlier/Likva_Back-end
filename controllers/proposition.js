@@ -26,7 +26,11 @@ exports.findByCategory = function(req, res) {
 
 exports.add = function(req, res) {
 
-	Team.count({teamName: req.params.teamId}, function (err, count) {
+	console.log("I am in the function. Request vote options are:" + req.body.votePossibilities);
+
+	Team.count({slug: req.params.teamId}, function (err, count) {
+
+		console.log("The count is " + count);
 
 		if (count != 1) {
 					res.send("Sorry, this team doesn't exist.");
@@ -40,10 +44,12 @@ exports.add = function(req, res) {
 			}
 			*/
 
+			var arrayOfPossibilities = String(req.body.votePossibilities).split(",");
+
 			var new_proposition = {
 				_id: new ObjectID(),
 				slug: req.params.teamId,
-				category: req.body.team,
+				category: req.body.category,
 				title : req.body.title,
 				author: req.body.author,
 				authorLink: null,
@@ -51,24 +57,23 @@ exports.add = function(req, res) {
 				description : req.body.description,
 				proposition : req.body.proposition,
 				consequences : req.body.consequences,
-				document1 : req.body.url1,
-				document2 : req.body.url2,
-				document3 : req.body.url3,
-				document4 : req.body.url4,
-				document5 : req.body.url5,
 				information: req.body.information,
 				quorum : req.body.quorum,
 				type: req.body.typeOfVote,
-				votePossibilities: req.body.possibilities,
-				date : req.body.endDate,
+				votePossibilities: arrayOfPossibilities,
+				date : Date(req.body.endDate),
 				verdict : "onGoing"
 			};
 
 			Proposition.create(new_proposition, function (err) {
 				if (err) {
-                    return res.json({ success: false, message: 'Sorry, couldnt create the team.' });    
+					console.log(err);
+                    return res.json({ success: false, message: 'Sorry, couldnt create the proposition.', potential_prop: new_proposition });    
                 } else {
-                	res.send(202);
+                	res.send({ 
+                		success: true, 
+                		proposition: new_proposition
+                	});
                 }
 			});
 		}
