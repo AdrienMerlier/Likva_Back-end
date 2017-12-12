@@ -50,7 +50,7 @@ var teamUserModelSchema = new Schema({
 	description: String, //La description de l'utilisateur dans l'équipe
 	delegation : {
   			category: String, //Le nom de la catégorie en question
-  			delegate: String //Le délégué pour cette catégorie
+  			delegateId: String //L'ID du délégué pour cette catégorie
   		}
 });
 ```

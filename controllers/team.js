@@ -206,11 +206,14 @@ exports.addCategory = function(req, res) {
 
 		else{
 
-			Team.findOneAndUpdate({teamName: req.params.teamId}, {$push: {categories: {categoryName: req.body.categoryName, img : ""}}}, function (err) {
+			Team.findOneAndUpdate({teamName: req.params.teamId}, {$push: {categories: {categoryName: req.body.categoryName, img : ""}}}, function (err, team) {
             	if (err) throw err;
             });
 
-            res.send(202);
+            res.send({
+                success: true,
+                teams: team.categories
+            });
 		}
 	});
 	

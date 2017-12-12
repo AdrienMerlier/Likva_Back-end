@@ -166,38 +166,72 @@ exports.addUserViaAdmin = function(req, res) {
 
 exports.addDelegate = function(req, res) {
 	
-	TeamUser.findOne({ email: req.body.email, slug: req.params.teamId}, function(err, user) {
+	TeamUser.findOne({ email: req.body.email, slug: req.params.teamId}, function(err, teamUser) {
 
             if (err) throw err;
 
-            if (!user) {
-            	console.log('User not found');
+            if (!teamUser) {
+            	res.send({
+					success: false,
+					message: "Your team member does't exist. Weird."
+				});
+            } else if (teamUser) {
 
-            } else if (user) {
-
-				console.log("The TeamUser is:" + user);
+				console.log("The TeamUser is:" + teamUser);
 
             	//Controle if user have already a delegate for the category
 
-            	var delegateExist = user.delegation.filter(function (item) {return item.category == categoryId;}) 
+            	var delegateExist = teamUser.delegation.filter(function (item) {return item.category == categoryId;}) 
 				
             	if (delegateExist != null){
             		//Add review of the delegate
+            		TeamUser.update(
+            			{_id: teamUser._id, 'delegation.category': req.params.categoryId},
+            			{'$set': {
+            				'delegation.$.delegateId': req.body.delegateId
+            			}},
+            			function (err) {
+            				if (err) {
+            					res.send({
+									success: false,
+									message: "Error while updating the delegate."
+								});
+            				}
+            				else{
+            					res.send({
+									success: true,
+								});
+            				}
+            			}
+
+            		);
+            		
             	}
 
             	else{
-            		var new_category = {
-				   	
+            		var new_delegate = {
+				   		category: req.params.categoryId,
+				   		delegate: req.body.delegateId
 					};
 
-					console.log(new_category);
-
-					//A revoir
-					
-
+					TeamUser.update(
+					    { _id: teamUser._id }, 
+					    { $push: { delegation: new_delegate } },
+					    function (err) {
+            				if (err) {
+            					res.send({
+									success: false,
+									message: "Error while adding a delegate."
+								});
+            				}
+            				else{
+            					res.send({
+									success: true,
+								});
+            				}
+            			}
+					);		
             	}
-
-            	
         	}   
     });
 };
