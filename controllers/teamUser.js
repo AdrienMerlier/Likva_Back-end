@@ -39,6 +39,7 @@ exports.addFirstUser = function(req, res) {
 				console.log("The user is:" + user);
 
 				var new_teamUser = {
+					_id: new ObjectID(),
 				   	slug: slug(req.body.teamName),
 				   	email: user.email,
 					admin : true,
@@ -123,7 +124,7 @@ exports.addSimpleUser = function(req, res) {
     });
 };
 
-exports.addSimpleUser = function(req, res) {
+exports.addUserViaAdmin = function(req, res) {
 
 	User.findOne({ email: req.body.email}, function(err, user) {
 
@@ -151,7 +152,7 @@ exports.addSimpleUser = function(req, res) {
 				//A revoir
 				Teamuser.create(new_teamUser, function (err, teamUser) {
 					if (err) {
-		                    console.log("Error while adding simple TeamUser: " + teamUser);    
+		                    console.log("Error while adding TeamUser via admin: " + teamUser);    
 	                } else {
 						console.log("TeamUser should have been created");
 					}
@@ -163,7 +164,42 @@ exports.addSimpleUser = function(req, res) {
     });
 };
 
-exports.add = function(req, res) {
+exports.addDelegate = function(req, res) {
+	
+	TeamUser.findOne({ email: req.body.email, slug: req.params.teamId}, function(err, user) {
 
+            if (err) throw err;
+
+            if (!user) {
+            	console.log('User not found');
+
+            } else if (user) {
+
+				console.log("The TeamUser is:" + user);
+
+            	//Controle if user have already a delegate for the category
+
+            	var delegateExist = user.delegation.filter(function (item) {return item.category == categoryId;}) 
+				
+            	if (delegateExist != null){
+            		//Add review of the delegate
+            	}
+
+            	else{
+            		var new_category = {
+				   	
+					};
+
+					console.log(new_category);
+
+					//A revoir
+					
+
+            	}
+
+            	
+        	}   
+    });
 };
+
 exports.delete = function() {};

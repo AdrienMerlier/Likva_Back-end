@@ -29,6 +29,7 @@ Avant de tester nos routes, il faudra vous identifier auprès de l'application. 
 | POST  | /api/teams      | Crée une team. |
 | POST  | /api/teams/:teamId/categories      | Crée une catégorie dans une team donnée. |
 | POST  | /api/teams/:teamId/join      | Enregistre un nouvel utilisateur sans droits. |
+| POST  | /api/teams/:teamId/categories/:categoryId      | Ajoute ou update un délégué pour une catégorie donnée. |
 | POST  | /api/teams/:teamId/admin/addUser      | Enregistre un nouvel utilisateur par l'administrateur. |
 | PUT  | /api/teams/:teamId      | Update une team. |
 | PUT  | /api/users/:teamId/password      | Update un mot de passe d'équipe. 
