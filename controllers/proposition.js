@@ -4,9 +4,7 @@ var ObjectID = require('mongodb').ObjectID;
 
 Team = mongoose.model('Team');
 Proposition = mongoose.model('Proposition');
-
-var teamusers = require('./teamUser');
-
+TeamUser = mongoose.model('TeamUser');
 
 exports.findAll = function(req, res) {
 	Proposition.find({team: req.body.team}, function(err, props) {
@@ -104,7 +102,19 @@ exports.getResults = function (req, res) {
 
 				else{
 					//Delegate the votes that should be calculated
-					potential_delegation = teamUser
+					TeamUser.find({
+					    'delegation.category': prop.category ,
+					    slug: req.params.teamId}, //Not sure this work
+						function (err, delegates) {
+							if (err) {console.log(err);}
+
+							if(!delegates){
+								console.log("There are no automated delegation in this team");
+							} else if(delegates){
+								//Loop to make these guys vote. If they have already vote it, they won't do it again!
+							}
+						}
+					);
 
 					//Compiling the votes
 				}
