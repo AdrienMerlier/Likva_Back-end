@@ -7,6 +7,7 @@ module.exports = function(app){
     app.get('/api/teams/:teamId/propositions', propositions.findAll);
     app.get('/api/teams/:teamId/categories/:category', propositions.findByCategory);
     app.get('/api/teams/:teamId/propositions/:propId', propositions.findById);
+    app.get('/api/teams/:teamId/propositions/:propId/results', propositions.getResults);
     app.post('/api/teams/:teamId/propositions', propositions.add);
     app.put('/api/teams/:teamId/propositions/:propId', propositions.update);
     app.delete('/api/teams/:teamId/propositions/:propId', propositions.delete);

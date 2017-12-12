@@ -5,6 +5,8 @@ var ObjectID = require('mongodb').ObjectID;
 Team = mongoose.model('Team');
 Proposition = mongoose.model('Proposition');
 
+var teamusers = require('./teamUser');
+
 
 exports.findAll = function(req, res) {
 	Proposition.find({team: req.body.team}, function(err, props) {
@@ -68,7 +70,7 @@ exports.add = function(req, res) {
 			Proposition.create(new_proposition, function (err) {
 				if (err) {
 					console.log(err);
-                    return res.json({ success: false, message: 'Sorry, couldnt create the proposition.', potential_prop: new_proposition });    
+                    res.send({ success: false, message: 'Sorry, couldnt create the proposition.', potential_prop: new_proposition });    
                 } else {
                 	res.send({ 
                 		success: true, 
@@ -77,9 +79,40 @@ exports.add = function(req, res) {
                 }
 			});
 		}
-	});
-	
+	});	
 };
+
+exports.getResults = function (req, res) {
+	Proposition.find({_id: req.params.propId}, function (err, prop) {
+		if(!prop){
+			res.send({ success: false, message: 'Sorry, couldnt find the proposition.'});
+		} else if(prop){
+
+			//Check is vote is over
+
+			if(Date.now < prop.date){
+
+				res.send({ success: false, message: 'Sorry, couldnt find the proposition.'});
+			
+			} else {
+
+				//Check if results are present
+
+				if (prop.results) {
+					res.send({ success: true, results: prop.results});
+				}
+
+				else{
+					//Delegate the votes that should be calculated
+					potential_delegation = teamUser
+
+					//Compiling the votes
+				}
+
+			}
+		}
+	});
+}
 
 exports.update = function() {};
 exports.delete = function() {};

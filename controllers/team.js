@@ -90,8 +90,7 @@ exports.add = function(req, res) {
                 }
 			});
 		}
-	});
-	
+	});	
 };
 
 exports.addSimpleUser = function(req, res) {
@@ -142,7 +141,6 @@ exports.addSimpleUser = function(req, res) {
             }
         }
     });		
-	
 };
 
 exports.addUserViaAdmin = function(req, res) {
@@ -189,7 +187,6 @@ exports.addUserViaAdmin = function(req, res) {
 
             }
     });		
-	
 };
 
 exports.addCategory = function(req, res) {
@@ -215,8 +212,7 @@ exports.addCategory = function(req, res) {
                 teams: team.categories
             });
 		}
-	});
-	
+	});	
 };
 
 exports.updateTeam = function() {};
