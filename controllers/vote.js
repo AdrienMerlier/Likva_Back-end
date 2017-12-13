@@ -37,12 +37,31 @@ exports.add = function(req, res) {
 				weight: 1
 			}, function (err) {
 				if (err) {
-                    return res.json({ success: false, message: 'Sorry, couldnt create the vote.' });    
+                    res.send({ success: false, message: 'Sorry, couldnt create the vote.' });    
                 } else {
-                	res.send({ success: true });
+                	res.send({ success: true, message: 'Vote has been casted.' });
                 }
 			});
 		}
 	});
 	
+};
+
+exports.automatedAdd = function(req, res) {
+
+	Vote.create({
+		_id: new ObjectID(),
+		slug : req.body.teamId,
+		propId : req.body.propId,
+		voter: req.body.voter,
+		delegation : req.body.delegation,
+		content: req.body.content,
+		weight: 1
+	}, function (err) {
+		if (err) {
+            console.log("Couldn't cast the vote of the delegater:" + err);    
+        } else {
+           	console.log("Casted the vote of the delegater.");
+            }
+	});	
 };

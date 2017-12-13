@@ -8,6 +8,9 @@ TeamUser = mongoose.model('TeamUser');
 
 emargements = require('./emargement');
 
+//Underscore, our search tool for arrays
+_ = require('underscore');
+
 exports.findAll = function(req, res) {
 	Proposition.find({team: req.body.team}, function(err, props) {
     	res.json(props);
@@ -115,21 +118,34 @@ exports.getResults = function (req, res) {
 							} else if(delegaters){
 								//Loop to make these guys vote. If they have already vote it, they won't do it again!
 
-								function delegatersVote(delegaters){       
-									for(var d=0; d<delegaters.length; d++){ 
+								for(var d=0; d<delegaters.length; d++){ 
 
-										/*
-										var new_vote = {
-											email: req.body.email,
-										};*/
+									delegater = delegater[d];
 
-									}    
-								};
+									var categoryInfo = _.find(delegater.delegation, function(item){
+										return item.category == prop.category;
+									});
+					
+									var new_vote = {
+										slug : req.params.teamId,
+										propId : req.params.propId,
+										email: req.body.email,
+										voter: req.body.email,
+										delegation : true,
+										content: categoryInfo.delegate
+									};
+
+									emargements.automatedAdd(new_vote, function (err) {
+										if (err) {
+											console.log(err);
+						                }
+									});
+
+								}    
 							}
+							//Compiling the votes
 						}
 					);
-
-					//Compiling the votes
 				}
 
 			}

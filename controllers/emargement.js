@@ -11,6 +11,7 @@ var votes = require('../controllers/vote');
 
 
 
+
 exports.findByProposition = function(req, res) {
 
 	//To add, protect it: if the deadline is not passed, return too early
@@ -26,7 +27,7 @@ exports.add = function(req, res) {
 
 		//Check that proposition exists
 		if (!proposition) {
-					res.send("Sorry, this proposition doesn't exist.");
+					res.send({ success: false, message: 'Sorry, we couldnt find this proposition.' });
 		}
 
 		else{
@@ -34,12 +35,12 @@ exports.add = function(req, res) {
 			//Check that user 
 			Teamuser.find({slug: req.params.teamId, email: req.body.email}, function (err, teamUser) {
 				if(!teamUser){
-					console.log('TeamUser is not found.');
+					res.send({ success: false, message: 'Sorry, we couldnt find you in teamUser.' });
 				}
 
 				if (teamUser) {
 					if (teamUser.type != "Voter") {
-						console.log('TeamUser is not found.');
+						res.send({ success: false, message: 'Sorry, we dont consider you a voter.' });
 					} else {
 
 						/* To recheck later, when this matters
@@ -65,7 +66,7 @@ exports.add = function(req, res) {
 								email: req.body.email
 							}, function (err) {
 								if (err) {
-				                    return res.json({ success: false, message: 'Sorry, couldnt create the vote.' });    
+				                    res.send({ success: false, message: 'Sorry, couldnt create the vote.' });    
 				                } else {
 				                	votes.add(req, function (err) {
 				                		if (err) {
@@ -92,12 +93,12 @@ exports.automatedAdd = function(req, res) {
 			//Check that user 
 			Teamuser.find({slug: req.body.teamId, email: req.body.email}, function (err, teamUser) {
 				if(!teamUser){
-					console.log('TeamUser is not found.');
+					console.log('This teamUser is not found.');
 				}
 
 				if (teamUser) {
 					if (teamUser.type != "Voter") {
-						console.log('TeamUser is not found.');
+						console.log('This teamUser cant vote.');
 					} else {
 
 						/* To recheck later, when this matters
@@ -108,12 +109,10 @@ exports.automatedAdd = function(req, res) {
 						Emargement.count({_id: req.body.propId, email: req.body.email}, function (err, count1) {
 
 						if (count != 0) {
-							res.send("Sorry, the vote has already been registered.");
+							console.log("A vote has already been registered.");
 						}
 
 						else{
-
-							console.log('Notre premier emargement va avoir lieu!');
 
 							//Ajoute le nom du voter s'il est un délégué potentiel
 							if(teamUser.delegable==false){
@@ -125,16 +124,16 @@ exports.automatedAdd = function(req, res) {
 
 							Emargement.create({
 								_id: new ObjectID(),
-								slug : req.params.teamId,
-								propId : req.params.propId,
+								slug : req.body.teamId,
+								propId : req.body.propId,
 								email: req.body.email
 							}, function (err, emargement) {
 								if (err) {
-				                    return res.json({ success: false, message: 'Sorry, couldnt create the vote.' });    
+				                    console.log("couldnt emarge the delegater: " + err);    
 				                } else {
 				                	votes.add(req, function (err) {
 				                		if (err) {
-				                    		return res.json({ success: false, message: 'Sorry, couldnt cast your vote after emargement.' });    
+				                    		console.log("couldnt register the vote from the delegater: " + err);    
 				                		} else {
 				                			res.send({ success: true, emargement: emargement});;
 				                		}
