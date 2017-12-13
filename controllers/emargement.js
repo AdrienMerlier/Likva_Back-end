@@ -67,8 +67,13 @@ exports.add = function(req, res) {
 								if (err) {
 				                    return res.json({ success: false, message: 'Sorry, couldnt create the vote.' });    
 				                } else {
-				                	votes.add(req);
-				                	res.send(202);
+				                	votes.add(req, function (err) {
+				                		if (err) {
+				                    		return res.json({ success: false, message: 'Sorry, couldnt cast your vote after emargement.' });    
+				                		} else {
+				                			res.send({ success: true, emargement: emargement});;
+				                		}
+				                	});
 				                }
 							});
 						}
@@ -79,5 +84,68 @@ exports.add = function(req, res) {
 			});
 		}
 	});
+	
+};
+
+exports.automatedAdd = function(req, res) {
+
+			//Check that user 
+			Teamuser.find({slug: req.body.teamId, email: req.body.email}, function (err, teamUser) {
+				if(!teamUser){
+					console.log('TeamUser is not found.');
+				}
+
+				if (teamUser) {
+					if (teamUser.type != "Voter") {
+						console.log('TeamUser is not found.');
+					} else {
+
+						/* To recheck later, when this matters
+						inTimeToVote = (Date.now()<Date.parse(proposition.date);
+						*/
+						
+						//Check that user didn't vote on proposition yet
+						Emargement.count({_id: req.body.propId, email: req.body.email}, function (err, count1) {
+
+						if (count != 0) {
+							res.send("Sorry, the vote has already been registered.");
+						}
+
+						else{
+
+							console.log('Notre premier emargement va avoir lieu!');
+
+							//Ajoute le nom du voter s'il est un délégué potentiel
+							if(teamUser.delegable==false){
+								req.body.voter=false;
+							} else {
+								req.body.voter=req.body.email;
+							}
+
+
+							Emargement.create({
+								_id: new ObjectID(),
+								slug : req.params.teamId,
+								propId : req.params.propId,
+								email: req.body.email
+							}, function (err, emargement) {
+								if (err) {
+				                    return res.json({ success: false, message: 'Sorry, couldnt create the vote.' });    
+				                } else {
+				                	votes.add(req, function (err) {
+				                		if (err) {
+				                    		return res.json({ success: false, message: 'Sorry, couldnt cast your vote after emargement.' });    
+				                		} else {
+				                			res.send({ success: true, emargement: emargement});;
+				                		}
+				                	});
+				                }
+							});
+						}
+						});
+
+					}
+				}
+			});
 	
 };

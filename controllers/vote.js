@@ -27,12 +27,11 @@ exports.add = function(req, res) {
 			console.log('Notre premier vote va avoir lieu!');
 			//A revoir une fois qu'on sait gérér le token, vérifier que l'utilisateur est présent dans Teamusers, et peut voter
 
-			Teamuser
-
 			Vote.create({
 				_id: new ObjectID(),
 				slug : req.params.teamId,
 				propId : req.params.propId,
+				voter: req.body.voter,
 				delegation : req.body.delegation,
 				content: req.body.content,
 				weight: 1
@@ -40,7 +39,7 @@ exports.add = function(req, res) {
 				if (err) {
                     return res.json({ success: false, message: 'Sorry, couldnt create the vote.' });    
                 } else {
-                	res.send(202);
+                	res.send({ success: true });
                 }
 			});
 		}

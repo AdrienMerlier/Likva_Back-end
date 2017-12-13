@@ -6,6 +6,8 @@ Team = mongoose.model('Team');
 Proposition = mongoose.model('Proposition');
 TeamUser = mongoose.model('TeamUser');
 
+emargements = require('./emargement');
+
 exports.findAll = function(req, res) {
 	Proposition.find({team: req.body.team}, function(err, props) {
     	res.json(props);
@@ -105,13 +107,24 @@ exports.getResults = function (req, res) {
 					TeamUser.find({
 					    'delegation.category': prop.category ,
 					    slug: req.params.teamId}, //Not sure this work
-						function (err, delegates) {
+						function (err, delegaters) {
 							if (err) {console.log(err);}
 
-							if(!delegates){
+							if(!delegaters){
 								console.log("There are no automated delegation in this team");
-							} else if(delegates){
+							} else if(delegaters){
 								//Loop to make these guys vote. If they have already vote it, they won't do it again!
+
+								function delegatersVote(delegaters){       
+									for(var d=0; d<delegaters.length; d++){ 
+
+										/*
+										var new_vote = {
+											email: req.body.email,
+										};*/
+
+									}    
+								};
 							}
 						}
 					);
