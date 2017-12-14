@@ -5,7 +5,7 @@ Proposition = mongoose.model('Proposition');
 Vote = mongoose.model('Vote');
 
 
-exports.findByProposition = function(req) {
+exports.findByProposition = function(req, res) {
 
 	//To add, protect it: if the deadline is not passed, return too early
 	Vote.find({team: req.params.teamId, propId: req.params.propId}, function(err, votes) {
@@ -37,9 +37,10 @@ exports.add = function(req, res) {
 				weight: 1
 			}, function (err) {
 				if (err) {
-                    console.log('Sorry, couldnt create the vote.');    
+                    res.send({ success: false, message: 'Sorry, couldnt cast your vote after emargement.' });  
+                    //Add to erase the Emargement
                 } else {
-                	console.log('Vote has been casted.');
+                	res.send({ success: true});
                 }
 			});
 		}

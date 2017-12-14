@@ -83,11 +83,9 @@ exports.add = function(req, res) {
 								if (err) {
 				                    res.send({ success: false, message: 'Sorry, couldnt create the vote.' });    
 				                } else {
-				                	votes.add(req, function (err) {
+				                	votes.add(req, res, function (err) {
 				                		if (err) {
 				                    		res.send({ success: false, message: 'Sorry, couldnt cast your vote after emargement.' });    
-				                		} else {
-				                			res.send({ success: true, emargement: emargement});;
 				                		}
 				                	});
 				                }
