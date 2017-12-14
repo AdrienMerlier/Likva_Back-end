@@ -3,9 +3,13 @@ var ObjectID = require('mongodb').ObjectID;
 
 require('../models/vote');
 require('../models/teamUser');
+require('../models/emargement');
+
 Proposition = mongoose.model('Proposition');
 Vote = mongoose.model('Vote');
 TeamUser = mongoose.model('TeamUser');
+Emargement = mongoose.model('Emargement');
+
 
 var votes = require('../controllers/vote');
 
@@ -39,7 +43,9 @@ exports.add = function(req, res) {
 				}
 
 				if (teamUser) {
-					if (teamUser.type != "Voter") {
+					console.log("Le Teamuser est:" + teamUser[0].status);
+
+					if (teamUser[0].status != "Voter") {
 						res.send({ success: false, message: 'Sorry, we dont consider you a voter.' });
 					} else {
 
@@ -48,16 +54,18 @@ exports.add = function(req, res) {
 						*/
 						
 						//Check that user didn't vote on proposition yet
-						Emargement.count({_id: req.params.propId, email: req.body.email}, function (err, count1) {
+						Emargement.count({propId: req.params.propId, email: req.body.email}, function (err, count1) {
 
-						if (count != 0) {
+
+
+						if (count1 != 0) {
 							res.send("Sorry, the vote has already been registered.");
 						}
 
 						else{
 
 							//Ajoute le nom du voter s'il est un délégué potentiel
-							if(teamUser.delegable==false && req.body.anonymous==true){
+							if(teamUser[0].delegable==false && req.body.anonymous==true){
 								req.body.voter=false;
 							} else {
 								req.body.voter=req.body.email;
@@ -77,7 +85,7 @@ exports.add = function(req, res) {
 				                } else {
 				                	votes.add(req, function (err) {
 				                		if (err) {
-				                    		return res.json({ success: false, message: 'Sorry, couldnt cast your vote after emargement.' });    
+				                    		res.send({ success: false, message: 'Sorry, couldnt cast your vote after emargement.' });    
 				                		} else {
 				                			res.send({ success: true, emargement: emargement});;
 				                		}
@@ -104,7 +112,7 @@ exports.automatedAdd = function(req, res) {
 				}
 
 				if (teamUser) {
-					if (teamUser.type != "Voter") {
+					if (teamUser[0].status != "Voter") {
 						console.log('This teamUser cant vote.');
 					} else {
 
@@ -122,7 +130,7 @@ exports.automatedAdd = function(req, res) {
 						else{
 
 							//Ajoute le nom du voter s'il est un délégué potentiel
-							if(teamUser.delegable==false && req.body.anonymous==true){
+							if(teamUser[0].delegable==false && req.body.anonymous==true){
 								req.body.voter=false;
 							} else {
 								req.body.voter=req.body.email;

@@ -5,7 +5,7 @@ Proposition = mongoose.model('Proposition');
 Vote = mongoose.model('Vote');
 
 
-exports.findByProposition = function(req, res) {
+exports.findByProposition = function(req) {
 
 	//To add, protect it: if the deadline is not passed, return too early
 	Vote.find({team: req.params.teamId, propId: req.params.propId}, function(err, votes) {
@@ -31,15 +31,15 @@ exports.add = function(req, res) {
 				_id: new ObjectID(),
 				slug : req.params.teamId,
 				propId : req.params.propId,
-				voter: req.body.email,
+				voter: req.body.voter,
 				delegation : req.body.delegation,
 				content: req.body.content,
 				weight: 1
 			}, function (err) {
 				if (err) {
-                    res.send({ success: false, message: 'Sorry, couldnt create the vote.' });    
+                    console.log('Sorry, couldnt create the vote.');    
                 } else {
-                	res.send({ success: true, message: 'Vote has been casted.' });
+                	console.log('Vote has been casted.');
                 }
 			});
 		}
