@@ -31,7 +31,7 @@ exports.add = function(req, res) {
 				_id: new ObjectID(),
 				slug : req.params.teamId,
 				propId : req.params.propId,
-				voter: req.body.voter,
+				voter: req.body.email,
 				delegation : req.body.delegation,
 				content: req.body.content,
 				weight: 1
