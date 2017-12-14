@@ -56,6 +56,13 @@ exports.add = function(req, res) {
 
 						else{
 
+							//Ajoute le nom du voter s'il est un délégué potentiel
+							if(teamUser.delegable==false && req.body.anonymous==true){
+								req.body.voter=false;
+							} else {
+								req.body.voter=req.body.email;
+							}
+
 							console.log('Notre premier emargement va avoir lieu!');
 							//A revoir une fois qu'on sait gérér le token, vérifier que l'utilisateur est présent dans Teamusers, et peut voter
 
@@ -115,7 +122,7 @@ exports.automatedAdd = function(req, res) {
 						else{
 
 							//Ajoute le nom du voter s'il est un délégué potentiel
-							if(teamUser.delegable==false){
+							if(teamUser.delegable==false && req.body.anonymous==true){
 								req.body.voter=false;
 							} else {
 								req.body.voter=req.body.email;
@@ -145,6 +152,9 @@ exports.automatedAdd = function(req, res) {
 
 					}
 				}
-			});
-	
+			});	
 };
+
+exports.compile = function (req) {
+	// body...
+}

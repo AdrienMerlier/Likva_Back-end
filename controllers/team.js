@@ -15,7 +15,7 @@ var bcrypt = require('bcrypt-nodejs');
 
 exports.findAll = function(req, res) {
 	 Team.find({}, function(err, teams) {
-    	res.json(teams);
+    	res.send({success: true, teams:teams});
   	});
 };
 exports.findById = function(req, res) {
@@ -126,7 +126,8 @@ exports.addSimpleUser = function(req, res) {
                 		displayName: team.displayName,
                 		admin: false,
                 		proposer: false,
-                		role: "Observer"
+                		role: "Observer",
+                        delegable: req.body.delegable
                 	}
 
                 	User.findOneAndUpdate({email: req.body.email}, {$push: {teams: permission}}, function (err) {
@@ -173,7 +174,8 @@ exports.addUserViaAdmin = function(req, res) {
                 		displayName: team.displayName,
                 		admin: adminReq,
                 		proposer: proposerReq,
-                		role: req.body.type
+                		role: req.body.type,
+                        delegable: req.body.delegable
                 	}
 
                 	User.findOneAndUpdate({email: req.body.email}, {$push: {teams: permission}}, function (err) {

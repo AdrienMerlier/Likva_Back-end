@@ -47,7 +47,7 @@ exports.add = function(req, res) {
 	
 };
 
-exports.automatedAdd = function(req, res) {
+exports.automatedAdd = function(req) {
 
 	Vote.create({
 		_id: new ObjectID(),

@@ -18,6 +18,7 @@ var userModelSchema = new Schema({
             admin: true, //Admin on non dans cette équipe
             proposer: true, //Peut proposer ou non
             role: "Voter" //Rôle de l'utilisateur dans l'équipe ("Voter"/"Commentor"/"Observer")
+            delegable: true, //Si l'utilisateur est délégué ou non
   		}
   	}
 });
@@ -69,7 +70,7 @@ var propositionModelSchema = new Schema({
 	authorLink: String, //Le lien vers l'auteur de la proposition
 	summary : String, //Le résumé de la proposition
 	description : String, //La description de la situation
-	proposition : String, //La proposition de changement
+	change : String, //La proposition de changement
 	consequences : String, //Les conséquences du vote
 	document1 : String, //Un URL de ressource
 	document2 : String, //Un URL de ressource

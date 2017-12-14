@@ -12,14 +12,16 @@ emargements = require('./emargement');
 _ = require('underscore');
 
 exports.findAll = function(req, res) {
-	Proposition.find({team: req.body.team}, function(err, props) {
-    	res.json(props);
+	console.log("Je renvois les propositions pour : " + req.params.teamId);
+	Proposition.find({slug: req.params.teamId}, function(err, props) {
+    	res.send({success:true, props: props});
   	});
 };
 
 exports.findById = function(req, res) {
-	Proposition.find({team: req.body.team, _id: req.body._id}, function(err, props) {
-    	res.json(props);
+	console.log("Je renvois les propositions pour la team: " + req.params.teamId + "et l'ID: " + req.params.propId);
+	Proposition.find({slug: req.params.teamId, _id: req.params.propId}, function(err, prop) {
+    	res.send({success:true, props: prop});
   	});
 };
 
@@ -49,6 +51,8 @@ exports.add = function(req, res) {
 			}
 			*/
 
+			console.log(req.body.change);
+
 			var arrayOfPossibilities = String(req.body.votePossibilities).split(",");
 
 			var new_proposition = {
@@ -60,7 +64,7 @@ exports.add = function(req, res) {
 				authorLink: null,
 				summary : req.body.summary,
 				description : req.body.description,
-				proposition : req.body.proposition,
+				change : req.body.change,
 				consequences : req.body.consequences,
 				information: req.body.information,
 				quorum : req.body.quorum,
@@ -69,6 +73,8 @@ exports.add = function(req, res) {
 				date : Date(req.body.endDate),
 				verdict : "onGoing"
 			};
+
+			console.log(new_proposition.slug);
 
 			Proposition.create(new_proposition, function (err) {
 				if (err) {
@@ -127,7 +133,7 @@ exports.getResults = function (req, res) {
 									});
 					
 									var new_vote = {
-										slug : req.params.teamId,
+										teamId : req.params.teamId,
 										propId : req.params.propId,
 										email: req.body.email,
 										voter: req.body.email,
@@ -144,6 +150,12 @@ exports.getResults = function (req, res) {
 								}    
 							}
 							//Compiling the votes
+							emargements.compile(req, function (err) {
+								if (err) {
+									console.log(err);
+						        }
+							});
+
 						}
 					);
 				}
