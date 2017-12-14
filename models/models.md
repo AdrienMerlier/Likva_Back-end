@@ -41,9 +41,9 @@ var teamModelSchema = new Schema({
 
 ```
 var teamUserModelSchema = new Schema({
-	_id: String, //ID unique pour le teamuser
 	slug: String, //Nom de l'équipe en question
 	email : String, //Email, identifiant
+	displayName: user.username, //The name that will be displayed
 	admin : Boolean, //Est admin ou non
 	proposer : Boolean, //Peut proposer ou non
 	status : String, //Rôle de l'utilisateur dans l'équipe ("Voter"/"Commentor"/"Observer")

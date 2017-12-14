@@ -126,7 +126,7 @@ exports.addSimpleUser = function(req, res) {
                 		displayName: team.displayName,
                 		admin: false,
                 		proposer: false,
-                		role: "Observer",
+                		role: "Voter",
                         delegable: req.body.delegable
                 	}
 

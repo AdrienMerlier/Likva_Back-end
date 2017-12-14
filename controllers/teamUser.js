@@ -39,9 +39,9 @@ exports.addFirstUser = function(req, res) {
 				console.log("The user is:" + user);
 
 				var new_teamUser = {
-					_id: new ObjectID(),
 				   	slug: slug(req.body.teamName),
 				   	email: user.email,
+				   	displayName: user.username,
 					admin : true,
 					proposer : true,
 					status : "Voter",
@@ -52,15 +52,7 @@ exports.addFirstUser = function(req, res) {
 				console.log(new_teamUser);
 
 				//A revoir
-				Teamuser.create({
-				   	slug: slug(req.body.teamName),
-				   	email: user.email,
-					admin : true,
-					proposer : true,
-					status : "Voter",
-					delegable: true,
-					delegation : [],
-				}, function (err, teamUser) {
+				Teamuser.create(new_teamUser, function (err, teamUser) {
 					if (err) {
 		                    console.log("Error while adding TeamUser: " + teamUser);    
 	                } else {
@@ -95,7 +87,7 @@ exports.addSimpleUser = function(req, res) {
 				   	email: user.email,
 					admin : false,
 					proposer : false,
-					status : "Observer",
+					status : "Voter",
 					delegable: false,
 					delegation : [],
 				};
