@@ -18,7 +18,6 @@ var propositionModelSchema = new Schema({
 	document4 : String,
 	document5 : String,
 	information: String,
-	quorum : Number,
 	type: String,
 	date : Date,
 	votePossibilities: [String],

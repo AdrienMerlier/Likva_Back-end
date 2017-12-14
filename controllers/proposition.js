@@ -67,7 +67,6 @@ exports.add = function(req, res) {
 				change : req.body.change,
 				consequences : req.body.consequences,
 				information: req.body.information,
-				quorum : req.body.quorum,
 				type: req.body.typeOfVote,
 				votePossibilities: arrayOfPossibilities,
 				date : Date(req.body.endDate),

@@ -195,7 +195,7 @@ exports.addCategory = function(req, res) {
 
 	console.log(req.params.teamId);
 
-	Team.count({teamName: req.params.teamId}, function (err, count) {
+	Team.count({slug: req.params.teamId}, function (err, count) {
 
 		//To review after token management
 
@@ -205,7 +205,7 @@ exports.addCategory = function(req, res) {
 
 		else{
 
-			Team.findOneAndUpdate({teamName: req.params.teamId}, {$push: {categories: {categoryName: req.body.categoryName, img : ""}}}, function (err, team) {
+			Team.findOneAndUpdate({slug: req.params.teamId}, {$push: {categories: {categoryName: req.body.categoryName, img : ""}}}, function (err, team) {
             	if (err) throw err;
             });
 

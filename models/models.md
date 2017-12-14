@@ -78,7 +78,6 @@ var propositionModelSchema = new Schema({
 	document4 : String, //Un URL de ressource
 	document5 : String, //Un URL de ressource
 	information: String, //Les informations sur le vote
-	quorum : [Number], //Le % de votants nécessaire pour considérer le vote validé 
 	type: String, //Le type de vote pour calculer les résultats
 	date : Date //La date de fin de vote
 	results: [[]], //L'ensemble des votes, compilé dans un array
