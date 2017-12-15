@@ -14,7 +14,7 @@ var bcrypt = require('bcrypt-nodejs');
 
 
 exports.findAll = function(req, res) {
-	 Team.find({}, function(err, teams) {
+	 Team.find({}).select('slug displayName type').exec(function(err, teams) {
     	res.send({success: true, teams:teams});
   	});
 };
@@ -107,36 +107,47 @@ exports.addSimpleUser = function(req, res) {
             }
 
             else if (team) {
+                console.log("I found the team. The password proposed is:" + req.body.teamPassword);
 
-            	if (!bcrypt.compareSync(req.body.teamPassword, team.password)) {
-                	res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+            	if (!bcrypt.compareSync(req.body.teamPassword, team[0].password)) {
+                	res.send({ success: false, message: 'Authentication failed. Wrong password.' });
               } else {
 
-
+                console.log("The password was good");
               	//Add a new TeamUser
               	teamusers.addSimpleUser(req, function (err) {
-                		if (err) throw err;
+                		if (err){
+                            console.log("I found a teamuser error:" + err);
+                            throw err;
+                        } 
                 	});
 
 
                 	//Update the user with the information about his account;
+                    console.log("I am going to update the teamuser");
+
+
 
                 	var permission = {
                 		slug: req.params.teamId,
-                		displayName: team.displayName,
+                		displayName: team[0].displayName,
                 		admin: false,
                 		proposer: false,
                 		role: "Voter",
                         delegable: req.body.delegable
                 	}
 
-                	User.findOneAndUpdate({email: req.body.email}, {$push: {teams: permission}}, function (err) {
-                		if (err) throw err;
+                	User.findOneAndUpdate({email: req.body.email}, {$push: {teams: permission}}, function (err, user) {
+                		if (err){
+                            console.log("Here is the error: " + err);
+                            throw err;
+                        } 
                 	});
 
                 	res.send(
                 		{
                 			success: true,
+                            user: user
                 		});
 
             }

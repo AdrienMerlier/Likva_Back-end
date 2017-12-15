@@ -67,18 +67,6 @@ module.exports = function(app){
                   expiresInMinutes: 1440 // expires in 24 hours
                 });
                 
-                console.log({
-                  success: true,
-                  message: 'Enjoy your login!',
-                  token: token,
-                  user:{
-                    name: user.name,
-                    surname: user.surname,
-                    username: user.username,
-                    email: user.email,
-                    teams: user.teams,
-                  }
-                });
 
                 // return the information including token as JSON
                 res.json({
