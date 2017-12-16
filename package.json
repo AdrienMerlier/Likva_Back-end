@@ -21,7 +21,7 @@
     "mongoose": "^4.13.6",
     "mongoose-file": "0.0.2",
     "morgan": "^1.9.0",
-    "mongodb-client": "1.0.0",
+    "mongodb-client": "2.4.9",
     "node-gyp": "^3.6.2",
     "nodemon": "^1.12.5",
     "passport": "^0.4.0",
