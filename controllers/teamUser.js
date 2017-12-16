@@ -88,7 +88,7 @@ exports.addSimpleUser = function(req, res) {
 					admin : false,
 					proposer : false,
 					status : "Voter",
-					delegable: false,
+					delegable: true,
 					delegation : [],
 				};
 
@@ -97,18 +97,9 @@ exports.addSimpleUser = function(req, res) {
 				//A revoir
 				Teamuser.create(new_teamUser, function (err, teamUser) {
 					if (err) {
-						res.send({
-								success: false,
-								message: "Error while adding the teamUser."
-							});   
+						console.log("Error while adding the teamUser.");   
 	                } else {
-						User.findOne({ email: req.body.email}, function(err, userToReturn) {
-							console.log(userToReturn);
-							res.send({
-								success: true,
-								user: userToReturn
-							});
-						});
+						console.log("Teamuser has been added.");
 					}
 				});
             	

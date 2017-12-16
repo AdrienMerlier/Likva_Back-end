@@ -14,7 +14,7 @@ var bcrypt = require('bcrypt-nodejs');
 
 
 exports.findAll = function(req, res) {
-	 Team.find({}).select('slug displayName type').exec(function(err, teams) {
+	 Team.find({}).select('slug displayName type description').exec(function(err, teams) {
     	res.send({success: true, teams:teams});
   	});
 };
@@ -47,13 +47,15 @@ exports.add = function(req, res) {
 
 			 console.log("Le nombre d'équipe avec ce nom est: " + count);
 			//Review how to insert the first user once token management is done by front
-					
+			console.log("Description is passed here: " + req.body.description);
+
 			var hash = bcrypt.hashSync(req.body.pwd);
 
 			var new_team = {
 				_id: new ObjectID(),
 			   	slug : slug(req.body.teamName),
 				displayName: req.body.teamName,
+                description: req.body.description,
 				type: req.body.type,
 				password : hash,
 			};
@@ -133,11 +135,11 @@ exports.addSimpleUser = function(req, res) {
                 		displayName: team[0].displayName,
                 		admin: false,
                 		proposer: false,
-                		role: "Voter",
-                        delegable: req.body.delegable
+                		role: "Voter", //A changer
+                        delegable: true //A changer
                 	}
 
-                	User.findOneAndUpdate({email: req.body.email}, {$push: {teams: permission}}, function (err, user) {
+                	User.findOneAndUpdate({email: req.body.email}, {$push: {teams: permission}}, function (err) {
                 		if (err){
                             console.log("Here is the error: " + err);
                             throw err;
@@ -147,7 +149,6 @@ exports.addSimpleUser = function(req, res) {
                 	res.send(
                 		{
                 			success: true,
-                            user: user
                 		});
 
             }

@@ -5,6 +5,7 @@ var teamModelSchema = new Schema({
 	_id: String,
 	slug : String,
 	displayName: String,
+	description: String,
 	type: String,
 	password : String,
 	categories: [{categoryName: String, img: String}]

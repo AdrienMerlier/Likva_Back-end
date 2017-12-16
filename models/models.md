@@ -31,6 +31,7 @@ var teamModelSchema = new Schema({
 	_id: String, //ID unique pour l'équipe
 	slug : String, //Nom de l'équipe, identifiant
 	displayName: String, //Nom public de l'équipe, qui peut être customiser par un admin
+	escription: String, //Description de l'équipe
 	type: String, //Le type d'équipe (Syndicat, ONG, parti politique, ...)
 	password : String, //Password hashé
 	categories: [[]] // Un array de catégories
