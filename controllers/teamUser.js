@@ -16,7 +16,8 @@ exports.findAll = function(req, res) {
 
 exports.findDelegates = function(req, res) {
 	TeamUser.find({slug: req.params.teamId, delegable: true}, function(err, delegates) {
-    	res.json(delegates);
+    	res.send({sucess: true,
+		  delegateList: delegates});
   	});
 };
 
