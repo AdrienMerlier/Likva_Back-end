@@ -21,7 +21,7 @@ exports.findByProposition = function(req, res) {
 	//To add, protect it: if the deadline is not passed, return too early
 	Emargement.find({team: req.params.teamId, propId: req.params.propId}, function(err, emargements) {
 		console.log(emargements);
-    	res.json(emargements);
+    	res.send({ success:true, emargements:emargements });
   	});
 };
 
