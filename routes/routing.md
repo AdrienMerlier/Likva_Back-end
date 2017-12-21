@@ -50,7 +50,7 @@ Avant de tester nos routes, il faudra vous identifier auprès de l'application. 
 ### Routes "Emargements"
 | Méthode   | Routes           | Résultats             |
 | --------- |:----------------:| ---------------------|
-| GET       | /api/teams/:teamId/propositions/:propId/votes       | Renvoie l'ensemble des votes pour une proposition donnée. Si la deadline n'est pas passé, renvoie une erreur.|
+| GET       | /api/teams/:teamId/propositions/:propId/votes       | Renvoie l'ensemble des votes pour une proposition donnée..|
 | POST       | /api/teams/:teamId/propositions/:propId/votes     |   Vérifie que l'utilisateur a le droit de voter, l'émarge et inscrit son vote via le controleur Vote. |
 
 

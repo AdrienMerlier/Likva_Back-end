@@ -3,6 +3,7 @@ module.exports = function(app){
 	require('../models/user');
 	require('../models/teamUser');
 	require('../models/team');
+    require('../models/vote')
     var teams = require('../controllers/team');
     var teamUsers = require('../controllers/teamUser');
 

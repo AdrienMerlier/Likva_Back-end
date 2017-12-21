@@ -5,8 +5,10 @@ var ObjectID = require('mongodb').ObjectID;
 Team = mongoose.model('Team');
 Proposition = mongoose.model('Proposition');
 TeamUser = mongoose.model('TeamUser');
+Vote = mongoose.model('Vote');
 
 emargements = require('./emargement');
+votes = require('./vote');
 
 //Underscore, our search tool for arrays
 _ = require('underscore');
@@ -134,7 +136,6 @@ exports.getResults = function (req, res) {
 									var new_vote = {
 										teamId : req.params.teamId,
 										propId : req.params.propId,
-										email: req.body.email,
 										voter: req.body.email,
 										delegation : true,
 										content: categoryInfo.delegate
@@ -146,18 +147,55 @@ exports.getResults = function (req, res) {
 						                }
 									});
 
-								}    
-							}
-							//Compiling the votes
-							emargements.compile(req, function (err) {
-								if (err) {
-									console.log(err);
-						        }
-							});
+								}  
 
+								console.log("I have delegated all votes that I needed to delegate");  
+							}
 						}
 					);
 				}
+
+				//Calcul des délégation des votes
+
+				votes.moveDelegations(req, function (err) {
+					if (err) {
+						console.log(err);
+					}
+				});
+
+				//Calcul des résultats
+				Vote.find({propId: req.params.propId}, function(err, votesToCount) {
+					var holder = {};
+
+					votesToCount.forEach(function(d){
+						if (holder.hasOwnProperty(d.content)) {
+							holder[d.content] = holder[d.content] + d.weight;
+						}
+						else{
+							holder[d.content] = d.weight;
+						}
+					});
+
+					var finalResults = [];
+
+					for (var prop in holder) {
+						if(holder[prop]>0){
+							finalResults.push({voteValue: prop, weight: holder[prop]});
+						}
+					}
+
+					console.log(finalResults);
+
+					Proposition.update({ _id: req.params.propId }, { $set: { results: finalResults }}, function (err) {
+						if(err){
+							res.send({success: false, message:"Sorry, there was an error while updating the results."});
+						}
+						else{
+							res.send({success: true, results: finalResults});
+						}
+					});
+
+				});
 
 			}
 		}

@@ -17,11 +17,15 @@ var votes = require('../controllers/vote');
 
 
 exports.findByProposition = function(req, res) {
-
+	console.log('I got a request: ' + JSON.stringify(req.body, null, 2));
 	//To add, protect it: if the deadline is not passed, return too early
-	Emargement.find({team: req.params.teamId, propId: req.params.propId}, function(err, emargements) {
-		console.log(emargements);
-    	res.send({ success:true, emargements:emargements });
+	Emargement.find({team: req.params.teamId, email:req.body.email, propId: req.params.propId}, function(err, emargements) {
+		console.log("La taille de émargement est: "+ emargements.length);
+		if(emargements.length==0){
+			res.send({success:false});
+		} else {
+			res.send({ success:true });
+		}
   	});
 };
 
@@ -37,12 +41,13 @@ exports.add = function(req, res) {
 		else{
 
 			//Check that user 
-			Teamuser.find({slug: req.params.teamId, email: req.body.email}, function (err, teamUser) {
+			TeamUser.find({slug: req.params.teamId, email: req.body.voter}, function (err, teamUser) {
 				if(!teamUser){
 					res.send({ success: false, message: 'Sorry, we couldnt find you in teamUser.' });
 				}
 
 				if (teamUser) {
+					console.log('La longueur de teamUser est:' + teamUser.length);
 					console.log("Le Teamuser est:" + teamUser[0].status);
 
 					if (teamUser[0].status != "Voter") {
@@ -54,7 +59,7 @@ exports.add = function(req, res) {
 						*/
 						
 						//Check that user didn't vote on proposition yet
-						Emargement.count({propId: req.params.propId, email: req.body.email}, function (err, count1) {
+						Emargement.count({propId: req.params.propId, email: req.body.voter}, function (err, count1) {
 
 
 
@@ -64,25 +69,24 @@ exports.add = function(req, res) {
 
 						else{
 
-							//Ajoute le nom du voter s'il est un délégué potentiel
-							if(teamUser[0].delegable==false && req.body.anonymous==true){
-								req.body.voter=false;
-							} else {
-								req.body.voter=req.body.email;
-							}
-
-							console.log('Notre premier emargement va avoir lieu!');
+							console.log('Notre premier emargement va avoir lieu!' + req.body.voter);
 							//A revoir une fois qu'on sait gérér le token, vérifier que l'utilisateur est présent dans Teamusers, et peut voter
 
 							Emargement.create({
 								_id: new ObjectID(),
 								slug : req.params.teamId,
 								propId : req.params.propId,
-								email: req.body.email
+								email: req.body.voter
 							}, function (err) {
 								if (err) {
 				                    res.send({ success: false, message: 'Sorry, couldnt create the vote.' });    
 				                } else {
+
+				                	//Ajoute le nom du voter s'il est un délégué potentiel
+									if(teamUser[0].delegable==false){
+										req.body.voter=false;
+									}
+
 				                	votes.add(req, res, function (err) {
 				                		if (err) {
 				                    		res.send({ success: false, message: 'Sorry, couldnt cast your vote after emargement.' });    
@@ -119,7 +123,7 @@ exports.automatedAdd = function(req, res) {
 						*/
 						
 						//Check that user didn't vote on proposition yet
-						Emargement.count({_id: req.body.propId, email: req.body.email}, function (err, count1) {
+						Emargement.count({_id: req.body.propId, email: req.body.voter}, function (err, count1) {
 
 						if (count != 0) {
 							console.log("A vote has already been registered.");
@@ -127,23 +131,22 @@ exports.automatedAdd = function(req, res) {
 
 						else{
 
-							//Ajoute le nom du voter s'il est un délégué potentiel
-							if(teamUser[0].delegable==false && req.body.anonymous==true){
-								req.body.voter=false;
-							} else {
-								req.body.voter=req.body.email;
-							}
-
 
 							Emargement.create({
 								_id: new ObjectID(),
 								slug : req.body.teamId,
 								propId : req.body.propId,
-								email: req.body.email
+								email: req.body.voter
 							}, function (err, emargement) {
 								if (err) {
 				                    console.log("couldnt emarge the delegater: " + err);    
 				                } else {
+
+				                	//Ajoute le nom du voter s'il est un délégué potentiel
+										if(teamUser[0].delegable==false){
+											req.body.voter=false;
+										}
+
 				                	votes.add(req, function (err) {
 				                		if (err) {
 				                    		console.log("couldnt register the vote from the delegater: " + err);    
@@ -160,7 +163,3 @@ exports.automatedAdd = function(req, res) {
 				}
 			});	
 };
-
-exports.compile = function (req) {
-	// body...
-}

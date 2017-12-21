@@ -24,7 +24,7 @@ exports.add = function(req, res) {
 
 		else{
 
-			console.log('Notre premier vote va avoir lieu!');
+			console.log('Notre premier vote va avoir lieu!:' + req.params.teamId);
 			//A revoir une fois qu'on sait gérér le token, vérifier que l'utilisateur est présent dans Teamusers, et peut voter
 
 			Vote.create({
@@ -52,7 +52,7 @@ exports.automatedAdd = function(req) {
 
 	Vote.create({
 		_id: new ObjectID(),
-		slug : req.body.teamId,
+		slug : req.params.teamId,
 		propId : req.body.propId,
 		voter: req.body.voter,
 		delegation : req.body.delegation,
@@ -66,3 +66,50 @@ exports.automatedAdd = function(req) {
             }
 	});	
 };
+
+exports.moveDelegations = function(req) {
+
+	var teamId = req.params.teamId;
+	var propId = req.params.propId;
+
+	console.log("Les requetes sont: " + teamId +" et "+propId);
+
+	Vote.count({propId: propId, delegation: true}, function(err, voteNumber) {
+		
+
+		var maxDelegation = voteNumber;
+
+		console.log("I am going to move the the votes. There are:" + maxDelegation);
+
+
+		for(var d=1; d<maxDelegation+1; d++){
+
+			console.log("Catapult.");
+
+
+			Vote.find({propId: propId, delegation: true, weight:d}, function(err, specWeightVotes){
+				
+				console.log("Now delegating for vote wheighted as:" + d);
+
+				for (var i = 0; i < specWeightVotes.length; i++) {
+
+					// Add the weight d, aka the weight of a vote to the delegated voter
+					Vote.findOneAndUpdate({propId: propId, voter: specWeightVotes[i].content }, { $inc: { 'weight': specWeightVotes[i].weight }}, function (err) {
+						if (err) {
+            				console.log("Ca bug.");
+        				}
+					});
+
+					//Put weight as zero for the ones who have delegated
+					Vote.findOneAndUpdate({_id: specWeightVotes[i]._id}, { $set: { 'weight': 0 }}, function (err) {
+            				if (err) {
+            					console.log("Ca bug 2.");
+            				}
+            		});
+				}
+			});
+		}
+		console.log("I have delegated all votes");
+  	});
+};
+

@@ -15,8 +15,9 @@ exports.findAll = function(req, res) {
 };
 
 exports.findDelegates = function(req, res) {
+	console.log("Requete recu, je renvoies les délégués.");
 	TeamUser.find({slug: req.params.teamId, delegable: true}, function(err, delegates) {
-    	res.send({sucess: true,
+    	res.send({success: true,
 		  delegateList: delegates});
   	});
 };
@@ -37,7 +38,7 @@ exports.addFirstUser = function(req, res) {
               //res.send({ success: false, message: 'User not found.' });
             } else if (user) {
 
-				console.log("The user is:" + user);
+				console.log("The user is:" + user.username);
 
 				var new_teamUser = {
 				   	slug: slug(req.body.teamName),
@@ -49,6 +50,8 @@ exports.addFirstUser = function(req, res) {
 					delegable: true,
 					delegation : [],
 				};
+
+				console.log(new_teamUser.username)
 
 				console.log(new_teamUser);
 
@@ -86,6 +89,7 @@ exports.addSimpleUser = function(req, res) {
 				var new_teamUser = {
 				   	slug: req.params.teamId,
 				   	email: user.email,
+				   	displayName: user.username,
 					admin : false,
 					proposer : false,
 					status : "Voter",

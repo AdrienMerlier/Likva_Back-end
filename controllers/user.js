@@ -30,8 +30,9 @@ exports.add = function(req, res) {
 
 		else{
 					
-			var username = req.body.name.toLowerCase() + "." + req.body.surname.toLowerCase();
+			var username = req.body.name + " " + req.body.surname;
 			var hash = bcrypt.hashSync(req.body.pwd);
+			console.log(username);
 					
 
 			var new_user = {
