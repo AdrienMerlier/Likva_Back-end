@@ -14,14 +14,12 @@ votes = require('./vote');
 _ = require('underscore');
 
 exports.findAll = function(req, res) {
-	console.log("Je renvois les propositions pour : " + req.params.teamId);
 	Proposition.find({slug: req.params.teamId}, function(err, props) {
     	res.send({success:true, props: props});
   	});
 };
 
 exports.findById = function(req, res) {
-	console.log("Je renvois les propositions pour la team: " + req.params.teamId + "et l'ID: " + req.params.propId);
 	Proposition.find({slug: req.params.teamId, _id: req.params.propId}, function(err, prop) {
     	res.send({success:true, props: prop});
   	});
@@ -35,11 +33,7 @@ exports.findByCategory = function(req, res) {
 
 exports.add = function(req, res) {
 
-	console.log("I am in the function. Request vote options are:" + req.body.votePossibilities);
-
 	Team.count({slug: req.params.teamId}, function (err, count) {
-
-		console.log("The count is " + count);
 
 		if (count != 1) {
 					res.send("Sorry, this team doesn't exist.");
@@ -149,7 +143,6 @@ exports.getResults = function (req, res) {
 
 								}  
 
-								console.log("I have delegated all votes that I needed to delegate");  
 							}
 						}
 					);
@@ -177,21 +170,29 @@ exports.getResults = function (req, res) {
 					});
 
 					var finalResults = [];
+					var bestScore=0;
+					var finalVerdict = null;
 
 					for (var prop in holder) {
 						if(holder[prop]>0){
 							finalResults.push({voteValue: prop, weight: holder[prop]});
+							if (holder[prop]>bestScore) {
+								bestScore=holder[prop];
+								finalVerdict=prop;
+							}
+							else if(holder[prop]==bestScore){
+								finalVerdict="Tie";
+							}
 						}
+
 					}
 
-					console.log(finalResults);
-
-					Proposition.update({ _id: req.params.propId }, { $set: { results: finalResults }}, function (err) {
+					Proposition.update({ _id: req.params.propId }, { $set: { results: finalResults, verdict: finalVerdict }}, function (err) {
 						if(err){
 							res.send({success: false, message:"Sorry, there was an error while updating the results."});
 						}
 						else{
-							res.send({success: true, results: finalResults});
+							res.send({success: true, results: finalResults, verdict: finalVerdict});
 						}
 					});
 
