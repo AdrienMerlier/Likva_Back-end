@@ -64,7 +64,11 @@ exports.add = function(req, res) {
 
 
 						if (count1 != 0) {
-							res.send("Sorry, the vote has already been registered.");
+							res.send({success: false, message: "Sorry, the vote has already been registered."});
+						}
+
+						else if(req.body.voter == req.body.content){
+							res.send({success: false, message: "Sorry, you can't delegate a vote to yourself"});
 						}
 
 						else{
