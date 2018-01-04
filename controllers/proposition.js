@@ -102,8 +102,8 @@ exports.getResults = function (req, res) {
 
 				//Check if results are present
 
-				if (prop.results) {
-					res.send({ success: true, results: prop.results});
+				if (prop[0].results) {
+					res.send({ success: true, results: prop[0].results, verdict: prop[0].verdict});
 				}
 
 				else{
@@ -146,7 +146,6 @@ exports.getResults = function (req, res) {
 							}
 						}
 					);
-				}
 
 				//Calcul des délégation des votes
 
@@ -197,6 +196,7 @@ exports.getResults = function (req, res) {
 					});
 
 				});
+			}
 
 			}
 		}
