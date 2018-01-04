@@ -1,6 +1,9 @@
 var mongoose = require('mongoose');
 var ObjectID = require('mongodb').ObjectID;
+
 var slug = require('slugify')
+_ = require('underscore');
+
 
 
 Teamuser = mongoose.model('TeamUser');
@@ -17,8 +20,16 @@ exports.findAll = function(req, res) {
 exports.findDelegates = function(req, res) {
 	console.log("Requete recu, je renvoies les délégués.");
 	TeamUser.find({slug: req.params.teamId, delegable: true}, function(err, delegates) {
-    	res.send({success: true,
-		  delegateList: delegates});
+
+	//Ask Leo to send me the email of the profile
+	delegates.splice(_.indexOf(delegates, _.findWhere(delegates, { email : req.body.email})), 1);
+
+
+    	res.send(
+    		{
+    		success: true,
+		  	delegateList: delegates
+		  	});
   	});
 };
 
