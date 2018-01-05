@@ -216,7 +216,9 @@ exports.addCategory = function(req, res) {
 
 		else{
 
-			Team.findOneAndUpdate({slug: req.params.teamId}, {$push: {categories: {categoryName: req.body.categoryName, img : ""}}}, function (err, team) {
+            var categorySlug = slug(req.params.categoryName);
+
+			Team.findOneAndUpdate({slug: req.params.teamId}, {$push: {categories: {categoryName: req.body.categoryName, categorySlug: categorySlug, img : ""}}}, function (err, team) {
             	if (err) throw err;
             });
 
