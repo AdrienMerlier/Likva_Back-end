@@ -14,7 +14,7 @@ var bcrypt = require('bcrypt-nodejs');
 
 
 exports.findAll = function(req, res) {
-	 Team.find({}).select('slug displayName type description').exec(function(err, teams) {
+	Team.find({}).select('slug displayName type description').exec(function(err, teams) {
     	res.send({success: true, teams:teams});
   	});
 };
@@ -25,10 +25,9 @@ exports.findById = function(req, res) {
 };
 
 exports.findCategories = function(req, res) {
-	console.log("On cherche des categories là!");
-	Team.findOne({skug: req.params.teamId}, function(err, team) {
-    	res.json(team.categories);
-  	});
+	Team.find({slug: req.params.teamId}).select('categories').exec(function(err, team) {
+        res.send({success: true, categories:team[0].categories});
+    });
 };
 
 exports.add = function(req, res) {
