@@ -34,7 +34,13 @@ var teamModelSchema = new Schema({
 	escription: String, //Description de l'équipe
 	type: String, //Le type d'équipe (Syndicat, ONG, parti politique, ...)
 	password : String, //Password hashé
-	categories: [[]] // Un array de catégories
+	categories: [{
+		categoryName: String,
+		categorySlug: String, 
+		img: String
+	}
+		] 
+		// Un array de catégories
 });
 ```
 
