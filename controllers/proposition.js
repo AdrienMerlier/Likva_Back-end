@@ -47,7 +47,7 @@ exports.add = function(req, res) {
 			}
 			*/
 
-			console.log(req.body.author);
+			console.log("L'auteur est: "+ req.body.author);
 
 			var arrayOfPossibilities = String(req.body.votePossibilities).split(",");
 
