@@ -87,7 +87,10 @@ var propositionModelSchema = new Schema({
 	information: String, //Les informations sur le vote
 	type: String, //Le type de vote pour calculer les résultats
 	date : Date //La date de fin de vote
-	results: [[]], //L'ensemble des votes, compilé dans un array
+	results: {
+		labels: [],
+		data: []
+		}, //L'ensemble des votes, compilé dans un array
 	verdict: String //Le résultat final du vote, marqué "ongoing" tant qu'on ne demande pas les résultats
 });
 ```

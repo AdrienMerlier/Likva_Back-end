@@ -21,7 +21,8 @@ var propositionModelSchema = new Schema({
 	type: String,
 	date : Date,
 	votePossibilities: [String],
-	results: [],
+	labels: [String],
+	data: [Number],
 	verdict: String
 });
 

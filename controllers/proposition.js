@@ -47,7 +47,7 @@ exports.add = function(req, res) {
 			}
 			*/
 
-			console.log(req.body.change);
+			console.log(req.body.author);
 
 			var arrayOfPossibilities = String(req.body.votePossibilities).split(",");
 
@@ -94,19 +94,22 @@ exports.getResults = function (req, res) {
 
 			//Check is vote is over
 
-			if(Date.now < prop.date){
+			if(false){
 
 				res.send({ success: false, message: 'Sorry, couldnt find the proposition.'});
 			
 			} else {
 
 				//Check if results are present
+				console.log(prop[0].data.length);
 
-				if (prop[0].results) {
-					res.send({ success: true, results: prop[0].results, verdict: prop[0].verdict});
+				if (prop[0].data.length > 0) {
+					console.log("J'envoie les résultats direct.");
+					res.send({ success: true, labels: prop[0].labels, data:prop[0].data, verdict: prop[0].verdict});
 				}
 
 				else{
+					console.log("Going to calculate.");
 					//Delegate the votes that should be calculated
 					TeamUser.find({
 					    'delegation.category': prop.category ,
@@ -159,6 +162,8 @@ exports.getResults = function (req, res) {
 				Vote.find({propId: req.params.propId}, function(err, votesToCount) {
 					var holder = {};
 
+					console.log("Going to sum it up.");
+
 					votesToCount.forEach(function(d){
 						if (holder.hasOwnProperty(d.content)) {
 							holder[d.content] = holder[d.content] + d.weight;
@@ -168,30 +173,39 @@ exports.getResults = function (req, res) {
 						}
 					});
 
-					var finalResults = [];
+					var finalLabels = [];
+					var finalData = [];
 					var bestScore=0;
 					var finalVerdict = null;
 
 					for (var prop in holder) {
 						if(holder[prop]>0){
-							finalResults.push({voteValue: prop, weight: holder[prop]});
+
+							console.log("Le duo est: " + prop + "&" + holder[prop]);
+
+							finalLabels.push(prop);
+							finalData.push(holder[prop]);
 							if (holder[prop]>bestScore) {
 								bestScore=holder[prop];
 								finalVerdict=prop;
 							}
 							else if(holder[prop]==bestScore){
-								finalVerdict="Tie";
+								finalVerdict="Egalité!";
 							}
 						}
 
 					}
 
-					Proposition.update({ _id: req.params.propId }, { $set: { results: finalResults, verdict: finalVerdict }}, function (err) {
+					console.log("La liste final de labels est: " + finalLabels);
+					console.log("La liste final de data est: " + finalData);
+
+
+					Proposition.update({ _id: req.params.propId }, { $set: { labels: finalLabels, data: finalData, verdict: finalVerdict }}, function (err) {
 						if(err){
 							res.send({success: false, message:"Sorry, there was an error while updating the results."});
 						}
 						else{
-							res.send({success: true, results: finalResults, verdict: finalVerdict});
+							res.send({success: true, labels: finalLabels, data: finalData, verdict: finalVerdict});
 						}
 					});
 
