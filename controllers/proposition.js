@@ -47,7 +47,7 @@ exports.add = function(req, res) {
 			}
 			*/
 
-			console.log("L'auteur est: "+ req.body.author);
+			console.log("La catégorie est: "+ req.body.category);
 
 			var arrayOfPossibilities = String(req.body.votePossibilities).split(",");
 
@@ -217,5 +217,41 @@ exports.getResults = function (req, res) {
 	});
 }
 
-exports.update = function() {};
+exports.update = function(req, res) {
+
+	console.log("PropID: " + JSON.stringify(req.params));
+
+	Proposition.count({_id: req.params.propId}, function (err, count) {
+
+		if (count = 1) {
+					console.log("Je suis dans la bonne proposition");
+		}
+
+	console.log("update: " + JSON.stringify(req.body));
+
+
+	const doc = {
+	    title: req.body.proposition.title,
+		summary : req.body.proposition.summary,
+		description : req.body.proposition.description,
+		change : req.body.proposition.change,
+		consequences : req.body.proposition.consequences
+  	};
+
+  	console.log(doc);
+
+
+	Proposition.update(
+		{_id: req.params.propId}, //query
+		doc,
+		function (err, raw) {
+			if (err) return handleError(err);
+			else{
+				console.log("Message suivant: "+ raw);
+				res.send({success: true});
+			}
+		});
+	});
+};
+
 exports.delete = function() {};

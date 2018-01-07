@@ -18,18 +18,20 @@ exports.findAll = function(req, res) {
 };
 
 exports.findDelegates = function(req, res) {
-	console.log("Requete recu, je renvoies les délégués.");
+	
 	TeamUser.find({slug: req.params.teamId, delegable: true}, function(err, delegates) {
 
-	//Ask Leo to send me the email of the profile
-	delegates.splice(_.indexOf(delegates, _.findWhere(delegates, { email : req.body.email})), 1);
+		var delegatesClean = delegates.filter(function (el) {
+			return el.email !== req.headers.useremail;
+		});
 
+		//Ask Leo to send me the email of the profile
 
-    	res.send(
-    		{
-    		success: true,
-		  	delegateList: delegates
-		  	});
+	    res.send(
+	    	{
+	    	success: true,
+			delegateList: delegates
+			});
   	});
 };
 
