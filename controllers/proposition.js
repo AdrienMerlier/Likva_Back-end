@@ -158,6 +158,8 @@ exports.getResults = function (req, res) {
 					}
 				});
 
+				setTimeout(function(){ console.log("Hello"); }, 3000);
+
 				//Calcul des résultats
 				Vote.find({propId: req.params.propId}, function(err, votesToCount) {
 					var holder = {};

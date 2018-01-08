@@ -72,25 +72,14 @@ exports.moveDelegations = function(req) {
 	var teamId = req.params.teamId;
 	var propId = req.params.propId;
 
-	console.log("Les requetes sont: " + teamId +" et "+propId);
-
 	Vote.count({propId: propId, delegation: true}, function(err, voteNumber) {
-		
 
 		var maxDelegation = voteNumber;
 
-		console.log("I am going to move the the votes. There are:" + maxDelegation);
-
-
 		for(var d=1; d<maxDelegation+1; d++){
 
-			console.log("Catapult.");
-
-
-			Vote.find({propId: propId, delegation: true, weight:d}, function(err, specWeightVotes){
+			Vote.find({propId: propId, delegation: true, weight: d}, function(err, specWeightVotes){
 				
-				console.log("Now delegating for vote wheighted as:" + d);
-
 				for (var i = 0; i < specWeightVotes.length; i++) {
 
 					// Add the weight d, aka the weight of a vote to the delegated voter
@@ -110,6 +99,8 @@ exports.moveDelegations = function(req) {
 			});
 		}
 		console.log("I have delegated all votes");
+
+		return status=true;
   	});
 };
 

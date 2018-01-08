@@ -17,10 +17,8 @@ var votes = require('../controllers/vote');
 
 
 exports.findByProposition = function(req, res) {
-	console.log('I got a request: ' + JSON.stringify(req.body, null, 2));
 	//To add, protect it: if the deadline is not passed, return too early
-	Emargement.find({team: req.params.teamId, email:req.body.email, propId: req.params.propId}, function(err, emargements) {
-		console.log("La taille de émargement est: "+ emargements.length);
+	Emargement.find({slug: req.params.teamId, email:req.headers.useremail, propId: req.params.propId}, function(err, emargements) {
 		if(emargements.length==0){
 			res.send({success:false});
 		} else {

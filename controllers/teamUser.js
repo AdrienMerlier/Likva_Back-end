@@ -30,7 +30,7 @@ exports.findDelegates = function(req, res) {
 	    res.send(
 	    	{
 	    	success: true,
-			delegateList: delegates
+			delegateList: delegatesClean
 			});
   	});
 };
@@ -106,7 +106,7 @@ exports.addSimpleUser = function(req, res) {
 					admin : false,
 					proposer : false,
 					status : "Voter",
-					delegable: true,
+					delegable: false,
 					delegation : [],
 				};
 
