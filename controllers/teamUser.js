@@ -166,6 +166,8 @@ exports.findDelegateForCategory = function (req, res) {
 		}
 		else{
 
+			console.log(teamUser[0].delegation);
+
 
 			if (teamUser[0].delegation.length == 0) {
 				console.log('There is no delegate');
@@ -291,6 +293,38 @@ exports.addDelegate = function(req, res) {
 					);		
             	}
         	}   
+    });
+};
+
+exports.removeDelegate = function(req, res) {
+
+	console.log("I am going to remove a delegate");
+	
+	TeamUser.findOne({ email: req.body.voter, slug: req.params.teamId}, function(err, teamUser) {
+
+            if (err) throw err;
+
+            if (!teamUser) {
+            	res.send({
+					success: false,
+					message: "Your team member does't exist. Weird."
+				});
+
+
+            } else if (teamUser) {
+
+            	console.log(req.body.categoryName);
+
+            	TeamUser.update({ email: req.body.voter, slug: req.params.teamId}, { "$pull": { "delegation": { "categoryName": req.body.categoryName } }}, { safe: true, multi:true }, function(err, obj) {
+
+				     if(err){
+				     	console.log(err)
+				     }
+				     else{
+				     	res.send({success: true})
+				     }
+				});
+            }   
     });
 };
 
