@@ -26,6 +26,7 @@ Avant de tester nos routes, il faudra vous identifier auprès de l'application. 
 | GET       | /api/teams       | Renvoie l'ensemble des teams, mais ne sera surement pas utilisé. |
 | GET       | /api/teams/:teamId     |   Renvoie les données d'une team particuliere |
 | GET  | /api/teams/:teamId/delegates      | Retourne une liste de teamUsers délégués. |
+| GET  | /api/teams/:teamId/categories/:categoryName/delegate      | Retourne le délégué actuelle et une liste de teamUsers délégués. |
 | POST  | /api/teams      | Crée une team. |
 | POST  | /api/teams/:teamId/categories      | Crée une catégorie dans une team donnée. |
 | POST  | /api/teams/:teamId/join      | Enregistre un nouvel utilisateur sans droits. |

@@ -40,8 +40,6 @@ exports.findById = function() {
 
 exports.addFirstUser = function(req, res) {
 
-	console.log("I'm in the function. Request is: " +req.body);
-
 	User.findOne({ email: req.body.email}, function(err, user) {
 
             if (err) throw err;
@@ -50,8 +48,6 @@ exports.addFirstUser = function(req, res) {
             	console.log('User not found');
               //res.send({ success: false, message: 'User not found.' });
             } else if (user) {
-
-				console.log("The user is:" + user.username);
 
 				var new_teamUser = {
 				   	slug: slug(req.body.teamName),
@@ -72,9 +68,7 @@ exports.addFirstUser = function(req, res) {
 				Teamuser.create(new_teamUser, function (err, teamUser) {
 					if (err) {
 		                    console.log("Error while adding TeamUser: " + teamUser);    
-	                } else {
-						console.log("TeamUser should have been created");
-					}
+	                } 
 				});
 
 				return 0;
@@ -97,8 +91,6 @@ exports.addSimpleUser = function(req, res) {
 
             } else if (user) {
 
-				console.log("The user is:" + user);
-
 				var new_teamUser = {
 				   	slug: req.params.teamId,
 				   	email: user.email,
@@ -116,9 +108,7 @@ exports.addSimpleUser = function(req, res) {
 				Teamuser.create(new_teamUser, function (err, teamUser) {
 					if (err) {
 						console.log("Error while adding the teamUser.");   
-	                } else {
-						console.log("Teamuser has been added.");
-					}
+	                }
 				});
             	
         	}   
@@ -165,6 +155,37 @@ exports.addUserViaAdmin = function(req, res) {
     });
 };
 
+exports.findDelegateForCategory = function (req, res) {
+
+	//Find current delegate for a given category
+	TeamUser.find({slug: req.params.teamId, email: req.headers.useremail}, function (err, teamUser) {
+		if (!teamUser) {
+			res.send({success: false, message: "The teamUser doesn't exist"});
+		}
+		else{
+			currentDelegate = teamUser.category.filter(function (el) {
+				return el.categoryName == req.headers.categoryName;
+			});
+		}
+	});
+	
+	//Get list of all delegates
+	TeamUser.find({slug: req.params.teamId, delegable: true}, function(err, delegates) {
+
+		var delegatesClean = delegates.filter(function (el) {
+			return el.email !== req.headers.useremail;
+		});
+  	});
+
+  	res.send(
+	  	{
+	   	success: true,
+	   	currentDelegate: currentDelegate.delegateId,
+		delegateList: delegatesClean
+	});
+
+};
+
 exports.addDelegate = function(req, res) {
 	
 	TeamUser.findOne({ email: req.body.email, slug: req.params.teamId}, function(err, teamUser) {
@@ -208,6 +229,7 @@ exports.addDelegate = function(req, res) {
             		);
             		
             	}
+            	
 
             	else{
             		var new_delegate = {

@@ -56,10 +56,10 @@ var teamUserModelSchema = new Schema({
 	status : String, //Rôle de l'utilisateur dans l'équipe ("Voter"/"Commentor"/"Observer")
 	delegable: Boolean, //Peut être délégué ou non
 	description: String, //La description de l'utilisateur dans l'équipe
-	delegation : {
-  			category: String, //Le nom de la catégorie en question
+	delegation : [{
+  			categoryName: String, //Le nom de la catégorie en question
   			delegateId: String //L'ID du délégué pour cette catégorie
-  		}
+  		}]
 });
 ```
 
@@ -87,10 +87,9 @@ var propositionModelSchema = new Schema({
 	information: String, //Les informations sur le vote
 	type: String, //Le type de vote pour calculer les résultats
 	date : Date //La date de fin de vote
-	results: {
-		labels: [],
-		data: []
-		}, //L'ensemble des votes, compilé dans un array
+	votePossibilities: [String], //Les votes possibles
+	labels: [String], //Les votes possibles qui ont recu un vote enregistrés
+	data: [Number], //Les compteurs de vote
 	verdict: String //Le résultat final du vote, marqué "ongoing" tant qu'on ne demande pas les résultats
 });
 ```

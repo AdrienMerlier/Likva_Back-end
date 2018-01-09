@@ -11,6 +11,7 @@ module.exports = function(app){
     app.get('/api/teams/:teamId', teams.findById);
     app.get('/api/teams/:teamId/delegates', teamUsers.findDelegates);
     app.get('/api/teams/:teamId/categories/', teams.findCategories);
+    app.get('/api/teams/:teamId/categories/:categoryName/delegate', teamUsers.findDelegateForCategory);
     app.post('/api/teams/', teams.add);
     app.post('/api/teams/:teamId/join', teams.addSimpleUser);
     app.post('/api/teams/:teamId//admin/addUser', teams.addUserViaAdmin);
