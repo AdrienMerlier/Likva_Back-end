@@ -157,38 +157,62 @@ exports.addUserViaAdmin = function(req, res) {
 
 exports.findDelegateForCategory = function (req, res) {
 
+	var currentDelegate = null;
+
 	//Find current delegate for a given category
 	TeamUser.find({slug: req.params.teamId, email: req.headers.useremail}, function (err, teamUser) {
 		if (!teamUser) {
 			res.send({success: false, message: "The teamUser doesn't exist"});
 		}
 		else{
-			currentDelegate = teamUser.category.filter(function (el) {
-				return el.categoryName == req.headers.categoryName;
-			});
+
+
+			if (teamUser[0].delegation.length == 0) {
+				console.log('There is no delegate');
+				currentDelegate = [{
+					delegate : null
+				}];
+
+			}
+			else{
+				console.log("There might be a delegate.");
+				currentDelegate = teamUser[0].delegation.filter(function (el) {
+					return el.categoryName == req.params.categoryName;
+				});
+				if(currentDelegate == undefined){
+					currentDelegate = [{
+					delegate : null
+				}];
+				}
+			}
+
+			//Get list of all delegates
+			TeamUser.find({slug: req.params.teamId, delegable: true}, function(err, delegates) {
+
+				var delegatesClean = delegates.filter(function (el) {
+					return el.email !== req.headers.useremail;
+				});
+
+				console.log(currentDelegate)
+
+				res.send({
+			   		success: true,
+			   		currentDelegate: currentDelegate[0].delegate,
+					delegateList: delegatesClean
+				});
+
+	  		});
 		}
-	});
-	
-	//Get list of all delegates
-	TeamUser.find({slug: req.params.teamId, delegable: true}, function(err, delegates) {
 
-		var delegatesClean = delegates.filter(function (el) {
-			return el.email !== req.headers.useremail;
-		});
-  	});
-
-  	res.send(
-	  	{
-	   	success: true,
-	   	currentDelegate: currentDelegate.delegateId,
-		delegateList: delegatesClean
 	});
 
 };
 
 exports.addDelegate = function(req, res) {
+
+	console.log("I am going to add a delegate");
 	
-	TeamUser.findOne({ email: req.body.email, slug: req.params.teamId}, function(err, teamUser) {
+	TeamUser.findOne({ email: req.body.voter, slug: req.params.teamId}, function(err, teamUser) {
 
             if (err) throw err;
 
@@ -203,14 +227,20 @@ exports.addDelegate = function(req, res) {
 
             	//Controle if user have already a delegate for the category
 
-            	var delegateExist = teamUser.delegation.filter(function (item) {return item.category == categoryId;}) 
-				
-            	if (delegateExist != null){
+            	var delegateExist = teamUser.delegation.filter(function (item) {return item.categoryName == req.params.categoryName;}) 
+				var emptyArray = [];
+
+				console.log(delegateExist.length);
+
+            	if (delegateExist.length){
+
+            		console.log("There is already a delegate");
+
             		//Add review of the delegate
             		TeamUser.update(
             			{_id: teamUser._id, 'delegation.category': req.params.categoryId},
             			{'$set': {
-            				'delegation.$.delegateId': req.body.delegateId
+            				'delegation.$.delegate': req.body.delegate
             			}},
             			function (err) {
             				if (err) {
@@ -232,10 +262,15 @@ exports.addDelegate = function(req, res) {
             	
 
             	else{
+
+            		console.log("There is no delegate");
+
             		var new_delegate = {
-				   		category: req.params.categoryId,
-				   		delegate: req.body.delegateId
+				   		categoryName: req.params.categoryName,
+				   		delegate: req.body.delegate
 					};
+
+					console.log(new_delegate);
 
 					TeamUser.update(
 					    { _id: teamUser._id }, 

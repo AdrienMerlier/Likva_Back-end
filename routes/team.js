@@ -16,7 +16,7 @@ module.exports = function(app){
     app.post('/api/teams/:teamId/join', teams.addSimpleUser);
     app.post('/api/teams/:teamId//admin/addUser', teams.addUserViaAdmin);
     app.post('/api/teams/:teamId/categories/', teams.addCategory);
-    app.post('/api/teams/:teamId/categories/categoryId/', teamUsers.addDelegate);
+    app.post('/api/teams/:teamId/categories/:categoryName/delegate', teamUsers.addDelegate);
     app.put('/api/teams/:teamId', teams.updateTeam);
     app.put('/api/teams/:teamId/password', teams.updateTeamPassword);
     app.delete('/api/teams/:teamId', teams.delete);

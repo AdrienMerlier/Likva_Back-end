@@ -12,7 +12,7 @@ var teamUserModelSchema = new Schema({
 	description: String,
 	delegation : [{
 		categoryName : String, 
-  		delegateId : String
+  		delegate : String
 	}]
 });
 

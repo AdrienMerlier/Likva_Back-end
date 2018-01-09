@@ -13,7 +13,7 @@ module.exports = function(app){
 
   var cors = require('cors');
 
-  var allowedOrigins = ['http://localhost:8080'];
+  var allowedOrigins = ['http://localhost:8081'];
   app.use(cors({
     origin: function(origin, callback){
     // allow requests with no origin 
