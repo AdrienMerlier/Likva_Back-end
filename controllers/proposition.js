@@ -154,7 +154,34 @@ exports.delegatFinale = function(req, res){
 			}
 		}
 	});
+}
 
+exports.delegateGeneral = function(req, res){
+
+	Proposition.find({_id: req.params.propId}, function (err, prop) {
+
+		if(!prop){
+
+			res.send({ success: false, message: 'Sorry, couldnt find the proposition.'});
+
+		} else if(prop){
+
+			//Check is vote is over
+
+			if(false){
+
+				res.send({ success: false, message: 'Sorry, couldnt find the proposition.'});
+			
+			} else {
+
+				//Check if results are present
+				console.log(prop[0].data.length);
+
+				moveDelegations(req, res);
+
+			}
+		}
+	});
 }
 
 function delegateByCategory(req, delegatersList, prop) {
@@ -194,7 +221,7 @@ function delegateByCategory(req, delegatersList, prop) {
 }
 	
 
-function calculateResults(req) {
+function calculateResults(req, res) {
 	Vote.find({propId: req.params.propId}, function(err, votesToCount) {
 		var holder = {};
 
@@ -248,6 +275,43 @@ function calculateResults(req) {
 	});
 }
 
+function moveDelegations (req, res) {
+
+	var teamId = req.params.teamId;
+	var propId = req.params.propId;
+
+	Vote.count({propId: propId, delegation: true}, function(err, voteNumber) {
+
+		var maxDelegation = voteNumber;
+
+		for(var d=1; d<maxDelegation+1; d++){
+
+			Vote.find({propId: propId, delegation: true, weight: d}, function(err, specWeightVotes){
+				
+				for (var i = 0; i < specWeightVotes.length; i++) {
+
+					// Add the weight d, aka the weight of a vote to the delegated voter
+					Vote.findOneAndUpdate({propId: propId, voter: specWeightVotes[i].content }, { $inc: { 'weight': specWeightVotes[i].weight }}, function (err) {
+						if (err) {
+            				console.log("Ca bug.");
+        				}
+					});
+
+					//Put weight as zero for the ones who have delegated
+					Vote.findOneAndUpdate({_id: specWeightVotes[i]._id}, { $set: { 'weight': 0 }}, function (err) {
+            				if (err) {
+            					console.log("Ca bug 2.");
+            				}
+            		});
+				}
+			});
+		}
+		console.log("I have delegated all votes");
+  	});
+
+  	res.send({success: true});
+}
+
 exports.getResults = function (req, res) {
 	Proposition.find({_id: req.params.propId}, function (err, prop) {
 		if(!prop){
@@ -272,17 +336,7 @@ exports.getResults = function (req, res) {
 
 				else{
 
-					votes.moveDelegations(req, function (err) {
-						if (err) {
-							console.log(err);
-						}
-
-						console.log("Votes were delegated");
-
-									//Calcul des résultats
-						calculateResults(req);
-
-					});
+					setTimeout(calculateResults(req, res), 1000);
 
 				}
 
