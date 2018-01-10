@@ -12,6 +12,8 @@ votes = require('./vote');
 
 //Underscore, our search tool for arrays
 _ = require('underscore');
+Promise = require("bluebird");
+
 
 exports.findAll = function(req, res) {
 	Proposition.find({slug: req.params.teamId}, function(err, props) {
@@ -91,6 +93,95 @@ exports.add = function(req, res) {
 		}
 	});	
 };
+
+function delegateByCategory(req, delegatersList, prop) {
+
+	return new Promise(function(resolve, reject) {
+
+	    for(var d=0; d<delegatersList.length; d++){ 
+
+			delegater = delegatersList[d];
+
+			var categoryInfo = _.find(delegater.delegation, function(item){
+				return item.category == prop.category;
+			});
+			console.log(categoryInfo);
+				
+			var new_vote = {
+				teamId : req.params.teamId,
+				propId : req.params.propId,
+				voter: delegater.email,
+				delegation : true,
+				content: categoryInfo.delegate
+			};
+
+			emargements.automatedAdd(new_vote,function (err) {
+				console.log("Mon vote de catégorie à été fait.");	
+			});
+		} 
+
+	    if (true) {
+	      resolve("Hi");
+	    } else {
+	      reject(new Error('User cancelled'));
+	    }
+  });
+}
+	
+
+function calculateResults(req) {
+	Vote.find({propId: req.params.propId}, function(err, votesToCount) {
+		var holder = {};
+
+		console.log("Going to sum it up.");
+
+		votesToCount.forEach(function(d){
+			if (holder.hasOwnProperty(d.content)) {
+				holder[d.content] = holder[d.content] + d.weight;
+			}
+			else{
+				holder[d.content] = d.weight;
+			}
+		});
+
+		var finalLabels = [];
+		var finalData = [];
+		var bestScore=0;
+		var finalVerdict = null;
+
+		for (var prop in holder) {
+			if(holder[prop]>0){
+
+				console.log("Le duo est: " + prop + "&" + holder[prop]);
+
+				finalLabels.push(prop);
+				finalData.push(holder[prop]);
+				if (holder[prop]>bestScore) {
+					bestScore=holder[prop];
+					finalVerdict=prop;
+				}
+				else if(holder[prop]==bestScore){
+					finalVerdict="Egalité!";
+				}
+			}
+
+		}
+
+		console.log("La liste final de labels est: " + finalLabels);
+		console.log("La liste final de data est: " + finalData);
+
+
+		Proposition.update({ _id: req.params.propId }, { $set: { labels: finalLabels, data: finalData, verdict: finalVerdict }}, function (err) {
+			if(err){
+				res.send({success: false, message:"Sorry, there was an error while updating the results."});
+			}
+			else{
+				res.send({success: true, labels: finalLabels, data: finalData, verdict: finalVerdict});
+			}
+		});
+
+	});
+}
 
 exports.getResults = function (req, res) {
 	Proposition.find({_id: req.params.propId}, function (err, prop) {
@@ -192,92 +283,21 @@ exports.getResults = function (req, res) {
 							} else if(delegatersList){
 								//Loop to make these guys vote. If they have already vote it, they won't do it again!
 
-								for(var d=0; d<delegatersList.length; d++){ 
+								delegateByCategory(req, delegatersList, prop).then(function () {
+									
+									console.log("I am done with delegating votes for categories.");
 
-									delegater = delegatersList[d];
-
-									var categoryInfo = _.find(delegater.delegation, function(item){
-										return item.category == prop.category;
-									});
-					
-									var new_vote = {
-										teamId : req.params.teamId,
-										propId : req.params.propId,
-										voter: delegater.email,
-										delegation : true,
-										content: categoryInfo.delegate
-									};
-
-									emargements.automatedAdd(new_vote, function (err) {
-										if (err) {
-											console.log(err);
-						                }
-									});
-
-
-
-								}  
-
-								console.log("I am done with delegating votes for categories.");
-
-								votes.moveDelegations(req, function (err) {
+									votes.moveDelegations(req, function (err) {
 									if (err) {
 										console.log(err);
 									}
 
+									console.log("Votes were delegated");
+
 									//Calcul des résultats
-									Vote.find({propId: req.params.propId}, function(err, votesToCount) {
-										var holder = {};
+									calculateResults(req);
 
-										console.log("Going to sum it up.");
-
-										votesToCount.forEach(function(d){
-											if (holder.hasOwnProperty(d.content)) {
-												holder[d.content] = holder[d.content] + d.weight;
-											}
-											else{
-												holder[d.content] = d.weight;
-											}
-										});
-
-										var finalLabels = [];
-										var finalData = [];
-										var bestScore=0;
-										var finalVerdict = null;
-
-										for (var prop in holder) {
-											if(holder[prop]>0){
-
-												console.log("Le duo est: " + prop + "&" + holder[prop]);
-
-												finalLabels.push(prop);
-												finalData.push(holder[prop]);
-												if (holder[prop]>bestScore) {
-													bestScore=holder[prop];
-													finalVerdict=prop;
-												}
-												else if(holder[prop]==bestScore){
-													finalVerdict="Egalité!";
-												}
-											}
-
-										}
-
-										console.log("La liste final de labels est: " + finalLabels);
-										console.log("La liste final de data est: " + finalData);
-
-
-										Proposition.update({ _id: req.params.propId }, { $set: { labels: finalLabels, data: finalData, verdict: finalVerdict }}, function (err) {
-											if(err){
-												res.send({success: false, message:"Sorry, there was an error while updating the results."});
-											}
-											else{
-												res.send({success: true, labels: finalLabels, data: finalData, verdict: finalVerdict});
-											}
-										});
-
-								});
-
+									});
 								});
 
 							}
