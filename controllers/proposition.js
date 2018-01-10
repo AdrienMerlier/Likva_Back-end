@@ -25,6 +25,12 @@ exports.findById = function(req, res) {
   	});
 };
 
+exports.findByAuthor = function(req, res) {
+	Proposition.find({authorLink: req.params.email}, function(err, prop) {
+    	res.send({success:true, props: prop});
+  	});
+};
+
 exports.findByCategory = function(req, res) {
 	Proposition.find({team: req.body.team, category: req.body.category}, function(err, props) {
     	res.json(props);
@@ -57,7 +63,7 @@ exports.add = function(req, res) {
 				category: req.body.category,
 				title : req.body.title,
 				author: req.body.author,
-				authorLink: null,
+				authorLink: req.body.email,
 				summary : req.body.summary,
 				description : req.body.description,
 				change : req.body.change,
