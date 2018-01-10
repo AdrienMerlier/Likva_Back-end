@@ -109,22 +109,86 @@ exports.getResults = function (req, res) {
 				}
 
 				else{
+
 					console.log("Going to calculate.");
 					//Delegate the votes that should be calculated
 					TeamUser.find({
 					    'delegation.category': prop.category ,
 					    slug: req.params.teamId}, //Not sure this work
-						function (err, delegaters) {
+						function (err, delegatersList) {
 							if (err) {console.log(err);}
 
-							if(!delegaters){
+							if(!delegatersList){
 								console.log("There are no automated delegation in this team");
-							} else if(delegaters){
+
+								//Caldul des délégations
+
+								votes.moveDelegations(req, function (err) {
+									if (err) {
+										console.log(err);
+									}
+
+									//Calcul des résultats
+									Vote.find({propId: req.params.propId}, function(err, votesToCount) {
+										var holder = {};
+
+										console.log("Going to sum it up.");
+
+										votesToCount.forEach(function(d){
+											if (holder.hasOwnProperty(d.content)) {
+												holder[d.content] = holder[d.content] + d.weight;
+											}
+											else{
+												holder[d.content] = d.weight;
+											}
+										});
+
+										var finalLabels = [];
+										var finalData = [];
+										var bestScore=0;
+										var finalVerdict = null;
+
+										for (var prop in holder) {
+											if(holder[prop]>0){
+
+												console.log("Le duo est: " + prop + "&" + holder[prop]);
+
+												finalLabels.push(prop);
+												finalData.push(holder[prop]);
+												if (holder[prop]>bestScore) {
+													bestScore=holder[prop];
+													finalVerdict=prop;
+												}
+												else if(holder[prop]==bestScore){
+													finalVerdict="Egalité!";
+												}
+											}
+
+										}
+
+										console.log("La liste final de labels est: " + finalLabels);
+										console.log("La liste final de data est: " + finalData);
+
+
+										Proposition.update({ _id: req.params.propId }, { $set: { labels: finalLabels, data: finalData, verdict: finalVerdict }}, function (err) {
+											if(err){
+												res.send({success: false, message:"Sorry, there was an error while updating the results."});
+											}
+											else{
+												res.send({success: true, labels: finalLabels, data: finalData, verdict: finalVerdict});
+											}
+										});
+
+								});
+
+								});
+
+							} else if(delegatersList){
 								//Loop to make these guys vote. If they have already vote it, they won't do it again!
 
-								for(var d=0; d<delegaters.length; d++){ 
+								for(var d=0; d<delegatersList.length; d++){ 
 
-									delegater = delegater[d];
+									delegater = delegatersList[d];
 
 									var categoryInfo = _.find(delegater.delegation, function(item){
 										return item.category == prop.category;
@@ -133,7 +197,7 @@ exports.getResults = function (req, res) {
 									var new_vote = {
 										teamId : req.params.teamId,
 										propId : req.params.propId,
-										voter: req.body.email,
+										voter: delegater.email,
 										delegation : true,
 										content: categoryInfo.delegate
 									};
@@ -144,74 +208,76 @@ exports.getResults = function (req, res) {
 						                }
 									});
 
+
+
 								}  
+
+								console.log("I am done with delegating votes for categories.");
+
+								votes.moveDelegations(req, function (err) {
+									if (err) {
+										console.log(err);
+									}
+
+									//Calcul des résultats
+									Vote.find({propId: req.params.propId}, function(err, votesToCount) {
+										var holder = {};
+
+										console.log("Going to sum it up.");
+
+										votesToCount.forEach(function(d){
+											if (holder.hasOwnProperty(d.content)) {
+												holder[d.content] = holder[d.content] + d.weight;
+											}
+											else{
+												holder[d.content] = d.weight;
+											}
+										});
+
+										var finalLabels = [];
+										var finalData = [];
+										var bestScore=0;
+										var finalVerdict = null;
+
+										for (var prop in holder) {
+											if(holder[prop]>0){
+
+												console.log("Le duo est: " + prop + "&" + holder[prop]);
+
+												finalLabels.push(prop);
+												finalData.push(holder[prop]);
+												if (holder[prop]>bestScore) {
+													bestScore=holder[prop];
+													finalVerdict=prop;
+												}
+												else if(holder[prop]==bestScore){
+													finalVerdict="Egalité!";
+												}
+											}
+
+										}
+
+										console.log("La liste final de labels est: " + finalLabels);
+										console.log("La liste final de data est: " + finalData);
+
+
+										Proposition.update({ _id: req.params.propId }, { $set: { labels: finalLabels, data: finalData, verdict: finalVerdict }}, function (err) {
+											if(err){
+												res.send({success: false, message:"Sorry, there was an error while updating the results."});
+											}
+											else{
+												res.send({success: true, labels: finalLabels, data: finalData, verdict: finalVerdict});
+											}
+										});
+
+								});
+
+								});
 
 							}
 						}
 					);
 
-				//Calcul des délégation des votes
-
-				votes.moveDelegations(req, function (err) {
-					if (err) {
-						console.log(err);
-					}
-				});
-
-				setTimeout(function(){ console.log("Hello"); }, 3000);
-
-				//Calcul des résultats
-				Vote.find({propId: req.params.propId}, function(err, votesToCount) {
-					var holder = {};
-
-					console.log("Going to sum it up.");
-
-					votesToCount.forEach(function(d){
-						if (holder.hasOwnProperty(d.content)) {
-							holder[d.content] = holder[d.content] + d.weight;
-						}
-						else{
-							holder[d.content] = d.weight;
-						}
-					});
-
-					var finalLabels = [];
-					var finalData = [];
-					var bestScore=0;
-					var finalVerdict = null;
-
-					for (var prop in holder) {
-						if(holder[prop]>0){
-
-							console.log("Le duo est: " + prop + "&" + holder[prop]);
-
-							finalLabels.push(prop);
-							finalData.push(holder[prop]);
-							if (holder[prop]>bestScore) {
-								bestScore=holder[prop];
-								finalVerdict=prop;
-							}
-							else if(holder[prop]==bestScore){
-								finalVerdict="Egalité!";
-							}
-						}
-
-					}
-
-					console.log("La liste final de labels est: " + finalLabels);
-					console.log("La liste final de data est: " + finalData);
-
-
-					Proposition.update({ _id: req.params.propId }, { $set: { labels: finalLabels, data: finalData, verdict: finalVerdict }}, function (err) {
-						if(err){
-							res.send({success: false, message:"Sorry, there was an error while updating the results."});
-						}
-						else{
-							res.send({success: true, labels: finalLabels, data: finalData, verdict: finalVerdict});
-						}
-					});
-
-				});
 			}
 
 			}

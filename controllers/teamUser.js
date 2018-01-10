@@ -166,18 +166,13 @@ exports.findDelegateForCategory = function (req, res) {
 		}
 		else{
 
-			console.log(teamUser[0].delegation);
-
-
 			if (teamUser[0].delegation.length == 0) {
-				console.log('There is no delegate');
 				currentDelegate = [{
 					delegate : null
 				}];
 
 			}
 			else{
-				console.log("There might be a delegate.");
 				currentDelegate = teamUser[0].delegation.filter(function (el) {
 					return el.categoryName == req.params.categoryName;
 				});

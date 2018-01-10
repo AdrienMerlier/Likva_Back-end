@@ -107,27 +107,20 @@ exports.add = function(req, res) {
 	
 };
 
-exports.automatedAdd = function(req, res) {
+exports.automatedAdd = function(newVote) {
 
 			//Check that user 
-			Teamuser.find({slug: req.body.teamId, email: req.body.email}, function (err, teamUser) {
+			Teamuser.find({slug: newVote.teamId, email: newVote.email}, function (err, teamUser) {
 				if(!teamUser){
 					console.log('This teamUser is not found.');
 				}
 
 				if (teamUser) {
-					if (teamUser[0].status != "Voter") {
-						console.log('This teamUser cant vote.');
-					} else {
-
-						/* To recheck later, when this matters
-						inTimeToVote = (Date.now()<Date.parse(proposition.date);
-						*/
 						
 						//Check that user didn't vote on proposition yet
-						Emargement.count({_id: req.body.propId, email: req.body.voter}, function (err, count1) {
+						Emargement.count({_id: newVote.propId, email: newVote.voter}, function (err, count1) {
 
-						if (count != 0) {
+						if (count1 != 0) {
 							console.log("A vote has already been registered.");
 						}
 
@@ -136,32 +129,31 @@ exports.automatedAdd = function(req, res) {
 
 							Emargement.create({
 								_id: new ObjectID(),
-								slug : req.body.teamId,
-								propId : req.body.propId,
-								email: req.body.voter
+								slug : newVote.teamId,
+								propId : newVote.propId,
+								email: newVote.voter
 							}, function (err, emargement) {
 								if (err) {
 				                    console.log("couldnt emarge the delegater: " + err);    
 				                } else {
 
 				                	//Ajoute le nom du voter s'il est un délégué potentiel
-										if(teamUser[0].delegable==false){
-											req.body.voter=false;
+										if(teamUser.delegable==false){
+											newVote.voter=false;
 										}
 
-				                	votes.add(req, function (err) {
+				                	votes.automatedAdd(newVote, function (err) {
 				                		if (err) {
 				                    		console.log("couldnt register the vote from the delegater: " + err);    
 				                		} else {
-				                			res.send({ success: true, emargement: emargement});;
+				                			return 1;
 				                		}
 				                	});
 				                }
 							});
 						}
-						});
+					});
 
-					}
 				}
 			});	
 };
