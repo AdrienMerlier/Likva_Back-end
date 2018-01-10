@@ -118,7 +118,9 @@ exports.automatedAdd = function(newVote) {
 				if (teamUser) {
 						
 						//Check that user didn't vote on proposition yet
-						Emargement.count({_id: newVote.propId, email: newVote.voter}, function (err, count1) {
+						Emargement.count({propId: newVote.propId, email: newVote.voter}, function (err, count1) {
+
+						console.log(count1);
 
 						if (count1 != 0) {
 							console.log("A vote has already been registered.");

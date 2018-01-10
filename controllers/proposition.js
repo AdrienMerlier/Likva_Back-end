@@ -12,7 +12,7 @@ votes = require('./vote');
 
 //Underscore, our search tool for arrays
 _ = require('underscore');
-Promise = require("bluebird");
+var Promise = require("bluebird");
 
 
 exports.findAll = function(req, res) {
@@ -94,6 +94,69 @@ exports.add = function(req, res) {
 	});	
 };
 
+exports.delegatFinale = function(req, res){
+
+	Proposition.find({_id: req.params.propId}, function (err, prop) {
+
+		if(!prop){
+
+			res.send({ success: false, message: 'Sorry, couldnt find the proposition.'});
+
+		} else if(prop){
+
+			//Check is vote is over
+
+			if(false){
+
+				res.send({ success: false, message: 'Sorry, couldnt find the proposition.'});
+			
+			} else {
+
+				//Check if results are present
+				console.log(prop[0].data.length);
+
+				if (prop[0].data.length > 0) {
+					console.log("J'envoie les résultats direct.");
+					res.send({ success: true, labels: prop[0].labels, data:prop[0].data, verdict: prop[0].verdict});
+				}
+
+				else{
+
+					console.log("Going to calculate delegateByCategory.");
+					//Delegate the votes that should be calculated
+					TeamUser.find({
+					    'delegation.category': prop.category ,
+					    slug: req.params.teamId}, //Not sure this work
+						function (err, delegatersList) {
+							if (err) {console.log(err);}
+
+							if(!delegatersList){
+								
+
+
+							} else if(delegatersList){
+								//Loop to make these guys vote. If they have already vote it, they won't do it again!
+
+								delegateByCategory(req, delegatersList, prop).then(function () {
+									
+									console.log("I am done with delegating votes for categories.");
+									//Renvoie requete true
+
+									res.send({ success: true, message: 'Delegates were updated.'});
+								});
+
+							}
+						}
+					);
+
+			}
+
+			}
+		}
+	});
+
+}
+
 function delegateByCategory(req, delegatersList, prop) {
 
 	return new Promise(function(resolve, reject) {
@@ -105,7 +168,6 @@ function delegateByCategory(req, delegatersList, prop) {
 			var categoryInfo = _.find(delegater.delegation, function(item){
 				return item.category == prop.category;
 			});
-			console.log(categoryInfo);
 				
 			var new_vote = {
 				teamId : req.params.teamId,
@@ -115,9 +177,12 @@ function delegateByCategory(req, delegatersList, prop) {
 				content: categoryInfo.delegate
 			};
 
-			emargements.automatedAdd(new_vote,function (err) {
-				console.log("Mon vote de catégorie à été fait.");	
+			emargements.automatedAdd(new_vote, function (err) {
+				if (err) {
+					console.log(err);
+		        }
 			});
+			console.log("Mon vote de catégorie à été fait.");
 		} 
 
 	    if (true) {
@@ -207,104 +272,19 @@ exports.getResults = function (req, res) {
 
 				else{
 
-					console.log("Going to calculate.");
-					//Delegate the votes that should be calculated
-					TeamUser.find({
-					    'delegation.category': prop.category ,
-					    slug: req.params.teamId}, //Not sure this work
-						function (err, delegatersList) {
-							if (err) {console.log(err);}
-
-							if(!delegatersList){
-								console.log("There are no automated delegation in this team");
-
-								//Caldul des délégations
-
-								votes.moveDelegations(req, function (err) {
-									if (err) {
-										console.log(err);
-									}
-
-									//Calcul des résultats
-									Vote.find({propId: req.params.propId}, function(err, votesToCount) {
-										var holder = {};
-
-										console.log("Going to sum it up.");
-
-										votesToCount.forEach(function(d){
-											if (holder.hasOwnProperty(d.content)) {
-												holder[d.content] = holder[d.content] + d.weight;
-											}
-											else{
-												holder[d.content] = d.weight;
-											}
-										});
-
-										var finalLabels = [];
-										var finalData = [];
-										var bestScore=0;
-										var finalVerdict = null;
-
-										for (var prop in holder) {
-											if(holder[prop]>0){
-
-												console.log("Le duo est: " + prop + "&" + holder[prop]);
-
-												finalLabels.push(prop);
-												finalData.push(holder[prop]);
-												if (holder[prop]>bestScore) {
-													bestScore=holder[prop];
-													finalVerdict=prop;
-												}
-												else if(holder[prop]==bestScore){
-													finalVerdict="Egalité!";
-												}
-											}
-
-										}
-
-										console.log("La liste final de labels est: " + finalLabels);
-										console.log("La liste final de data est: " + finalData);
-
-
-										Proposition.update({ _id: req.params.propId }, { $set: { labels: finalLabels, data: finalData, verdict: finalVerdict }}, function (err) {
-											if(err){
-												res.send({success: false, message:"Sorry, there was an error while updating the results."});
-											}
-											else{
-												res.send({success: true, labels: finalLabels, data: finalData, verdict: finalVerdict});
-											}
-										});
-
-								});
-
-								});
-
-							} else if(delegatersList){
-								//Loop to make these guys vote. If they have already vote it, they won't do it again!
-
-								delegateByCategory(req, delegatersList, prop).then(function () {
-									
-									console.log("I am done with delegating votes for categories.");
-
-									votes.moveDelegations(req, function (err) {
-									if (err) {
-										console.log(err);
-									}
-
-									console.log("Votes were delegated");
-
-									//Calcul des résultats
-									calculateResults(req);
-
-									});
-								});
-
-							}
+					votes.moveDelegations(req, function (err) {
+						if (err) {
+							console.log(err);
 						}
-					);
 
-			}
+						console.log("Votes were delegated");
+
+									//Calcul des résultats
+						calculateResults(req);
+
+					});
+
+				}
 
 			}
 		}
