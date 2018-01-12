@@ -35,124 +35,25 @@ exports.findDelegates = function(req, res) {
   	});
 };
 
+exports.findDelegatesByCategory = function(req, res) {
+
+	//To redo
+	
+	TeamUser.find({slug: req.params.teamId, delegable: true}, function(err, delegates) {
+
+		var delegatesClean = delegates.filter(function (el) {
+			return el.email !== req.headers.useremail;
+		});
+
+	    res.send(
+	    	{
+	    	success: true,
+			delegateList: delegatesClean
+			});
+  	});
+};
+
 exports.findById = function() {
-};
-
-exports.addFirstUser = function(req, res) {
-
-	User.findOne({ email: req.body.email}, function(err, user) {
-
-            if (err) throw err;
-
-            if (!user) {
-            	console.log('User not found');
-              //res.send({ success: false, message: 'User not found.' });
-            } else if (user) {
-
-				var new_teamUser = {
-				   	slug: slug(req.body.teamName),
-				   	email: user.email,
-				   	displayName: user.username,
-					admin : true,
-					proposer : true,
-					status : "Voter",
-					delegable: true,
-					delegation : [],
-				};
-
-				console.log(new_teamUser.username)
-
-				console.log(new_teamUser);
-
-				//A revoir
-				Teamuser.create(new_teamUser, function (err, teamUser) {
-					if (err) {
-		                    console.log("Error while adding TeamUser: " + teamUser);    
-	                } 
-				});
-
-				return 0;
-            	
-        	}   
-    });
-};
-
-exports.addSimpleUser = function(req, res) {
-
-	User.findOne({ email: req.body.email}, function(err, user) {
-
-            if (err) throw err;
-
-            if (!user) {
-            	res.send({
-					success: false,
-					message: "The user doesn't exist."
-				}); 
-
-            } else if (user) {
-
-				var new_teamUser = {
-				   	slug: req.params.teamId,
-				   	email: user.email,
-				   	displayName: user.username,
-					admin : false,
-					proposer : false,
-					status : "Voter",
-					delegable: false,
-					delegation : [],
-				};
-
-				console.log(new_teamUser);
-
-				//A revoir
-				Teamuser.create(new_teamUser, function (err, teamUser) {
-					if (err) {
-						console.log("Error while adding the teamUser.");   
-	                }
-				});
-            	
-        	}   
-    });
-};
-
-exports.addUserViaAdmin = function(req, res) {
-
-	User.findOne({ email: req.body.email}, function(err, user) {
-
-            if (err) throw err;
-
-            if (!user) {
-            	console.log('User not found');
-
-            } else if (user) {
-
-				console.log("The user is:" + user);
-
-				var new_teamUser = {
-				   	slug: req.params.teamId,
-				   	email: user.email,
-					admin : (req.body.admin =="Oui"),
-					proposer : (req.body.proposer =="Oui"),
-					status : req.body.type,
-					delegable: (req.body.delegable =="Oui"),
-					delegation : [],
-				};
-
-				console.log(new_teamUser);
-
-				//A revoir
-				Teamuser.create(new_teamUser, function (err, teamUser) {
-					if (err) {
-		                    console.log("Error while adding TeamUser via admin: " + teamUser);    
-	                } else {
-						console.log("TeamUser should have been created");
-					}
-				});
-
-				return 0;
-            	
-        	}   
-    });
 };
 
 exports.findDelegateForCategory = function (req, res) {
@@ -202,8 +103,126 @@ exports.findDelegateForCategory = function (req, res) {
 		}
 
 	});
-
 };
+
+
+exports.addFirstUser = function(req, res) {
+
+	User.findOne({ email: req.body.email}, function(err, user) {
+
+            if (err) throw err;
+
+            if (!user) {
+            	console.log('User not found');
+              //res.send({ success: false, message: 'User not found.' });
+            } else if (user) {
+
+				var new_teamUser = {
+				   	slug: slug(req.body.teamName),
+				   	email: user.email,
+				   	displayName: user.username,
+					admin : true,
+					proposer : true,
+					status : "Voter",
+					delegable: [],
+					delegation : []
+				};
+
+				console.log(new_teamUser.username)
+
+				console.log(new_teamUser);
+
+				//A revoir
+				Teamuser.create(new_teamUser, function (err, teamUser) {
+					if (err) {
+		                    console.log("Error while adding TeamUser: " + teamUser);    
+	                } 
+				});
+
+				return 0;
+            	
+        	}   
+    });
+};
+
+exports.addSimpleUser = function(req, res) {
+
+	User.findOne({ email: req.body.email}, function(err, user) {
+
+            if (err) throw err;
+
+            if (!user) {
+            	res.send({
+					success: false,
+					message: "The user doesn't exist."
+				}); 
+
+            } else if (user) {
+
+				var new_teamUser = {
+				   	slug: req.params.teamId,
+				   	email: user.email,
+				   	displayName: user.username,
+					admin : false,
+					proposer : false,
+					status : "Voter",
+					delegable: [],
+					delegation : []
+				};
+
+				console.log(new_teamUser);
+
+				//A revoir
+				Teamuser.create(new_teamUser, function (err, teamUser) {
+					if (err) {
+						console.log("Error while adding the teamUser.");   
+	                }
+				});
+            	
+        	}   
+    });
+};
+
+exports.addUserViaAdmin = function(req, res) {
+
+	User.findOne({ email: req.body.email}, function(err, user) {
+
+            if (err) throw err;
+
+            if (!user) {
+            	console.log('User not found');
+
+            } else if (user) {
+
+				console.log("The user is:" + user);
+
+				var new_teamUser = {
+				   	slug: req.params.teamId,
+				   	email: user.email,
+					admin : (req.body.admin =="Oui"),
+					proposer : (req.body.proposer =="Oui"),
+					status : req.body.type,
+					delegable: [],
+					delegation : [],
+				};
+
+				console.log(new_teamUser);
+
+				//A revoir
+				Teamuser.create(new_teamUser, function (err, teamUser) {
+					if (err) {
+		                    console.log("Error while adding TeamUser via admin: " + teamUser);    
+	                } else {
+						console.log("TeamUser should have been created");
+					}
+				});
+
+				return 0;
+            	
+        	}   
+    });
+};
+
 
 exports.addDelegate = function(req, res) {
 

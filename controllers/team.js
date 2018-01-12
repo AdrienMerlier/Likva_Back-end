@@ -135,7 +135,6 @@ exports.addSimpleUser = function(req, res) {
                 		admin: false,
                 		proposer: false,
                 		role: "Voter", //A changer
-                        delegable: false //A changer
                 	}
 
                 	User.findOneAndUpdate({email: req.body.email}, {$push: {teams: permission}}, function (err) {
@@ -186,7 +185,6 @@ exports.addUserViaAdmin = function(req, res) {
                 		admin: adminReq,
                 		proposer: proposerReq,
                 		role: req.body.type,
-                        delegable: req.body.delegable
                 	}
 
                 	User.findOneAndUpdate({email: req.body.email}, {$push: {teams: permission}}, function (err) {

@@ -43,6 +43,10 @@ Avant de tester nos routes, il faudra vous identifier auprès de l'application. 
 | GET       | /api/teams/:teamId/propositions       | Renvoie l'ensemble des propositions d'une team donnée. |
 | GET       | /api/teams/:teamId/propositions/:category     |   Renvoie les Renvoie l'ensemble des propositions d'une team donnée, pour une catégorie donnée |
 | GET       | /api/teams/:teamId/propositions/:propId     |   Renvoie une proposition donnée |
+| GET       | /api/teams/:teamId/propositions/:email     |   Renvoie l'ensemble des propositions pour un auteur donné
+| GET       | /api/teams/:teamId/propositions/findDelegations     |   Renvoie l'ensemble des délégués possibles
+| GET       | /api/teams/:teamId/propositions/:propId/delegateCategory     |   Delègue automatiquement par catégorie à  la fin d'une catégorie
+| GET       | /api/teams/:teamId/propositions/:propId/delegateCategory     |   Fait le calcul de passage de proposition.
 | GET       | /api/teams/:teamId/propositions/:propId/results     |  If first time, calculate the results, otherwise return the results |
 | POST  | /api/teams/:teamId/propositions      | Crée une proposition. |
 | PUT  | /api/teams/:teamId/propositions/:propId    | Update une proposition. |

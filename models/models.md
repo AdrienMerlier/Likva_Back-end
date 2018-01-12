@@ -54,7 +54,10 @@ var teamUserModelSchema = new Schema({
 	admin : Boolean, //Est admin ou non
 	proposer : Boolean, //Peut proposer ou non
 	status : String, //Rôle de l'utilisateur dans l'équipe ("Voter"/"Commentor"/"Observer")
-	delegable: Boolean, //Peut être délégué ou non
+	delegable: [{ //Peut être délégué ou non
+		categoryName : String, //Categorie où on est délégué
+  		delegable : Boolean //Eligibilité à recevoir des délégations
+	}], 
 	description: String, //La description de l'utilisateur dans l'équipe
 	delegation : [{
   			categoryName: String, //Le nom de la catégorie en question
