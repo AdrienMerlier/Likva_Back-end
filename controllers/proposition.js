@@ -39,6 +39,12 @@ exports.findByCategory = function(req, res) {
   	});
 };
 
+exports.findDelegations = function(req, res) {
+	Proposition.find({team: req.body.team, category: req.body.category}, function(err, props) {
+    	res.json(props);
+  	});
+};
+
 exports.add = function(req, res) {
 
 	Team.count({slug: req.params.teamId}, function (err, count) {
@@ -184,6 +190,7 @@ exports.delegateGeneral = function(req, res){
 	});
 }
 
+//Function called to delegate votes by category
 function delegateByCategory(req, delegatersList, prop) {
 
 	return new Promise(function(resolve, reject) {
@@ -221,7 +228,9 @@ function delegateByCategory(req, delegatersList, prop) {
 }
 	
 
-function calculateResults(req, res) {
+function calculateResults(proposition, req, res) {
+
+
 	Vote.find({propId: req.params.propId}, function(err, votesToCount) {
 		var holder = {};
 
@@ -236,13 +245,19 @@ function calculateResults(req, res) {
 			}
 		});
 
+		console.log("Console: " + JSON.stringify(holder));
+		console.log("Proposition votePossibilities: " + proposition.votePossibilities);
+
 		var finalLabels = [];
 		var finalData = [];
 		var bestScore=0;
 		var finalVerdict = null;
 
 		for (var prop in holder) {
-			if(holder[prop]>0){
+
+			console.log(proposition.votePossibilities.indexOf(prop));
+
+			if(holder[prop]>0 && proposition.votePossibilities.indexOf(prop) > -1){
 
 				console.log("Le duo est: " + prop + "&" + holder[prop]);
 
@@ -336,7 +351,7 @@ exports.getResults = function (req, res) {
 
 				else{
 
-					setTimeout(calculateResults(req, res), 1000);
+					calculateResults(prop[0], req, res);
 
 				}
 
