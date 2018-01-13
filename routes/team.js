@@ -9,6 +9,7 @@ module.exports = function(app){
 
     app.get('/api/teams', teams.findAll);
     app.get('/api/teams/:teamId', teams.findById);
+    app.get('/api/teams/:teamId/users', teamUsers.findUsers);
     app.get('/api/teams/:teamId/delegates', teamUsers.findDelegates);
     app.get('/api/teams/:teamId/delegates/:categoryName', teamUsers.findDelegatesByCategory);
     app.get('/api/teams/:teamId/categories/', teams.findCategories);
