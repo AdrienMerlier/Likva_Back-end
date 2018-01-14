@@ -119,6 +119,14 @@ exports.findDelegateForCategory = function (req, res) {
 	});
 };
 
+exports.becomeDelegate = function (req, res) {
+
+};
+
+exports.removeMyselfDelegate = function (req, res) {
+
+};
+
 
 exports.addFirstUser = function(req, res) {
 
@@ -180,6 +188,7 @@ exports.addSimpleUser = function(req, res) {
 					admin : false,
 					proposer : false,
 					status : "Voter",
+					description: "Bienvenue sur mon profil!",
 					delegable: [],
 					delegation : []
 				};

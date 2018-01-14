@@ -11,9 +11,10 @@ module.exports = function(app){
     app.get('/api/teams/:teamId', teams.findById);
     app.get('/api/teams/:teamId/users', teamUsers.findUsers);
     app.get('/api/teams/:teamId/delegates', teamUsers.findDelegates);
-    app.get('/api/teams/:teamId/delegates/:categoryName', teamUsers.findDelegatesByCategory);
     app.get('/api/teams/:teamId/categories/', teams.findCategories);
     app.get('/api/teams/:teamId/categories/:categoryName/delegate', teamUsers.findDelegateForCategory);
+    app.get('/api/teams/:teamId/categories/:categoryName/becomeDelegate', teamUsers.becomeDelegate);
+    app.get('/api/teams/:teamId/categories/:categoryName/removeMyselfDelegate', teamUsers.removeMyselfDelegate);
     app.post('/api/teams/', teams.add);
     app.post('/api/teams/:teamId/join', teams.addSimpleUser);
     app.post('/api/teams/:teamId//admin/addUser', teams.addUserViaAdmin);
