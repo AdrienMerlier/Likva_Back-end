@@ -162,6 +162,25 @@ exports.becomeDelegate = function (req, res) {
 
 exports.removeMyselfDelegate = function (req, res) {
 
+	console.log("Ca dégage!");
+
+	TeamUser.find({slug: req.params.teamId, userId: req.body.userId}, function (err, teamUser) {
+		if (!teamUser) {
+			res.send({success: false, message: "The teamUser doesn't exist"});
+		}
+		else{
+			//Check if the user is already a delegate
+				
+			Teamuser.findOneAndUpdate({slug: req.params.teamId, userId: req.body.userId}, {$pull: {delegable: {categoryName: req.params.categoryName}}}, function (err, teamUser) {
+            	if (err) throw err;
+
+            	res.send({success: true});
+
+            });
+		}
+
+	});
+
 };
 
 

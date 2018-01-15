@@ -20,7 +20,7 @@ module.exports = function(app){
     app.post('/api/teams/:teamId/categories/:categoryName/delegate', teamUsers.addDelegate);
     app.post('/api/teams/:teamId/categories/removeDelegate', teamUsers.removeDelegate);
     app.post('/api/teams/:teamId/categories/:categoryName/becomeDelegate', teamUsers.becomeDelegate);
-    app.post('/api/teams/:teamId/categories/:categoryName/removeMyselfDelegate', teamUsers.removeMyselfDelegate);
+    app.post('/api/teams/:teamId/categories/:categoryName/removeDelegate', teamUsers.removeMyselfDelegate);
     app.put('/api/teams/:teamId', teams.updateTeam);
     app.put('/api/teams/:teamId/password', teams.updateTeamPassword);
     app.delete('/api/teams/:teamId', teams.delete);
