@@ -37,7 +37,7 @@ exports.findByCategory = function(req, res) {
 
 	var isDelegate = false
 
-	Proposition.find({slug: req.params.teamId, category: req.params.categoryName}, function(err, props) {
+	Proposition.find({slug: req.params.teamId, category: req.params.category}, function(err, props) {
 
 		TeamUser.find({slug: req.params.teamId, userId: req.headers.userid}, function (err, teamUser) {
 			

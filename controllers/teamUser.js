@@ -32,20 +32,40 @@ exports.findTeamUsers = function(req, res) {
 };
 
 exports.findDelegates = function(req, res) {
-	
-	TeamUser.find({slug: req.params.teamId, delegable: true}, function(err, delegates) {
 
-		var delegatesClean = delegates.filter(function (el) {
-			return el.email !== req.headers.useremail;
-		});
+	console.log("Coucou");
 
-		//Ask Leo to send me the email of the profile
+	Proposition.find({_id: req.headers.idproposition}, function(err, prop) {
 
-	    res.send(
+		if(prop[0].category == undefined){
+
+			console.log("Pas de catégorie");
+
+			res.send(
 	    	{
 	    	success: true,
-			delegateList: delegatesClean
+			delegateList: []
 			});
+		}
+
+		else{
+
+			TeamUser.find({slug: req.params.teamId}).elemMatch("delegable", {"categoryName":prop[0].category}).exec(function(err, delegates) {
+
+				console.log(delegates);
+
+				var delegatesClean = delegates.filter(function (el) {
+					return el.email !== req.headers.useremail;
+				});
+
+			    res.send(
+			    	{
+			    	success: true,
+					delegateList: delegatesClean
+				});
+		  	});
+		}
+    	
   	});
 };
 
@@ -53,7 +73,7 @@ exports.findDelegatesByCategory = function(req, res) {
 
 	//To redo
 	
-	TeamUser.find({slug: req.params.teamId, delegable: true}, function(err, delegates) {
+	TeamUser.find({slug: req.params.teamId}).elemMatch("delegable", {"categoryName":req.params.categoryName}).exec(function(err, delegates) {
 
 		var delegatesClean = delegates.filter(function (el) {
 			return el.email !== req.headers.useremail;
@@ -63,7 +83,7 @@ exports.findDelegatesByCategory = function(req, res) {
 	    	{
 	    	success: true,
 			delegateList: delegatesClean
-			});
+		});
   	});
 };
 
