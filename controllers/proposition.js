@@ -41,14 +41,9 @@ exports.findByCategory = function(req, res) {
 
 		TeamUser.find({slug: req.params.teamId, userId: req.headers.userid}, function (err, teamUser) {
 			
-			console.log("Dans la base: " + teamUser[0].delegable);
-
 			var delegableForCategory = _.find(teamUser[0].delegable, function(val){ 
 				return val.categoryName == req.params.category;
 			});
-
-			console.log("Délégué pour cette catégorie " + delegableForCategory);
-
 
 			if(delegableForCategory != undefined){
 				isDelegate = true; //The person is a delegate for this category

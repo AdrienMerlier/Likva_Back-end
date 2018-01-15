@@ -138,7 +138,11 @@ exports.becomeDelegate = function (req, res) {
 		else{
 			//Check if the user is already a delegate
 
-			if(teamUser[0].delegable.indexOf(req.params.categoryName) != -1){
+			var delegableForCategory = _.find(teamUser[0].delegable, function(val){ 
+				return val.categoryName == req.params.category;
+			});
+
+			if(delegableForCategory != undefined){
 				res.send({success: false, message: "The user is already delegate"});
 			}
 			else{
