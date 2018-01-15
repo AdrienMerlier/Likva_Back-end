@@ -191,8 +191,6 @@ exports.addSimpleUser = function(req, res) {
 					delegation : []
 				};
 
-				console.log(new_teamUser);
-
 				//A revoir
 				Teamuser.create(new_teamUser, function (err, teamUser) {
 					if (err) {
@@ -215,8 +213,6 @@ exports.addUserViaAdmin = function(req, res) {
 
             } else if (user) {
 
-				console.log("The user is:" + user);
-
 				var new_teamUser = {
 				   	slug: req.params.teamId,
 				   	email: user.email,
@@ -226,8 +222,6 @@ exports.addUserViaAdmin = function(req, res) {
 					delegable: [],
 					delegation : [],
 				};
-
-				console.log(new_teamUser);
 
 				//A revoir
 				Teamuser.create(new_teamUser, function (err, teamUser) {

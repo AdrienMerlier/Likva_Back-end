@@ -18,12 +18,17 @@ exports.findAll = function(req, res) {
 };
 
 exports.findById = function(req, res) {
-	User.find({_id: req.params._id}, function(err, user) {
-		TeamUser.find({userId: user._id}), function (err, teamUsers) {
-			res.send({
-				success: true,
-				user: user,
-				teamUsers: teamUsers
+	User.find({_id: req.params._id}, 'name surname email teams', function(err, user) {
+		if(!user){
+			res.send({success:false, message:"User not found"});
+		}
+		else{
+			TeamUser.find({userId: req.params._id}, function (err, teamUsers) {
+				res.send({
+					success: true,
+					user: user,
+					teamUsers: teamUsers
+				});
 			});
 		}
   	});
