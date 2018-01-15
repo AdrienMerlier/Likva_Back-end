@@ -66,7 +66,8 @@ module.exports = function(app){
                 var token = jwt.sign(payload, 'LikvaLikva', app.get('neverendingLikva'), {
                   expiresInMinutes: 1440 // expires in 24 hours
                 });
-                
+
+
 
                 // return the information including token as JSON
                 res.json({
@@ -74,6 +75,7 @@ module.exports = function(app){
                   message: 'Enjoy your login!',
                   token: token,
                   user:{
+                    id: user._id,
                     name: user.name,
                     surname: user.surname,
                     username: user.username,
