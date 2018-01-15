@@ -418,4 +418,25 @@ exports.update = function(req, res) {
 	});
 };
 
+exports.getByAuthor = function (req, res) {
+
+	Proposition.find({authorlink: req.body.email}, function (err, propositions) {
+		if (err) throw err;
+		else {
+			var toSendProps = {};
+			propositions.forEach(function (proposition) {
+				toSendProps.push({
+					title: proposition.title,
+					category: proposition.category,
+					slug: proposition.slug,
+					_id: proposition._id
+					// TODO add votersNumber
+				})
+            }).then(function () {
+				res.send({success: true, props: toSendProps})
+            })
+		}
+    })
+}
+
 exports.delete = function() {};
