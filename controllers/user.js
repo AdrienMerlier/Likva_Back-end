@@ -27,13 +27,10 @@ function hasDelegate(teamUsers, teamName, categoryName) {
 		return val.slug == teamName;
 	});
 
-	console.log("Maybe this affects: " +teamUsers[0].delegable);
-
 	var delegable = _.find(teamUser.delegable, function(val){ 
 		return val.categoryName == categoryName;
 	});
 
-	console.log("Or maybe this affects: " +teamUsers[0].delegable);
 	if(delegable == undefined){
 		return false;
 	}
