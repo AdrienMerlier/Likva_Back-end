@@ -1,11 +1,15 @@
 var mongoose = require('mongoose');
 var ObjectID = require('mongodb').ObjectID;
 require('../models/teamUser');
+require('../models/team');
+
 
 
 User = mongoose.model('User');
 TeamUser = mongoose.model('TeamUser');
+Team = mongoose.model('Team');
 
+_ = require('underscore');
 
 var bcrypt = require('bcrypt-nodejs');
 
@@ -17,18 +21,81 @@ exports.findAll = function(req, res) {
   	});
 };
 
+function hasDelegate(teamUsers, teamName, categoryName) {
+	
+	var teamUser =_.find(teamUsers, function(val){ 
+		return val.slug == teamName;
+	});
+
+	var delegable = _.find(teamUser.delegable, function(val){ 
+		return val.categoryName == categoryName;
+	});
+
+	if(delegable == undefined){
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
 exports.findById = function(req, res) {
+
 	User.find({_id: req.params._id}, 'name surname email teams', function(err, user) {
 		if(!user){
 			res.send({success:false, message:"User not found"});
 		}
 		else{
-			TeamUser.find({userId: req.params._id}, function (err, teamUsers) {
-				res.send({
-					success: true,
-					user: user,
-					teamUsers: teamUsers
-				});
+			console.log(req.params._id);
+			TeamUser.find({userId: req.params._id}, 'slug userId email displayName admin proposer status delegation delegable', function (err, teamUsersList) {
+
+				var userTeams = user[0].teams.map(a => a.slug);
+
+				Team.find({slug: {$in: userTeams}}, function (err, teams) {
+
+					//On boucle autour des équipes dont l'utilisateur fait partie
+
+					var teamUsers = [];
+
+					teams.forEach( function (team){
+
+
+					    var categories = [];
+
+					    team.categories.forEach( function (category){
+
+					    	console.log("Before the push: " +teamUsersList[0].delegable);
+
+					    	categories.push({
+					    		categoryName: category.categoryName,
+					    		delegable: hasDelegate(teamUsersList, team.slug, category.categoryName)
+					    	});
+
+							console.log("After the push: " +teamUsersList[0].delegable);
+
+
+						});
+
+						teamUsers.push({
+							displayName: team.displayName,
+							categories: categories
+						})
+
+					});
+
+					res.send({
+						success: true,
+						user: {
+							_id: user[0]._id,
+							name: user[0].name,
+							surname: user[0].surname,
+							biography: "This is my biography",
+							email: user[0].email,
+							teams: teamUsers
+						}
+					});
+				})
+
 			});
 		}
   	});

@@ -167,7 +167,7 @@ exports.becomeDelegate = function (req, res) {
 			}
 			else{
 				
-				Teamuser.findOneAndUpdate({slug: req.params.teamId, userId: req.body.userId}, {$push: {delegable: {categoryName: req.params.categoryName}}}, function (err, teamUser) {
+				Teamuser.findOneAndUpdate({slug: req.params.teamId, userId: req.body.userId}, {$push: {delegable: {categoryName: req.params.categoryName, delegable: true}}}, function (err, teamUser) {
             		if (err) throw err;
 
             		res.send({success: true});
