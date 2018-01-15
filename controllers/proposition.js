@@ -34,8 +34,34 @@ exports.findByAuthor = function(req, res) {
 };
 
 exports.findByCategory = function(req, res) {
-	Proposition.find({team: req.body.team, category: req.body.category}, function(err, props) {
-    	res.json(props);
+
+	var isDelegate = false
+
+	Proposition.find({slug: req.params.teamId, category: req.params.categoryName}, function(err, props) {
+
+		TeamUser.find({slug: req.params.teamId, userId: req.headers.userid}, function (err, teamUser) {
+			
+			console.log("Dans la base: " + teamUser[0].delegable);
+
+			var delegableForCategory = _.find(teamUser[0].delegable, function(val){ 
+				return val.categoryName == req.params.category;
+			});
+
+			console.log("Délégué pour cette catégorie " + delegableForCategory);
+
+
+			if(delegableForCategory != undefined){
+				isDelegate = true; //The person is a delegate for this category
+				console.log("Je suis délégué!");
+			}
+
+			res.send({
+				success: true,
+				isDelegate: isDelegate,
+				props: props
+			});
+
+		});
   	});
 };
 

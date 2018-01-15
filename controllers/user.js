@@ -102,6 +102,7 @@ exports.updatePassword = function(req, res) {
 
     });
 };
+
 exports.delete = function() {
 	var id = req.params.id;
   	User.remove({'_id':id},function(result) {

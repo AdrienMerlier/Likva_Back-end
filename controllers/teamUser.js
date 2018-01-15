@@ -17,7 +17,7 @@ exports.findAll = function(req, res) {
 
 };
 
-exports.findUsers = function(req, res) {
+exports.findTeamUsers = function(req, res) {
 
 	console.log(req.params.teamId);
 	
@@ -101,17 +101,27 @@ exports.findDelegateForCategory = function (req, res) {
 			//Get list of all delegates
 			TeamUser.find({slug: req.params.teamId, delegable: true}, function(err, delegates) {
 
-				var delegatesClean = delegates.filter(function (el) {
-					return el.email !== req.headers.useremail;
-				});
+				if (delegates == undefined) {
+					res.send({
+				   		success: true,
+				   		currentDelegate: currentDelegate[0].delegate,
+						delegateList: []
+					});
+				}
 
-				console.log(currentDelegate)
+				else{
+					var delegatesClean = delegates.filter(function (el) {
+						return el.email !== req.headers.useremail;
+					});
 
-				res.send({
-			   		success: true,
-			   		currentDelegate: currentDelegate[0].delegate,
-					delegateList: delegatesClean
-				});
+					console.log(currentDelegate)
+
+					res.send({
+				   		success: true,
+				   		currentDelegate: currentDelegate[0].delegate,
+						delegateList: delegatesClean
+					});
+				}
 
 	  		});
 		}
@@ -120,6 +130,29 @@ exports.findDelegateForCategory = function (req, res) {
 };
 
 exports.becomeDelegate = function (req, res) {
+
+	TeamUser.find({slug: req.params.teamId, userId: req.body.userId}, function (err, teamUser) {
+		if (!teamUser) {
+			res.send({success: false, message: "The teamUser doesn't exist"});
+		}
+		else{
+			//Check if the user is already a delegate
+
+			if(teamUser[0].delegable.indexOf(req.params.categoryName) != -1){
+				res.send({success: false, message: "The user is already delegate"});
+			}
+			else{
+				
+				Teamuser.findOneAndUpdate({slug: req.params.teamId, userId: req.body.userId}, {$push: {delegable: {categoryName: req.params.categoryName}}}, function (err, teamUser) {
+            		if (err) throw err;
+
+            		res.send({success: true});
+
+            	});
+			}	
+		}
+
+	});
 
 };
 
