@@ -420,7 +420,7 @@ exports.update = function(req, res) {
 
 exports.getByAuthor = function (req, res) {
 
-	Proposition.find({authorlink: req.body.email}, function (err, propositions) {
+	Proposition.find({authorlink: req.params.email}, function (err, propositions) {
 		if (err) throw err;
 		else {
 			var toSendProps = {};
