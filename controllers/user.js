@@ -1,8 +1,10 @@
 var mongoose = require('mongoose');
 var ObjectID = require('mongodb').ObjectID;
+require('../models/teamUser');
 
 
 User = mongoose.model('User');
+TeamUser = mongoose.model('TeamUser');
 
 
 var bcrypt = require('bcrypt-nodejs');
@@ -14,9 +16,16 @@ exports.findAll = function(req, res) {
     	res.json(users);
   	});
 };
-exports.findById = function() {
-	User.find({email: req.params._id}, function(err, user) {
-    	res.json(user);
+
+exports.findById = function(req, res) {
+	User.find({_id: req.params._id}, function(err, user) {
+		TeamUser.find({userId: user._id}), function (err, teamUsers) {
+			res.send({
+				success: true,
+				user: user,
+				teamUsers: teamUsers
+			});
+		}
   	});
 };
 

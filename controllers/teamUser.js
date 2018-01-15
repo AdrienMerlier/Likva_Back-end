@@ -141,6 +141,7 @@ exports.addFirstUser = function(req, res) {
 
 				var new_teamUser = {
 				   	slug: slug(req.body.teamName),
+				   	userId: user._id,
 				   	email: user.email,
 				   	displayName: user.username,
 					admin : true,
@@ -148,11 +149,7 @@ exports.addFirstUser = function(req, res) {
 					status : "Voter",
 					delegable: [],
 					delegation : []
-				};
-
-				console.log(new_teamUser.username)
-
-				console.log(new_teamUser);
+				}
 
 				//A revoir
 				Teamuser.create(new_teamUser, function (err, teamUser) {
@@ -183,6 +180,7 @@ exports.addSimpleUser = function(req, res) {
 
 				var new_teamUser = {
 				   	slug: req.params.teamId,
+				   	userId: user._id,
 				   	email: user.email,
 				   	displayName: user.username,
 					admin : false,

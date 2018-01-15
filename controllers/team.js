@@ -108,7 +108,6 @@ exports.addSimpleUser = function(req, res) {
             }
 
             else if (team) {
-                console.log("I found the team. The password proposed is:" + req.body.teamPassword);
 
             	if (!bcrypt.compareSync(req.body.teamPassword, team[0].password)) {
                 	res.send({ success: false, message: 'Authentication failed. Wrong password.' });
@@ -122,10 +121,6 @@ exports.addSimpleUser = function(req, res) {
                             throw err;
                         } 
                 	});
-
-
-                	//Update the user with the information about his account;
-                    console.log("I am going to update the teamuser");
 
 
 

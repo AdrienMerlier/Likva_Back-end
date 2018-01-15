@@ -3,6 +3,7 @@ Schema = mongoose.Schema;
 
 var teamUserModelSchema = new Schema({
 	slug: String,
+	userId: String,
 	email : String,
 	displayName: String,
 	admin : Boolean,
