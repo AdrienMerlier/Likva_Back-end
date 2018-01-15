@@ -64,14 +64,10 @@ exports.findById = function(req, res) {
 
 					    team.categories.forEach( function (category){
 
-					    	console.log("Before the push: " +teamUsersList[0].delegable);
-
 					    	categories.push({
 					    		categoryName: category.categoryName,
 					    		delegable: hasDelegate(teamUsersList, team.slug, category.categoryName)
 					    	});
-
-							console.log("After the push: " +teamUsersList[0].delegable);
 
 
 						});

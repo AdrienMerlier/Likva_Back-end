@@ -28,7 +28,9 @@ exports.findById = function(req, res) {
 };
 
 exports.findByAuthor = function(req, res) {
-	Proposition.find({authorLink: req.params.email}, function(err, prop) {
+	console.log("Coucou");
+	Proposition.find({authorLink: req.params.id}, function(err, prop) {
+		console.log("Props:" + prop);
     	res.send({success:true, props: prop});
   	});
 };
@@ -92,7 +94,7 @@ exports.add = function(req, res) {
 				category: req.body.category,
 				title : req.body.title,
 				author: req.body.author,
-				authorLink: req.body.email,
+				authorLink: req.body.authorLink,
 				summary : req.body.summary,
 				description : req.body.description,
 				change : req.body.change,
