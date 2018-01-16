@@ -132,6 +132,23 @@ exports.add = function(req, res) {
 
 exports.update = function(req, res) {};
 
+exports.updateBiography = function (req, res) {
+	User.findOne({_id: req.params.userId}, function (err, user) {
+        if (err) throw err;
+
+        else {
+        	user.biography = req.body.biography;
+			user.save(function (err) {
+                if (err) {
+                    res.json({success: false});
+                } else {
+                    res.json({success: true});
+				}
+            })
+		}
+    })
+}
+
 exports.updatePassword = function(req, res) {
 
 	User.findOne({ email: req.body.logemail}, function(err, user) {
