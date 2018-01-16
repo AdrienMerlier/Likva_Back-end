@@ -89,7 +89,8 @@ var propositionModelSchema = new Schema({
 	document5 : String, //Un URL de ressource
 	information: String, //Les informations sur le vote
 	type: String, //Le type de vote pour calculer les résultats
-	date : Date //La date de fin de vote
+	date : Date //La date de fin de vote,
+	numberOfvotes: Number, //Nombre de personnes qui ont déja voté
 	votePossibilities: [String], //Les votes possibles
 	labels: [String], //Les votes possibles qui ont recu un vote enregistrés
 	data: [Number], //Les compteurs de vote

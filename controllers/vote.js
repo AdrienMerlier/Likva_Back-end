@@ -40,7 +40,17 @@ exports.add = function(req, res) {
                     res.send({ success: false, message: 'Sorry, couldnt cast your vote after emargement.' });  
                     //Add to erase the Emargement
                 } else {
-                	res.send({ success: true});
+
+                	Proposition.findOneAndUpdate({ _id: req.params.propId }, { $inc: { numberOfVotes: 1 }}, {new: true}, function (err, propUpdated) {
+						if (err) {
+            				console.log("Ca bug.");
+        				}
+
+        				console.log(propUpdated);
+                		console.log("C'est augmenté")
+						res.send({ success: true});
+
+					});
                 }
 			});
 		}

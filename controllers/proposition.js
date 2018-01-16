@@ -31,7 +31,7 @@ exports.findById = function(req, res) {
 };
 
 exports.findByAuthor = function(req, res) {
-	Proposition.find({authorLink: req.params.id}, function(err, prop) {
+	Proposition.find({authorLink: req.headers.authorid}, function(err, prop) {
     	res.send({success:true, props: prop});
   	});
 };
@@ -101,6 +101,7 @@ exports.add = function(req, res) {
 				consequences : req.body.consequences,
 				information: req.body.information,
 				type: req.body.typeOfVote,
+				numberOfVotes: 0,
 				votePossibilities: arrayOfPossibilities,
 				date : Date.parse(req.body.endDate),
 				verdict : "onGoing"

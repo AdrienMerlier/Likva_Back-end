@@ -53,7 +53,7 @@ exports.add = function(req, res) {
 					} else {
 
 						
-						inTimeToVote = (Date.now()-Date.parse(prop[0].date) < 0);
+						inTimeToVote = (Date.now()-Date.parse(proposition[0].date) < 0);
 						
 						
 						//Check that user didn't vote on proposition yet
@@ -93,6 +93,7 @@ exports.add = function(req, res) {
 				                		if (err) {
 				                    		res.send({ success: false, message: 'Sorry, couldnt cast your vote after emargement.' });    
 				                		}
+
 				                	});
 				                }
 							});
