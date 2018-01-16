@@ -22,6 +22,9 @@ findByVoter = function(voterId) {
 }
 
 exports.getVotesInfosForUserProfile = function(req, res) {
+
+	console.log(req.headers);
+
     var votes = findByVoter(req.headers.voterId);
     votes.forEach(function (vote){
         vote.proposition = Proposition.findOne({_id: vote.propId}, function(err, prop) {

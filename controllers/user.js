@@ -114,6 +114,7 @@ exports.add = function(req, res) {
 						   	name : req.body.name,
 						   	surname : req.body.surname,
 						   	username : username,
+						   	biography: '',
 						   	password : hash,
 						   	email : req.body.email,
 				};
@@ -133,18 +134,19 @@ exports.add = function(req, res) {
 exports.update = function(req, res) {};
 
 exports.updateBiography = function (req, res) {
-	User.findOne({_id: req.params.userId}, function (err, user) {
+
+	User.find({_id: req.params.id}, function (err, user) {
         if (err) throw err;
 
         else {
-        	user.biography = req.body.biography;
-			user.save(function (err) {
-                if (err) {
+
+        	User.findOneAndUpdate({_id: req.params.id}, { $set : { biography : req.body.biography}}, {upsert: true}, function (err, user) {
+        		if (err) {
                     res.json({success: false});
                 } else {
                     res.json({success: true});
 				}
-            })
+        	});
 		}
     })
 }

@@ -8,6 +8,7 @@ var userModelSchema = new Schema({
 	name : String,
 	surname : String,
 	username : String,
+  biography: String,
 	password : String,
 	email : String,
   teams: []
