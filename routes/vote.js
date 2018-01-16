@@ -4,5 +4,5 @@ module.exports = function(app){
 
 
     app.get('/api/teams/:teamId/proposition/:propId/votes', votes.findByProposition);
-    app.get('/api/votes/author', votes.getVotesInfosForUserProfile);
+    app.get('/api/votes/voter', votes.getVotesInfosForUserProfile);
 }
