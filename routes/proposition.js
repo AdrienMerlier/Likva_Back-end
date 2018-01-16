@@ -7,7 +7,7 @@ module.exports = function(app){
     app.get('/api/teams/:teamId/propositions', propositions.findAll);
     app.get('/api/teams/:teamId/categories/:category', propositions.findByCategory);
     app.get('/api/teams/:teamId/propositions/:propId', propositions.findById);
-    app.get('/api/propositions/author/:email', propositions.findByAuthor);
+    app.get('/api/propositions/author', propositions.findByAuthor);
     app.get('/api/teams/:teamId/propositions/:propId/delegateCategory', propositions.delegatFinale);
     app.get('/api/teams/:teamId/propositions/:propId/delegateGeneral', propositions.delegateGeneral);
     app.get('/api/teams/:teamId/propositions/:propId/results', propositions.getResults);
