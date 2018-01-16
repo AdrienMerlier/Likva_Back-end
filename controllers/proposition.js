@@ -22,15 +22,16 @@ exports.findAll = function(req, res) {
 };
 
 exports.findById = function(req, res) {
+
+	console.log("Je suis dans la proposition");
 	Proposition.find({slug: req.params.teamId, _id: req.params.propId}, function(err, prop) {
+
     	res.send({success:true, props: prop});
   	});
 };
 
 exports.findByAuthor = function(req, res) {
-	console.log("Coucou");
 	Proposition.find({authorLink: req.params.id}, function(err, prop) {
-		console.log("Props:" + prop);
     	res.send({success:true, props: prop});
   	});
 };
@@ -84,8 +85,6 @@ exports.add = function(req, res) {
 			}
 			*/
 
-			console.log("La catégorie est: "+ req.body.category);
-
 			var arrayOfPossibilities = String(req.body.votePossibilities).split(",");
 
 			var new_proposition = {
@@ -105,8 +104,6 @@ exports.add = function(req, res) {
 				date : Date(req.body.endDate),
 				verdict : "onGoing"
 			};
-
-			console.log(new_proposition.slug);
 
 			Proposition.create(new_proposition, function (err) {
 				if (err) {
@@ -133,16 +130,21 @@ exports.delegatFinale = function(req, res){
 
 		} else if(prop){
 
+			console.log(Date.now()-Date.parse(prop[0].date) > 0);
+
 			//Check is vote is over
 
-			if(false){
+			if(Date.now()-Date.parse(prop[0].date) > 0){
 
-				res.send({ success: false, message: 'Sorry, couldnt find the proposition.'});
+				console.log("La date limite n'est pas passé.");
+
+				res.send({ success: false, message: "Désolé, la date limite de vote n'est pas passé."});
 			
 			} else {
 
+				console.log("La date limite est passé.");
+
 				//Check if results are present
-				console.log(prop[0].data.length);
 
 				if (prop[0].data.length > 0) {
 					console.log("J'envoie les résultats direct.");
@@ -151,7 +153,6 @@ exports.delegatFinale = function(req, res){
 
 				else{
 
-					console.log("Going to calculate delegateByCategory.");
 					//Delegate the votes that should be calculated
 					TeamUser.find({
 					    'delegation.category': prop.category ,
@@ -168,7 +169,6 @@ exports.delegatFinale = function(req, res){
 
 								delegateByCategory(req, delegatersList, prop).then(function () {
 									
-									console.log("I am done with delegating votes for categories.");
 									//Renvoie requete true
 
 									res.send({ success: true, message: 'Delegates were updated.'});
@@ -204,7 +204,6 @@ exports.delegateGeneral = function(req, res){
 			} else {
 
 				//Check if results are present
-				console.log(prop[0].data.length);
 
 				moveDelegations(req, res);
 
@@ -267,9 +266,6 @@ function calculateResults(proposition, req, res) {
 				holder[d.content] = d.weight;
 			}
 		});
-
-		console.log("Console: " + JSON.stringify(holder));
-		console.log("Proposition votePossibilities: " + proposition.votePossibilities);
 
 		var finalLabels = [];
 		var finalData = [];

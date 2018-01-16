@@ -46,7 +46,6 @@ exports.findById = function(req, res) {
 			res.send({success:false, message:"User not found"});
 		}
 		else{
-			console.log(req.params._id);
 			TeamUser.find({userId: req.params._id}, 'slug userId email displayName admin proposer status delegation delegable', function (err, teamUsersList) {
 
 				var userTeams = user[0].teams.map(a => a.slug);
@@ -108,9 +107,7 @@ exports.add = function(req, res) {
 		else{
 					
 			var username = req.body.name + " " + req.body.surname;
-			var hash = bcrypt.hashSync(req.body.pwd);
-			console.log(username);
-					
+			var hash = bcrypt.hashSync(req.body.pwd);					
 
 			var new_user = {
 						   	_id: new ObjectID(),

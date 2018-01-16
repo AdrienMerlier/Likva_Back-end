@@ -33,13 +33,9 @@ exports.findTeamUsers = function(req, res) {
 
 exports.findDelegates = function(req, res) {
 
-	console.log("Coucou");
-
 	Proposition.find({_id: req.headers.idproposition}, function(err, prop) {
 
 		if(prop[0].category == undefined){
-
-			console.log("Pas de catégorie");
 
 			res.send(
 	    	{
@@ -51,8 +47,6 @@ exports.findDelegates = function(req, res) {
 		else{
 
 			TeamUser.find({slug: req.params.teamId}).elemMatch("delegable", {"categoryName":prop[0].category}).exec(function(err, delegates) {
-
-				console.log(delegates);
 
 				var delegatesClean = delegates.filter(function (el) {
 					return el.email !== req.headers.useremail;
@@ -134,8 +128,6 @@ exports.findDelegateForCategory = function (req, res) {
 						return el.email !== req.headers.useremail;
 					});
 
-					console.log(currentDelegate)
-
 					res.send({
 				   		success: true,
 				   		currentDelegate: currentDelegate[0].delegate,
@@ -181,8 +173,6 @@ exports.becomeDelegate = function (req, res) {
 };
 
 exports.removeMyselfDelegate = function (req, res) {
-
-	console.log("Ca dégage!");
 
 	TeamUser.find({slug: req.params.teamId, userId: req.body.userId}, function (err, teamUser) {
 		if (!teamUser) {
@@ -316,8 +306,6 @@ exports.addUserViaAdmin = function(req, res) {
 
 
 exports.addDelegate = function(req, res) {
-
-	console.log("I am going to add a delegate");
 	
 	TeamUser.findOne({ email: req.body.voter, slug: req.params.teamId}, function(err, teamUser) {
 
@@ -330,18 +318,12 @@ exports.addDelegate = function(req, res) {
 				});
             } else if (teamUser) {
 
-				console.log("The TeamUser is:" + teamUser);
-
             	//Controle if user have already a delegate for the category
 
             	var delegateExist = teamUser.delegation.filter(function (item) {return item.categoryName == req.params.categoryName;}) 
 				var emptyArray = [];
 
-				console.log(delegateExist.length);
-
             	if (delegateExist.length){
-
-            		console.log("There is already a delegate");
 
             		//Add review of the delegate
             		TeamUser.update(
@@ -369,8 +351,6 @@ exports.addDelegate = function(req, res) {
             	
 
             	else{
-
-            		console.log("There is no delegate");
 
             		var new_delegate = {
 				   		categoryName: req.params.categoryName,
@@ -402,8 +382,6 @@ exports.addDelegate = function(req, res) {
 };
 
 exports.removeDelegate = function(req, res) {
-
-	console.log("I am going to remove a delegate");
 	
 	TeamUser.findOne({ email: req.body.voter, slug: req.params.teamId}, function(err, teamUser) {
 
