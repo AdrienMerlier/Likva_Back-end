@@ -28,7 +28,7 @@ exports.findById = function(req, res) {
 };
 
 exports.findByAuthor = function(req, res) {
-	Proposition.find({authorLink: req.params.email}, function(err, prop) {
+	Proposition.find({authorLink: req.headers.authorId}, function(err, prop) {
     	res.send({success:true, props: prop});
   	});
 };
