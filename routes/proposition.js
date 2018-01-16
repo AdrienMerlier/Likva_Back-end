@@ -13,7 +13,7 @@ module.exports = function(app){
     app.get('/api/teams/:teamId/propositions/:propId/delegateGeneral', propositions.delegateGeneral);
     app.get('/api/teams/:teamId/propositions/:propId/results', propositions.getResults);
     app.post('/api/teams/:teamId/propositions', propositions.add);
-    app.get('/api/teams/:teamId/propositions/author', propositions.getByAuthor);
+    app.get('/api/teams/:teamId/propositions/author/:email', propositions.getByAuthor);
     app.put('/api/teams/:teamId/propositions/:propId', propositions.update);
     app.delete('/api/teams/:teamId/propositions/:propId', propositions.delete);
 
