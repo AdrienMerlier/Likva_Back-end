@@ -37,7 +37,7 @@ exports.add = function(req, res) {
 
 	Proposition.count({_id: req.params.propId}, function (err, count) {
 
-		if (count != 1) {
+		if (count !== 1) {
 					res.send("Sorry, this proposition doesn't exist.");
 		}
 
