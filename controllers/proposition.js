@@ -427,8 +427,9 @@ exports.getByAuthor = function (req, res) {
 					title: proposition.title,
 					category: proposition.category,
 					slug: proposition.slug,
-					_id: proposition._id
-					// TODO add votersNumber
+					_id: proposition._id,
+					verdict: proposition.verdict,
+                    numberOfVotes: proposition.numberOfVotes
 				})
             }).then(function () {
 				res.send({success: true, props: toSendProps})
