@@ -14,6 +14,25 @@ exports.findByProposition = function(req, res) {
   	});
 };
 
+exports.findByVoter = function(voterId) {
+    Vote.find({}, function(err, votes) {
+        if (err) throw err;
+        else return votes;
+    })
+}
+
+exports.getVotesInfosForUserProfile = function(req, res) {
+    var votes = findByVoter(req.headers.voterId);
+    votes.forEach(function (vote){
+        vote.proposition = Proposition.findOne({_id: vote.propId}, function(err, prop) {
+            if (err) throw err;
+            else return prop;
+        })
+    }).then(function () {
+        res.send({success: true, votes: votes});
+    })
+}
+
 exports.add = function(req, res) {
 
 	Proposition.count({_id: req.params.propId}, function (err, count) {

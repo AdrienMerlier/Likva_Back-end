@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="61238b44-a3db-42d4-b3c9-1f5e30b0fd3e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/controllers/proposition.js" afterPath="$PROJECT_DIR$/controllers/proposition.js" />
+      <change beforePath="$PROJECT_DIR$/controllers/vote.js" afterPath="$PROJECT_DIR$/controllers/vote.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -14,16 +13,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="user.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/user.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="user.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/user.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -84,11 +73,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="proposition.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="proposition.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/proposition.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="634">
-              <caret line="431" column="60" lean-forward="true" selection-start-line="431" selection-start-column="60" selection-end-line="431" selection-end-column="60" />
+            <state relative-caret-position="175">
+              <caret line="404" column="0" lean-forward="true" selection-start-line="404" selection-start-column="0" selection-end-line="404" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="vote.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/controllers/vote.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="23" column="35" lean-forward="false" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -144,6 +143,7 @@
         <option value="$PROJECT_DIR$/controllers/team.js" />
         <option value="$PROJECT_DIR$/routes/proposition.js" />
         <option value="$PROJECT_DIR$/controllers/proposition.js" />
+        <option value="$PROJECT_DIR$/controllers/vote.js" />
       </list>
     </option>
   </component>
@@ -245,12 +245,12 @@
       <workItem from="1510302905601" duration="3441000" />
       <workItem from="1510957319049" duration="3755000" />
       <workItem from="1516041882365" duration="4126000" />
-      <workItem from="1516120942785" duration="855000" />
+      <workItem from="1516120942785" duration="2375000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23225000" />
+    <option name="totallyTimeSpent" value="24745000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="696" y="0" width="1230" height="1047" extended-state="0" />
@@ -286,7 +286,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/docker/node_modules/lodash/fp/forOwn.js" />
     <entry file="file://$PROJECT_DIR$/src_new/html/login.html" />
     <entry file="file://$PROJECT_DIR$/Vote_Signature.json" />
     <entry file="file://$PROJECT_DIR$/src_new/docker-compose.yml" />
@@ -413,8 +412,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/proposition.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="634">
-          <caret line="431" column="60" lean-forward="true" selection-start-line="431" selection-start-column="60" selection-end-line="431" selection-end-column="60" />
+        <state relative-caret-position="175">
+          <caret line="404" column="0" lean-forward="true" selection-start-line="404" selection-start-column="0" selection-end-line="404" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/vote.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="35" lean-forward="false" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="35" />
           <folding />
         </state>
       </provider>
