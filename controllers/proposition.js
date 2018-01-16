@@ -84,6 +84,7 @@ exports.add = function(req, res) {
 				That user can propose in this team
 			}
 			*/
+			console.log(req.body.endDate);
 
 			var arrayOfPossibilities = String(req.body.votePossibilities).split(",");
 
@@ -101,7 +102,7 @@ exports.add = function(req, res) {
 				information: req.body.information,
 				type: req.body.typeOfVote,
 				votePossibilities: arrayOfPossibilities,
-				date : Date(req.body.endDate),
+				date : Date.parse(req.body.endDate),
 				verdict : "onGoing"
 			};
 
@@ -129,8 +130,6 @@ exports.delegatFinale = function(req, res){
 			res.send({ success: false, message: 'Sorry, couldnt find the proposition.'});
 
 		} else if(prop){
-
-			console.log(Date.now()-Date.parse(prop[0].date) > 0);
 
 			//Check is vote is over
 

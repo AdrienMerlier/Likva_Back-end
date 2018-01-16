@@ -52,17 +52,17 @@ exports.add = function(req, res) {
 						res.send({ success: false, message: 'Sorry, we dont consider you a voter.' });
 					} else {
 
-						/* To recheck later, when this matters
-						inTimeToVote = (Date.now()<Date.parse(proposition.date);
-						*/
+						
+						inTimeToVote = (Date.now()-Date.parse(prop[0].date) < 0);
+						
 						
 						//Check that user didn't vote on proposition yet
 						Emargement.count({propId: req.params.propId, email: req.body.voter}, function (err, count1) {
 
 
 
-						if (count1 != 0) {
-							res.send({success: false, message: "Sorry, the vote has already been registered."});
+						if (count1 != 0 && inTimeToVote) {
+							res.send({success: false, message: "Sorry, the vote has already been registered, or it is too late to vote."});
 						}
 
 						else if(req.body.voter == req.body.content){
