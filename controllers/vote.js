@@ -14,8 +14,8 @@ exports.findByProposition = function(req, res) {
   	});
 };
 
-exports.findByVoter = function(voterId) {
-    Vote.find({}, function(err, votes) {
+findByVoter = function(voterId) {
+    Vote.find({voter: voterId}, function(err, votes) {
         if (err) throw err;
         else return votes;
     })

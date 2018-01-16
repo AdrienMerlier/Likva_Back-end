@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="61238b44-a3db-42d4-b3c9-1f5e30b0fd3e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/controllers/vote.js" afterPath="$PROJECT_DIR$/controllers/vote.js" />
+      <change beforePath="$PROJECT_DIR$/routes/vote.js" afterPath="$PROJECT_DIR$/routes/vote.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -13,26 +14,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="user.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controllers/user.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2788">
-              <caret line="164" column="0" lean-forward="false" selection-start-line="164" selection-start-column="0" selection-end-line="164" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/user.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="11" lean-forward="false" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="team.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/team.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -86,8 +67,28 @@
       <file leaf-file-name="vote.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/vote.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="23" column="35" lean-forward="false" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="35" />
+            <state relative-caret-position="323">
+              <caret line="19" column="26" lean-forward="true" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="vote.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/vote.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="vote.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/vote.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -143,6 +144,7 @@
         <option value="$PROJECT_DIR$/controllers/team.js" />
         <option value="$PROJECT_DIR$/routes/proposition.js" />
         <option value="$PROJECT_DIR$/controllers/proposition.js" />
+        <option value="$PROJECT_DIR$/routes/vote.js" />
         <option value="$PROJECT_DIR$/controllers/vote.js" />
       </list>
     </option>
@@ -245,12 +247,12 @@
       <workItem from="1510302905601" duration="3441000" />
       <workItem from="1510957319049" duration="3755000" />
       <workItem from="1516041882365" duration="4126000" />
-      <workItem from="1516120942785" duration="2375000" />
+      <workItem from="1516120942785" duration="2548000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24745000" />
+    <option name="totallyTimeSpent" value="24918000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="696" y="0" width="1230" height="1047" extended-state="0" />
@@ -286,8 +288,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src_new/html/login.html" />
-    <entry file="file://$PROJECT_DIR$/Vote_Signature.json" />
     <entry file="file://$PROJECT_DIR$/src_new/docker-compose.yml" />
     <entry file="file://$PROJECT_DIR$/src_new/Dockerfile" />
     <entry file="file://$PROJECT_DIR$/routes/user.js">
@@ -418,10 +418,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/routes/vote.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/vote.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/vote.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="35" lean-forward="false" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="35" />
+        <state relative-caret-position="323">
+          <caret line="19" column="26" lean-forward="true" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
           <folding />
         </state>
       </provider>
