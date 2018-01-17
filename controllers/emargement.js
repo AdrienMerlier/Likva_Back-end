@@ -18,8 +18,6 @@ var votes = require('../controllers/vote');
 
 exports.findByProposition = function(req, res) {
 
-	console.log(req.headers.id);
-
 	//To add, protect it: if the deadline is not passed, return too early
 	Emargement.find({slug: req.params.teamId, voter:req.headers.id, propId: req.params.propId}, function(err, emargements) {
 	

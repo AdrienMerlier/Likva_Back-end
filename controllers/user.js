@@ -43,7 +43,7 @@ exports.findById = function(req, res) {
 
 	console.log(req.params._id);
 
-	User.find({_id: req.params._id}, 'name surname email teams', function(err, user) {
+	User.find({_id: req.params._id}, 'name surname email teams biography', function(err, user) {
 		if(!user){
 			res.send({success:false, message:"User not found"});
 		}
@@ -83,13 +83,15 @@ exports.findById = function(req, res) {
 
 					});
 
+					console.log(user[0]);
+
 					res.send({
 						success: true,
 						user: {
 							_id: user[0]._id,
 							name: user[0].name,
 							surname: user[0].surname,
-							biography: "This is my biography",
+							biography: user[0].biography,
 							email: user[0].email,
 							teams: teamUsers
 						}
