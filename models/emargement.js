@@ -5,7 +5,7 @@ var emargementModelSchema = new Schema({
 	_id: String,
 	slug : String,
 	propId : String,
-	email: String,
+	voter: String,
 });
 
 var Emargement = mongoose.model('Emargement', emargementModelSchema);

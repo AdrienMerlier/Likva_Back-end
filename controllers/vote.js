@@ -46,9 +46,6 @@ exports.add = function(req, res) {
 
 		else{
 
-			console.log('Notre premier vote va avoir lieu!:' + req.params.teamId);
-			//A revoir une fois qu'on sait gérér le token, vérifier que l'utilisateur est présent dans Teamusers, et peut voter
-
 			Vote.create({
 				_id: new ObjectID(),
 				slug : req.params.teamId,
@@ -68,8 +65,6 @@ exports.add = function(req, res) {
             				console.log("Ca bug.");
         				}
 
-        				console.log(propUpdated);
-                		console.log("C'est augmenté")
 						res.send({ success: true});
 
 					});
@@ -94,7 +89,17 @@ exports.automatedAdd = function(req) {
 		if (err) {
             console.log("Couldn't cast the vote of the delegater:" + err);    
         } else {
-           	console.log("Casted the vote of the delegater.");
+
+        	Proposition.findOneAndUpdate({ _id: req.params.propId }, { $inc: { numberOfVotes: 1 }}, {new: true}, function (err, propUpdated) {
+				if (err) {
+            		console.log("Ca bug.");
+        		}
+
+				console.log("Casted the vote of the delegater.");
+
+				});
+
+           	
             }
 	});	
 };

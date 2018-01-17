@@ -128,7 +128,7 @@ exports.addSimpleUser = function(req, res) {
                 		slug: req.params.teamId,
                 		displayName: team[0].displayName,
                 		admin: false,
-                		proposer: false,
+                		proposer: true,
                 		role: "Voter", //A changer
                 	}
 

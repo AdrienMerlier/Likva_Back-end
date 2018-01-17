@@ -17,8 +17,12 @@ var votes = require('../controllers/vote');
 
 
 exports.findByProposition = function(req, res) {
+
+	console.log(req.headers.id);
+
 	//To add, protect it: if the deadline is not passed, return too early
-	Emargement.find({slug: req.params.teamId, email:req.headers.useremail, propId: req.params.propId}, function(err, emargements) {
+	Emargement.find({slug: req.params.teamId, voter:req.headers.id, propId: req.params.propId}, function(err, emargements) {
+	
 		if(emargements.length==0){
 			res.send({success:false});
 		} else {
@@ -39,7 +43,8 @@ exports.add = function(req, res) {
 		else{
 
 			//Check that user 
-			TeamUser.find({slug: req.params.teamId, email: req.body.voter}, function (err, teamUser) {
+			console.log(req.body.voter);
+			TeamUser.find({slug: req.params.teamId, userId: req.body.voter}, function (err, teamUser) {
 				if(!teamUser){
 					res.send({ success: false, message: 'Sorry, we couldnt find you in teamUser.' });
 				}
@@ -74,18 +79,22 @@ exports.add = function(req, res) {
 							console.log('Notre premier emargement va avoir lieu!' + req.body.voter);
 							//A revoir une fois qu'on sait gérér le token, vérifier que l'utilisateur est présent dans Teamusers, et peut voter
 
+							console.log(req.body);
+							console.log("---");
+
 							Emargement.create({
 								_id: new ObjectID(),
 								slug : req.params.teamId,
 								propId : req.params.propId,
-								email: req.body.voter
+								voter: req.body.voter
 							}, function (err) {
 								if (err) {
 				                    res.send({ success: false, message: 'Sorry, couldnt create the vote.' });    
 				                } else {
 
-				                	//Ajoute le nom du voter s'il est un délégué potentiel
-									if(teamUser[0].delegable==false){
+				                	//Enlève le nom du voter si il n'est pas délégable ou délégant son vote
+									if(teamUser[0].delegable.filter(a => a.categoryName == proposition[0].category).length==0 
+										&& !req.body.delegation){
 										req.body.voter=false;
 									}
 
@@ -134,7 +143,7 @@ exports.automatedAdd = function(newVote) {
 								_id: new ObjectID(),
 								slug : newVote.teamId,
 								propId : newVote.propId,
-								email: newVote.voter
+								voter: newVote.voter
 							}, function (err, emargement) {
 								if (err) {
 				                    console.log("couldnt emarge the delegater: " + err);    

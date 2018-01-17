@@ -213,6 +213,7 @@ exports.addFirstUser = function(req, res) {
 					admin : true,
 					proposer : true,
 					status : "Voter",
+					description: "Bienvenue sur mon profil!",
 					delegable: [],
 					delegation : []
 				}
@@ -250,7 +251,7 @@ exports.addSimpleUser = function(req, res) {
 				   	email: user.email,
 				   	displayName: user.username,
 					admin : false,
-					proposer : false,
+					proposer : true,
 					status : "Voter",
 					description: "Bienvenue sur mon profil!",
 					delegable: [],

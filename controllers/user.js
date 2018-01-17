@@ -41,11 +41,16 @@ function hasDelegate(teamUsers, teamName, categoryName) {
 
 exports.findById = function(req, res) {
 
+	console.log(req.params._id);
+
 	User.find({_id: req.params._id}, 'name surname email teams', function(err, user) {
 		if(!user){
 			res.send({success:false, message:"User not found"});
 		}
 		else{
+
+			console.log(user[0]);
+
 			TeamUser.find({userId: req.params._id}, 'slug userId email displayName admin proposer status delegation delegable', function (err, teamUsersList) {
 
 				var userTeams = user[0].teams.map(a => a.slug);
