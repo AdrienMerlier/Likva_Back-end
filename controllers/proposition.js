@@ -381,15 +381,11 @@ exports.getResults = function (req, res) {
 
 exports.update = function(req, res) {
 
-	console.log("PropID: " + JSON.stringify(req.params));
-
 	Proposition.count({_id: req.params.propId}, function (err, count) {
 
 		if (count = 1) {
 					console.log("Je suis dans la bonne proposition");
 		}
-
-	console.log("update: " + JSON.stringify(req.body));
 
 
 	const doc = {
@@ -399,9 +395,6 @@ exports.update = function(req, res) {
 		change : req.body.proposition.change,
 		consequences : req.body.proposition.consequences
   	};
-
-  	console.log(doc);
-
 
 	Proposition.update(
 		{_id: req.params.propId}, //query

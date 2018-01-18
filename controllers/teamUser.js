@@ -412,4 +412,50 @@ exports.removeDelegate = function(req, res) {
     });
 };
 
+exports.updateRights = function (req, res) {
+
+	console.log(req.body);
+	
+	TeamUser.find({_id: req.body._id}, function (err, teamUser) {
+
+		if (teamUser.length = 1) {
+					console.log("Je suis avec le bon teamUser!");
+		}
+
+
+		const user = {
+		    admin: req.body.admin,
+			proposer : req.body.proposer,
+			status : req.body.status
+	  	};
+
+	  	console.log(teamUser);
+
+		TeamUser.update(
+			{_id: req.body._id}, //query
+			user,
+			function (err, raw) {
+				if (err) return handleError(err);
+				else{
+
+					User.findOneAndUpdate(
+					    { _id: teamUser[0].userId, "teams.slug": req.params.teamId },
+					    { 
+					        "$set": {
+					            "teams.$.role": req.body.status,
+					            "teams.$.proposer": req.body.proposer,
+					            "teams.$.admin": req.body.admin
+					        }
+					    },
+					    function(err,doc) {
+					    	console.log("Message suivant: "+ raw);
+							res.send({success: true});
+					    }
+					);
+				}
+			});
+	});
+
+};
+
 exports.delete = function() {};
