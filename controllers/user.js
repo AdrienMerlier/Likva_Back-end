@@ -76,6 +76,7 @@ exports.findById = function(req, res) {
 
 						teamUsers.push({
 							displayName: team.displayName,
+							slug: team.slug,
 							categories: categories
 						})
 
