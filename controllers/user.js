@@ -49,8 +49,6 @@ exports.findById = function(req, res) {
 		}
 		else{
 
-			console.log(user[0]);
-
 			TeamUser.find({userId: req.params._id}, 'slug userId email displayName admin proposer status delegation delegable', function (err, teamUsersList) {
 
 				var userTeams = user[0].teams.map(a => a.slug);
@@ -82,8 +80,6 @@ exports.findById = function(req, res) {
 						})
 
 					});
-
-					console.log(user[0]);
 
 					res.send({
 						success: true,

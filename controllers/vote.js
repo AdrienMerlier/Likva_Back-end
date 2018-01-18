@@ -14,27 +14,42 @@ exports.findByProposition = function(req, res) {
   	});
 };
 
-findByVoter = function(voterId) {
-    Vote.find({voter: voterId}, function(err, votes) {
-        if (err) throw err;
-        else return votes;
-    })
-}
-
 exports.getVotesInfosForUserProfile = function(req, res) {
 
-	console.log(req.headers);
+	Vote.find({voter: req.headers.voterid}, function(err, votesForUser) {
+    	
+    	var propsInVotes = votesForUser.map(x => x.propId);
 
-    var votes = findByVoter(req.headers.voterId);
-    votes.forEach(function (vote){
-        vote.proposition = Proposition.findOne({_id: vote.propId}, function(err, prop) {
-            if (err) throw err;
-            else return prop;
-        })
-    }).then(function () {
-        res.send({success: true, votes: votes});
-    })
-}
+    	Proposition.find({_id: {$in:  propsInVotes}}, function (err, props) {
+    		if (err) throw err;
+
+    		var votes = [];
+
+    		votesForUser.forEach(function (vote) {
+    			var thatProp = props.filter(x => x._id == vote.propId);
+    			console.log(thatProp);
+    			votes.push({
+    				content: vote.content,
+				    proposition: {
+				        title: thatProp[0].title,
+				        category: thatProp[0].category,
+				        teamSlug: thatProp[0].slug,
+				        date: thatProp[0].date
+				    }
+    			});
+    			console.log(votes);
+    		});
+
+    		res.send({
+    			success: true,
+    			votes: votes
+    		});
+
+    	});
+
+    });
+
+};
 
 exports.add = function(req, res) {
 
