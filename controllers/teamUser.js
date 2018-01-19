@@ -474,25 +474,31 @@ exports.eraseUser = function (req, res) {
 			res.send({success:false, message:"Didn't find the teamUser"});
 		}
 
-		TeamUser.delete(
+		var teamUserId = teamUser[0].userId;
+		var teamSlug = teamUser[0].slug;
+
+		console.log(teamUserId);
+
+		TeamUser.remove(
 			{_id: req.body._id}, //query
-			user,
 			function (err, raw) {
 				if (err) return handleError(err);
 				else{
 
 					User.find(
-					    { _id: teamUser[0].userId},
+					    { _id: teamUserId},
 					    function (err, user) {
-
-					    	console.log(user);
 
 					    	var newRoles = user[0].teams;
 
-					    	objIndex = newRoles.findIndex(obj => obj.slug == teamUser[0].slug);
-					    	newRoles = newRoles.slice(objIndex);
+					    	console.log(newRoles);
 
-					    	User.update({ _id: teamUser[0].userId}, { $set: { teams: newRoles }}, function function_name(argument) {
+					    	objIndex = newRoles.findIndex(obj => obj.slug == teamSlug);
+					    	console.log(objIndex);
+					    	newRoles.splice(objIndex, 1);
+					    	console.log(newRoles);
+
+					    	User.update({ _id: teamUserId}, { $set: { teams: newRoles }}, function function_name(argument) {
 					    		console.log("Message suivant: "+ raw);
 							res.send({success: true});
 					    	});
