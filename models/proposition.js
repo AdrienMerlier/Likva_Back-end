@@ -1,6 +1,20 @@
 var mongoose = require('mongoose'),
 Schema = mongoose.Schema;
 
+var Comment = new Schema({
+	content: String,
+	authorDisplay : String,
+	authorId : String,
+	date: Date,
+	subcomments:[{
+		content: String,
+        authorDisplay: String,
+        authorId: String,
+        date: Date
+	}
+	]
+});
+
 var propositionModelSchema = new Schema({
 	_id: String,
 	slug: String,
@@ -24,7 +38,8 @@ var propositionModelSchema = new Schema({
 	votePossibilities: [String],
 	labels: [String],
 	data: [Number],
-	verdict: String
+	verdict: String,
+	comments: [Comment]
 });
 
 var Proposition = mongoose.model('Proposition', propositionModelSchema);
