@@ -428,8 +428,12 @@ exports.addComment = function(req, res) {
       			subcomments: []
 			}
 
-			Proposition.update("query", "set", function (err) {
-				res.send({success:true, updatedProp: prop});
+			Proposition.update(
+				{_id: req.params.propId}, 
+				{ $push: { comments: comment } }, 
+				{ 'new': true},
+				function (err, prop) {
+					res.send({success:true, updatedProp: prop});
 			})
 
 		}
