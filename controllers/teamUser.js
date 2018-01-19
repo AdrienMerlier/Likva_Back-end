@@ -464,4 +464,45 @@ exports.updateRights = function (req, res) {
 
 };
 
+exports.eraseUser = function (req, res) {
+
+	console.log(req.body);
+	
+	TeamUser.find({_id: req.body._id}, function (err, teamUser) {
+
+		if (teamUser.length != 1) {
+			res.send({success:false, message:"Didn't find the teamUser"});
+		}
+
+		TeamUser.delete(
+			{_id: req.body._id}, //query
+			user,
+			function (err, raw) {
+				if (err) return handleError(err);
+				else{
+
+					User.find(
+					    { _id: teamUser[0].userId},
+					    function (err, user) {
+
+					    	console.log(user);
+
+					    	var newRoles = user[0].teams;
+
+					    	objIndex = newRoles.findIndex(obj => obj.slug == teamUser[0].slug);
+					    	newRoles = newRoles.slice(objIndex);
+
+					    	User.update({ _id: teamUser[0].userId}, { $set: { teams: newRoles }}, function function_name(argument) {
+					    		console.log("Message suivant: "+ raw);
+							res.send({success: true});
+					    	});
+					    	
+					    }
+					);
+				}
+			});
+	});
+
+};
+
 exports.delete = function() {};
