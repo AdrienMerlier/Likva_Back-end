@@ -438,18 +438,24 @@ exports.updateRights = function (req, res) {
 				if (err) return handleError(err);
 				else{
 
-					User.findOneAndUpdate(
-					    { _id: teamUser[0].userId, "teams.slug": req.params.teamId },
-					    { 
-					        "$set": {
-					            "teams.$.role": req.body.status,
-					            "teams.$.proposer": req.body.proposer,
-					            "teams.$.admin": req.body.admin
-					        }
-					    },
-					    function(err,doc) {
-					    	console.log("Message suivant: "+ raw);
+					User.find(
+					    { _id: teamUser[0].userId},
+					    function (err, user) {
+
+					    	console.log(user);
+
+					    	var newRoles = user[0].teams;
+
+					    	objIndex = newRoles.findIndex(obj => obj.slug == teamUser[0].slug);
+					    	newRoles[objIndex].admin = req.body.admin;
+					    	newRoles[objIndex].proposer = req.body.proposer;
+					    	newRoles[objIndex].status = req.body.status;
+
+					    	User.update({ _id: teamUser[0].userId}, { $set: { teams: newRoles }}, function function_name(argument) {
+					    		console.log("Message suivant: "+ raw);
 							res.send({success: true});
+					    	});
+					    	
 					    }
 					);
 				}
