@@ -409,26 +409,34 @@ exports.update = function(req, res) {
 	});
 };
 
-exports.getByAuthor = function (req, res) {
+exports.addComment = function(req, res) {
 
-	Proposition.find({authorlink: req.params.email}, function (err, propositions) {
-		if (err) throw err;
-		else {
-			var toSendProps = {};
-			propositions.forEach(function (proposition) {
-				toSendProps.push({
-					title: proposition.title,
-					category: proposition.category,
-					slug: proposition.slug,
-					_id: proposition._id,
-					verdict: proposition.verdict,
-                    numberOfVotes: proposition.numberOfVotes
-				})
-            }).then(function () {
-				res.send({success: true, props: toSendProps})
-            })
+	console.log(req.body);
+
+	Proposition.count({_id: req.params.propId}, function (err, count) {
+
+		if (count != 1) {
+			res.send({success:false, message:"Sorry couldn't find your proposition"});
 		}
-    })
-}
+		else{
+
+			var comment = {
+				content: req.body.content,
+      			authorDisplay: req.body.authorDisplay,
+      			authorId: req.body.authorId,
+      			date: Date.parse(req.body.date),
+      			subcomments: []
+			}
+
+			Proposition.update("query", "set", function (err) {
+				res.send({success:true, updatedProp: prop});
+			})
+
+		}
+	});
+
+};
+
+exports.addSubcomment = function() {};
 
 exports.delete = function() {};
