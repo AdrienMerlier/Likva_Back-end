@@ -423,7 +423,7 @@ exports.addComment = function(req, res) {
 			var comment = {
 				content: req.body.content,
       			authorDisplay: req.body.authorDisplay,
-      			authorId: req.body.authorId,
+      			authorId: req.headers.authorId,
       			date: Date.parse(req.body.date),
       			subcomments: []
 			}
