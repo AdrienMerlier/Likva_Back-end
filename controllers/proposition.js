@@ -6,6 +6,7 @@ Team = mongoose.model('Team');
 Proposition = mongoose.model('Proposition');
 TeamUser = mongoose.model('TeamUser');
 Vote = mongoose.model('Vote');
+Comment = mongoose.model('Comment');
 
 emargements = require('./emargement');
 votes = require('./vote');
@@ -104,6 +105,7 @@ exports.add = function(req, res) {
 				numberOfVotes: 0,
 				votePossibilities: arrayOfPossibilities,
 				date : Date.parse(req.body.endDate),
+				comments: [],
 				verdict : "onGoing"
 			};
 
@@ -411,7 +413,7 @@ exports.update = function(req, res) {
 
 exports.addComment = function(req, res) {
 
-	console.log(req.body);
+	console.log(req.headers);
 
 	Proposition.count({_id: req.params.propId}, function (err, count) {
 
@@ -420,19 +422,22 @@ exports.addComment = function(req, res) {
 		}
 		else{
 
-			var comment = {
+			var newComment = new Comment({
 				content: req.body.content,
       			authorDisplay: req.body.authorDisplay,
-      			authorId: req.headers.authorId,
+      			authorId: req.headers.authorid,
       			date: Date.parse(req.body.date),
       			subcomments: []
-			}
+			});
+
+			console.log(newComment);
 
 			Proposition.update(
 				{_id: req.params.propId}, 
-				{ $push: { comments: comment } }, 
+				{ $push: { comments: newComment } }, 
 				{ 'new': true},
 				function (err, prop) {
+					console.log(prop);
 					res.send({success:true, updatedProp: prop});
 			})
 

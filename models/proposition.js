@@ -43,3 +43,4 @@ var propositionModelSchema = new Schema({
 });
 
 var Proposition = mongoose.model('Proposition', propositionModelSchema);
+var Comment = mongoose.model('Comment', Comment);
