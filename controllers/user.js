@@ -16,8 +16,12 @@ var bcrypt = require('bcrypt-nodejs');
 
 
 exports.findAll = function(req, res) {
-	 User.find({}, function(err, users) {
-    	res.json(users);
+
+	console.log(req.headers.members.split(','));
+
+	User.find({_id: {$nin: req.headers.members.split(',')}}, '_id email', function(err, users) {
+    	console.log(users);
+    	res.json({success: true, users: users});
   	});
 };
 

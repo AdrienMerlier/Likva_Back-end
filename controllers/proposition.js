@@ -413,7 +413,7 @@ exports.update = function(req, res) {
 
 exports.addComment = function(req, res) {
 
-	console.log(req.headers);
+	console.log(Date.parse(req.body.date));
 
 	Proposition.count({_id: req.params.propId}, function (err, count) {
 
@@ -426,7 +426,7 @@ exports.addComment = function(req, res) {
 				content: req.body.content,
       			authorDisplay: req.body.authorDisplay,
       			authorId: req.headers.authorid,
-      			date: Date.parse(req.body.date),
+      			date: req.body.date,
       			subcomments: []
 			});
 
