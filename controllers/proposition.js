@@ -340,7 +340,7 @@ function calculateResults(proposition, req, res) {
 		console.log("La liste final de data est: " + finalData);
 
 
-		Proposition.update({ _id: req.params.propId }, { $set: { labels: finalLabels, data: finalData, verdict: finalVerdict }}, function (err) {
+		Proposition.update({ _id: req.params.propId }, { $set: { labels: finalLabels, data: finalData, verdict: finalVerdict, numberOfVotes: totalValidVotes, potentialVoters: totalVoters }}, function (err) {
 			if(err){
 				res.send({success: false, message:"Sorry, there was an error while updating the results."});
 			}

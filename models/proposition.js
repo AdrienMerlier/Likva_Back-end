@@ -34,6 +34,7 @@ var propositionModelSchema = new Schema({
 	information: String,
 	type: String,
 	date : Date,
+	potentialVoters: Number,
 	numberOfVotes: Number,
 	votePossibilities: [String],
 	labels: [String],
