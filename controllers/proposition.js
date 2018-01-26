@@ -254,11 +254,13 @@ function delegateByCategory(req, delegatersList, prop) {
 
 function calculateResults(proposition, req, res) {
 
+	TeamUser.count({slug: proposition.slug}, function (totalVoters) {
+		
+		Vote.find({propId: req.params.propId}, function(err, votesToCount) {
 
-	Vote.find({propId: req.params.propId}, function(err, votesToCount) {
+		//If pour le type de vote
+
 		var holder = {};
-
-		console.log("Going to sum it up.");
 
 		votesToCount.forEach(function(d){
 			if (holder.hasOwnProperty(d.content)) {
@@ -271,29 +273,68 @@ function calculateResults(proposition, req, res) {
 
 		var finalLabels = [];
 		var finalData = [];
-		var bestScore=0;
 		var finalVerdict = null;
 
-		for (var prop in holder) {
+		console.log("Going to sum it up.");
 
-			console.log(proposition.votePossibilities.indexOf(prop));
+		if (proposition.type == "MostVotes") {
 
-			if(holder[prop]>0 && proposition.votePossibilities.indexOf(prop) > -1){
+			var bestScore=0;
 
-				console.log("Le duo est: " + prop + "&" + holder[prop]);
+			for (var prop in holder) {
 
-				finalLabels.push(prop);
-				finalData.push(holder[prop]);
-				if (holder[prop]>bestScore) {
-					bestScore=holder[prop];
-					finalVerdict=prop;
+				if(holder[prop]>0 && proposition.votePossibilities.indexOf(prop) > -1){
+
+					console.log("Le duo est: " + prop + "&" + holder[prop]);
+
+					finalLabels.push(prop);
+					finalData.push(holder[prop]);
+					if (holder[prop]>bestScore) {
+						bestScore=holder[prop];
+						finalVerdict=prop;
+					}
+					else if(holder[prop]==bestScore){
+						finalVerdict="Egalité!";
+					}
 				}
-				else if(holder[prop]==bestScore){
-					finalVerdict="Egalité!";
-				}
+
 			}
 
 		}
+
+		else if (proposition.type == "AbsoluteMajority") {
+
+			for (var prop in holder) {
+
+				if(holder[prop]>0 && proposition.votePossibilities.indexOf(prop) > -1){
+
+					console.log("Le duo est: " + prop + "&" + holder[prop]);
+
+					finalLabels.push(prop);
+					finalData.push(holder[prop]);
+				}
+
+			}
+
+			var totalValidVotes = finalData.reduce((a, b) => a + b, 0);
+
+			//Vérifie qu'une majorité a été atteinte
+
+			for (var s in finalData){
+				if (finalData[s] > totalValidVotes/2) {
+					finalVerdict = finalLabels[s];
+				}
+			}
+
+
+			//Si on n'a pas trouvé de majorité 
+
+			if (finalVerdict == "onGoing") {
+				finalVerdict = "Pas de majorité";
+			}
+
+		}
+
 
 		console.log("La liste final de labels est: " + finalLabels);
 		console.log("La liste final de data est: " + finalData);
@@ -309,6 +350,9 @@ function calculateResults(proposition, req, res) {
 		});
 
 	});
+
+	});
+
 }
 
 function moveDelegations (req, res) {
