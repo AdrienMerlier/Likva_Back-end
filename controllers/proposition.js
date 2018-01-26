@@ -85,7 +85,7 @@ exports.add = function(req, res) {
 				That user can propose in this team
 			}
 			*/
-			console.log(req.body.endDate);
+			console.log(req.body);
 
 			var arrayOfPossibilities = String(req.body.votePossibilities).split(",");
 
@@ -101,7 +101,7 @@ exports.add = function(req, res) {
 				change : req.body.change,
 				consequences : req.body.consequences,
 				information: req.body.information,
-				type: req.body.typeOfVote,
+				type: req.body.type,
 				numberOfVotes: 0,
 				votePossibilities: arrayOfPossibilities,
 				date : Date.parse(req.body.endDate),
