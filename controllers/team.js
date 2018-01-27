@@ -128,7 +128,7 @@ exports.addSimpleUser = function(req, res) {
                 		slug: req.params.teamId,
                 		displayName: team[0].displayName,
                 		admin: false,
-                		proposer: true,
+                		proposer: false,
                 		role: "Voter", //A changer
                 	}
 
@@ -169,26 +169,23 @@ exports.addUserViaAdmin = function(req, res) {
                 		if (err) throw err;
                 	});
 
-              		adminReq = (req.body.admin =="Oui");
-              		proposerReq = (req.body.proposer =="Oui");
-
                 	//Update the user with the information about his account;
 
                 	var permission = {
                 		slug: req.params.teamId,
-                		displayName: team.displayName,
-                		admin: adminReq,
-                		proposer: proposerReq,
-                		role: req.body.type,
+                		displayName: req.body.displayName,
+                		admin: req.body.admin,
+                		proposer: req.body.proposer,
+                		role: req.body.status,
                 	}
 
-                	User.findOneAndUpdate({email: req.body.email}, {$push: {teams: permission}}, function (err) {
+                	User.findOneAndUpdate({_id: req.body._id}, {$push: {teams: permission}}, function (err) {
                 		if (err) throw err;
                 	});
 
                 	res.send(
                 		{
-                			success: true,
+                			success: true
                 		});
 
             }

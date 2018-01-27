@@ -6,6 +6,7 @@ Team = mongoose.model('Team');
 Proposition = mongoose.model('Proposition');
 TeamUser = mongoose.model('TeamUser');
 Vote = mongoose.model('Vote');
+Comment = mongoose.model('Comment');
 
 emargements = require('./emargement');
 votes = require('./vote');
@@ -84,7 +85,7 @@ exports.add = function(req, res) {
 				That user can propose in this team
 			}
 			*/
-			console.log(req.body.endDate);
+			console.log(req.body);
 
 			var arrayOfPossibilities = String(req.body.votePossibilities).split(",");
 
@@ -100,10 +101,11 @@ exports.add = function(req, res) {
 				change : req.body.change,
 				consequences : req.body.consequences,
 				information: req.body.information,
-				type: req.body.typeOfVote,
+				type: req.body.type,
 				numberOfVotes: 0,
 				votePossibilities: arrayOfPossibilities,
 				date : Date.parse(req.body.endDate),
+				comments: [],
 				verdict : "onGoing"
 			};
 
@@ -252,11 +254,13 @@ function delegateByCategory(req, delegatersList, prop) {
 
 function calculateResults(proposition, req, res) {
 
+	TeamUser.count({slug: proposition.slug}, function (totalVoters) {
+		
+		Vote.find({propId: req.params.propId}, function(err, votesToCount) {
 
-	Vote.find({propId: req.params.propId}, function(err, votesToCount) {
+		//If pour le type de vote
+
 		var holder = {};
-
-		console.log("Going to sum it up.");
 
 		votesToCount.forEach(function(d){
 			if (holder.hasOwnProperty(d.content)) {
@@ -269,35 +273,74 @@ function calculateResults(proposition, req, res) {
 
 		var finalLabels = [];
 		var finalData = [];
-		var bestScore=0;
 		var finalVerdict = null;
 
-		for (var prop in holder) {
+		console.log("Going to sum it up.");
 
-			console.log(proposition.votePossibilities.indexOf(prop));
+		if (proposition.type == "MostVotes") {
 
-			if(holder[prop]>0 && proposition.votePossibilities.indexOf(prop) > -1){
+			var bestScore=0;
 
-				console.log("Le duo est: " + prop + "&" + holder[prop]);
+			for (var prop in holder) {
 
-				finalLabels.push(prop);
-				finalData.push(holder[prop]);
-				if (holder[prop]>bestScore) {
-					bestScore=holder[prop];
-					finalVerdict=prop;
+				if(holder[prop]>0 && proposition.votePossibilities.indexOf(prop) > -1){
+
+					console.log("Le duo est: " + prop + "&" + holder[prop]);
+
+					finalLabels.push(prop);
+					finalData.push(holder[prop]);
+					if (holder[prop]>bestScore) {
+						bestScore=holder[prop];
+						finalVerdict=prop;
+					}
+					else if(holder[prop]==bestScore){
+						finalVerdict="Egalité!";
+					}
 				}
-				else if(holder[prop]==bestScore){
-					finalVerdict="Egalité!";
-				}
+
 			}
 
 		}
+
+		else if (proposition.type == "AbsoluteMajority") {
+
+			for (var prop in holder) {
+
+				if(holder[prop]>0 && proposition.votePossibilities.indexOf(prop) > -1){
+
+					console.log("Le duo est: " + prop + "&" + holder[prop]);
+
+					finalLabels.push(prop);
+					finalData.push(holder[prop]);
+				}
+
+			}
+
+			var totalValidVotes = finalData.reduce((a, b) => a + b, 0);
+
+			//Vérifie qu'une majorité a été atteinte
+
+			for (var s in finalData){
+				if (finalData[s] > totalValidVotes/2) {
+					finalVerdict = finalLabels[s];
+				}
+			}
+
+
+			//Si on n'a pas trouvé de majorité 
+
+			if (finalVerdict == "onGoing") {
+				finalVerdict = "Pas de majorité";
+			}
+
+		}
+
 
 		console.log("La liste final de labels est: " + finalLabels);
 		console.log("La liste final de data est: " + finalData);
 
 
-		Proposition.update({ _id: req.params.propId }, { $set: { labels: finalLabels, data: finalData, verdict: finalVerdict }}, function (err) {
+		Proposition.update({ _id: req.params.propId }, { $set: { labels: finalLabels, data: finalData, verdict: finalVerdict, numberOfVotes: totalValidVotes, potentialVoters: totalVoters }}, function (err) {
 			if(err){
 				res.send({success: false, message:"Sorry, there was an error while updating the results."});
 			}
@@ -307,6 +350,9 @@ function calculateResults(proposition, req, res) {
 		});
 
 	});
+
+	});
+
 }
 
 function moveDelegations (req, res) {
@@ -411,7 +457,7 @@ exports.update = function(req, res) {
 
 exports.addComment = function(req, res) {
 
-	console.log(req.body);
+	console.log(Date.parse(req.body.date));
 
 	Proposition.count({_id: req.params.propId}, function (err, count) {
 
@@ -420,19 +466,22 @@ exports.addComment = function(req, res) {
 		}
 		else{
 
-			var comment = {
+			var newComment = new Comment({
 				content: req.body.content,
       			authorDisplay: req.body.authorDisplay,
-      			authorId: req.headers.authorId,
-      			date: Date.parse(req.body.date),
+      			authorId: req.headers.authorid,
+      			date: req.body.date,
       			subcomments: []
-			}
+			});
+
+			console.log(newComment);
 
 			Proposition.update(
 				{_id: req.params.propId}, 
-				{ $push: { comments: comment } }, 
+				{ $push: { comments: newComment } }, 
 				{ 'new': true},
 				function (err, prop) {
+					console.log(prop);
 					res.send({success:true, updatedProp: prop});
 			})
 

@@ -251,7 +251,7 @@ exports.addSimpleUser = function(req, res) {
 				   	email: user.email,
 				   	displayName: user.username,
 					admin : false,
-					proposer : true,
+					proposer : false,
 					status : "Voter",
 					description: "Bienvenue sur mon profil!",
 					delegable: [],
@@ -271,7 +271,7 @@ exports.addSimpleUser = function(req, res) {
 
 exports.addUserViaAdmin = function(req, res) {
 
-	User.findOne({ email: req.body.email}, function(err, user) {
+	User.findOne({ _id: req.body._id}, function(err, user) {
 
             if (err) throw err;
 
@@ -283,9 +283,12 @@ exports.addUserViaAdmin = function(req, res) {
 				var new_teamUser = {
 				   	slug: req.params.teamId,
 				   	email: user.email,
-					admin : (req.body.admin =="Oui"),
-					proposer : (req.body.proposer =="Oui"),
-					status : req.body.type,
+				   	userId: user._id,
+				   	displayName: user.username,
+					admin : req.body.admin,
+					proposer : req.body.proposer,
+					status : req.body.status,
+					description: "Bienvenue sur mon profil!",
 					delegable: [],
 					delegation : [],
 				};

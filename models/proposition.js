@@ -34,6 +34,7 @@ var propositionModelSchema = new Schema({
 	information: String,
 	type: String,
 	date : Date,
+	potentialVoters: Number,
 	numberOfVotes: Number,
 	votePossibilities: [String],
 	labels: [String],
@@ -43,3 +44,4 @@ var propositionModelSchema = new Schema({
 });
 
 var Proposition = mongoose.model('Proposition', propositionModelSchema);
+var Comment = mongoose.model('Comment', Comment);
