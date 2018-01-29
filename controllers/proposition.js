@@ -89,6 +89,12 @@ exports.add = function(req, res) {
 
 			var arrayOfPossibilities = String(req.body.votePossibilities).split(",");
 
+			if (req.body.type == "MostVotesSeveralWinners") {
+				var numberOfWinners = req.body.numberOfWinners:
+			} else {
+				var numberOfWinners = undefined;
+			}
+
 			var new_proposition = {
 				_id: new ObjectID(),
 				slug: req.params.teamId,
@@ -102,6 +108,7 @@ exports.add = function(req, res) {
 				consequences : req.body.consequences,
 				information: req.body.information,
 				type: req.body.type,
+				numberOfWinners: numberOfWinners,
 				numberOfVotes: 0,
 				votePossibilities: arrayOfPossibilities,
 				date : Date.parse(req.body.endDate),
