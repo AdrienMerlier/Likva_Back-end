@@ -14,13 +14,13 @@ var bcrypt = require('bcrypt-nodejs');
 
 
 exports.findAll = function(req, res) {
-	Team.find({}).select('slug displayName type description').exec(function(err, teams) {
+	Team.find({}).select('slug displayName type description public').exec(function(err, teams) {
     	res.send({success: true, teams:teams});
   	});
 };
 
 exports.findPublicTeams = function(req, res) {
-    Team.find({public: true}).select('slug displayName type description').exec(function(err, teams) {
+    Team.find({public: true}).select('slug displayName type description public').exec(function(err, teams) {
         res.send({success: true, teams:teams});
     });
 };
@@ -32,8 +32,22 @@ exports.findById = function(req, res) {
 };
 
 exports.findCategories = function(req, res) {
-	Team.find({slug: req.params.teamId}).select('categories').exec(function(err, team) {
+	Team.update({slug: req.params.teamId}).select('categories').exec(function(err, team) {
         res.send({success: true, categories:team[0].categories});
+    });
+};
+
+exports.changePrivacy = function(req, res) {
+    console.log("Je change la privacy");
+    var newprivacy = (req.headers.newprivacy == "true")
+    console.log(newprivacy);
+    Team.update({slug: req.params.teamId}, { $set : { public : newprivacy }}, { new: true }, function (err, team) {
+        console.log(team);
+        if (err) {
+                res.send({ success: false, message: 'Sorry, couldnt create the team.' });    
+            } else {
+                res.send({success: true});
+            }
     });
 };
 

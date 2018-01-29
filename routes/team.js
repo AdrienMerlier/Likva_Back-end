@@ -12,6 +12,7 @@ module.exports = function(app){
     app.get('/api/teams/:teamId/users', teamUsers.findTeamUsers);
     app.get('/api/teams/:teamId/delegates', teamUsers.findDelegates);
     app.get('/api/teams/:teamId/categories/', teams.findCategories);
+    app.get('/api/teams/:teamId/changePrivacy', teams.changePrivacy);
     app.get('/api/teams/:teamId/categories/:categoryName/delegate', teamUsers.findDelegateForCategory);
     app.post('/api/teams/', teams.add);
     app.post('/api/teams/:teamId/join', teams.addSimpleUser);
