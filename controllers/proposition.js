@@ -85,15 +85,17 @@ exports.add = function(req, res) {
 				That user can propose in this team
 			}
 			*/
-			console.log(req.body);
+
+			var numberOfWinners = undefined;
 
 			var arrayOfPossibilities = String(req.body.votePossibilities).split(",");
 
 			if (req.body.type == "MostVotesSeveralWinners") {
-				var numberOfWinners = req.body.numberOfWinners:
-			} else {
-				var numberOfWinners = undefined;
-			}
+				numberOfWinners = req.body.numberWinners;
+				console.log("J'ai changé la valeur");
+			} 
+
+			console.log(numberOfWinners);
 
 			var new_proposition = {
 				_id: new ObjectID(),

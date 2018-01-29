@@ -32,7 +32,7 @@ exports.findById = function(req, res) {
 };
 
 exports.findCategories = function(req, res) {
-	Team.update({slug: req.params.teamId}).select('categories').exec(function(err, team) {
+	Team.find({slug: req.params.teamId}).select('categories').exec(function(err, team) {
         res.send({success: true, categories:team[0].categories});
     });
 };
