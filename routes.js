@@ -36,7 +36,7 @@ module.exports = function(app){
   
   
     //Login route
-    app.post('/login', function(req, res) {
+    app.post('/api/login', function(req, res) {
 
 
 
