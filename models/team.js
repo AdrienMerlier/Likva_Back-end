@@ -7,6 +7,7 @@ var teamModelSchema = new Schema({
 	displayName: String,
 	description: String,
 	type: String,
+	public: Boolean,
 	password : String,
 	categories: [{
 		categoryName: String,

@@ -18,6 +18,13 @@ exports.findAll = function(req, res) {
     	res.send({success: true, teams:teams});
   	});
 };
+
+exports.findPublicTeams = function(req, res) {
+    Team.find({public: true}).select('slug displayName type description').exec(function(err, teams) {
+        res.send({success: true, teams:teams});
+    });
+};
+
 exports.findById = function(req, res) {
 	Team.find({teamName: req.params.teamId}, function(err, team) {
     	res.json(team);
@@ -54,6 +61,7 @@ exports.add = function(req, res) {
 				_id: new ObjectID(),
 			   	slug : slug(req.body.teamName),
 				displayName: req.body.teamName,
+                public: true,
                 description: req.body.description,
 				type: req.body.type,
 				password : hash,

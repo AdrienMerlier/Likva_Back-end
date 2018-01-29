@@ -7,7 +7,7 @@ module.exports = function(app){
     var teams = require('../controllers/team');
     var teamUsers = require('../controllers/teamUser');
 
-    app.get('/api/teams', teams.findAll);
+    app.get('/api/teams', teams.findPublicTeams);
     app.get('/api/teams/:teamId', teams.findById);
     app.get('/api/teams/:teamId/users', teamUsers.findTeamUsers);
     app.get('/api/teams/:teamId/delegates', teamUsers.findDelegates);
