@@ -31,7 +31,6 @@ var propositionModelSchema = new Schema({
 	document3 : String,
 	document4 : String,
 	document5 : String,
-	information: String,
 	type: String,
 	date : Date,
 	potentialVoters: Number,
@@ -39,6 +38,8 @@ var propositionModelSchema = new Schema({
 	votePossibilities: [String],
 	labels: [String],
 	data: [Number],
+	numberOfWinners: Number,
+	percentToQualify: Number,
 	verdict: String,
 	comments: [Comment]
 });
