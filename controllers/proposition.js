@@ -344,6 +344,36 @@ function calculateResults(proposition, req, res) {
 
 		}
 
+		else if (proposition.type == "MostVotesSeveralWinners") {
+
+			var winnersAnnouced = 0;
+
+			holder.sort(function(a, b){return b-a}); //Sort array from most votes to less votes
+		
+			for (var prop in holder) {
+
+				if(holder[prop]>0 && proposition.votePossibilities.indexOf(prop) > -1){
+
+					console.log("Le duo est: " + prop + "&" + holder[prop]);
+
+					finalLabels.push(prop);
+					finalData.push(holder[prop]);
+				}
+				//Pour le plus grand nombre de voix
+				if (winnersAnnouced == 0) {
+					finalVerdict = prop;
+					winnersAnnouced = winnersAnnouced + 1;
+				}
+				//Pour les qualifiés suivants
+				else if (winnersAnnouced < proposition.numberOfWinners){
+					finalVerdict = finalVerdict + "et " + prop;
+					winnersAnnouced = winnersAnnouced + 1;
+				}
+
+			}
+
+		}
+
 
 		console.log("La liste final de labels est: " + finalLabels);
 		console.log("La liste final de data est: " + finalData);
