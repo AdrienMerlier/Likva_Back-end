@@ -378,13 +378,16 @@ function calculateResults(proposition, req, res) {
 		console.log("La liste final de labels est: " + finalLabels);
 		console.log("La liste final de data est: " + finalData);
 
+		var abstentionData = [totalVoters - totalValidVotes, totalValidVotes];
+		var abstentionLabels = ["Abstention", "Votants"]
+
 
 		Proposition.update({ _id: req.params.propId }, { $set: { labels: finalLabels, data: finalData, verdict: finalVerdict, numberOfVotes: totalValidVotes, potentialVoters: totalVoters }}, function (err) {
 			if(err){
 				res.send({success: false, message:"Sorry, there was an error while updating the results."});
 			}
 			else{
-				res.send({success: true, labels: finalLabels, data: finalData, verdict: finalVerdict});
+				res.send({success: true, labels: finalLabels, data: finalData, verdict: finalVerdict, labelsAbstention: abstentionLabels, dataAbstention: abstentionData});
 			}
 		});
 
